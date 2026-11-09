@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HAYRAT Ağırlık Hesaplama | IPE, HEA, UPN, Kutu Profil kg Hesabı</title>
+<meta name="description" content="IPE, HEA, HEB, UPN, kutu profil, boru ve lama için boya göre ağırlık (kg) hesabı. Kesim fire'si, açılı kesim yerleşimi ve PDF kesim listesi. Ücretsiz.">
+<meta name="keywords" content="profil ağırlık hesaplama, çelik profil kg hesabı, IPE ağırlık, HEA HEB ağırlık, UPN ağırlık, kutu profil ağırlığı, boru ağırlık hesaplama, demir ağırlık hesaplama, kesim fire hesabı, gönyeli kesim">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#0071e3">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://ALANADINIZ.com/">
+<meta property="og:url" content="https://ALANADINIZ.com/">
+<!-- ADSENSE: AdSense'in verdiği kod parçasını buraya yapıştırın -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HAYRAT AĞIRLIK HESAPLAMA">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="HAYRAT AĞIRLIK HESAPLAMA | Çelik profil kg hesabı">
+<meta property="og:description" content="Profil cinsini seç, boyu gir, ağırlığı ve kesim fire'sini anında gör. Açılı kesim yerleşimi ve PDF kesim listesi dahil.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='14' fill='%230071e3'/%3E%3Ctext x='28' y='33' text-anchor='middle' font-size='19' font-weight='800' fill='white' font-family='Arial'%3EHAH%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"HAYRAT AĞIRLIK HESAPLAMA","alternateName":"HAH","description":"Çelik profil ağırlık hesaplama aracı: IPE, HEA, HEB, UPN, köşebent, kutu profil, boru, lama ve dolu profiller için boya göre kg hesabı, testere kesim payı, fire ve açılı kesim yerleşimi.","applicationCategory":"BusinessApplication","operatingSystem":"Web","inLanguage":"tr","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Çelik profilin ağırlığı nasıl hesaplanır?","acceptedAnswer":{"@type":"Answer","text":"Ağırlık = birim ağırlık (kg/m) × boy (m) × adet. IPE, HEA, HEB, UPN ve köşebentte birim ağırlık standart tablodan alınır; boru, kutu profil, lama ve dolu profillerde kesit alanı × 7,85 g/cm³ çelik yoğunluğu ile bulunur."}},{"@type":"Question","name":"Testere kesim payı ve fire nasıl hesaplanır?","acceptedAnswer":{"@type":"Answer","text":"Her kesim için testere kalınlığı kadar boy kaybı eklenir, stok boydan kaç parça çıkacağı bulunur. Kalan uçlar ve kesim kayıpları fire olarak kg ve yüzde ile gösterilir."}},{"@type":"Question","name":"Açılı (gönyeli) kesimde parçalar nasıl yerleştirilir?","acceptedAnswer":{"@type":"Answer","text":"Açılı uçlu parçalar bir düz, bir ters (180° çevrilmiş) yerleştirilerek açılar birbirine oturtulur. Böylece boydan daha fazla parça çıkar ve fire azalır."}}]}</script>
+<style>
+:root{--bg:#f5f5f7;--card:#fff;--tx:#1d1d1f;--mu:#6e6e73;--ln:#d2d2d7;--ac:#0071e3;--acx:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--card:#1c1c1e;--tx:#f5f5f7;--mu:#98989d;--ln:#38383a;--ac:#2997ff;--acx:#000;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#000;--card:#1c1c1e;--tx:#f5f5f7;--mu:#98989d;--ln:#38383a;--ac:#2997ff;--acx:#000;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+main{max-width:720px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:26px;margin:8px 0 18px;letter-spacing:-.3px}
+.card{background:var(--card);border-radius:18px;padding:18px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:13px;color:var(--mu);margin-bottom:5px}
+select,input{width:100%;font-size:16px;padding:11px 12px;border-radius:11px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);font-family:inherit}
+.row{display:flex;gap:8px}
+.big{text-align:center;padding:14px 0 4px}
+.big b{font-size:40px;letter-spacing:-1px}
+.big span{display:block;font-size:13px;color:var(--mu);margin-top:2px}
+button{font-size:16px;font-weight:600;padding:12px 16px;border-radius:12px;border:0;background:var(--ac);color:var(--acx);width:100%;margin-top:12px;cursor:pointer}
+button.x{width:auto;margin:0;padding:6px 10px;background:transparent;color:var(--mu);font-size:18px}
+.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--ln);white-space:nowrap}
+th{color:var(--mu);font-weight:500;font-size:12px}
+td.n,th.n{text-align:right}
+tfoot td{font-weight:700;border-bottom:0}
+.note{font-size:12px;color:var(--mu);margin-top:10px}
+.hid{display:none}
+.fire{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--bg);font-size:14px;line-height:1.6}
+.fire b{font-weight:600}
+.fire .w{color:var(--mu);font-size:13px}
+#lay{margin-top:12px}
+.seo h2{font-size:17px;margin:0 0 8px}
+.seo p,.seo summary{font-size:14px;line-height:1.55}
+.seo details{border-top:1px solid var(--ln);padding:10px 0}
+.seo summary{cursor:pointer;font-weight:600}
+.seo details p{margin:8px 0 0;color:var(--mu)}
+.hd{display:flex;align-items:center;gap:12px;margin:8px 0 18px}
+.hd h1{margin:0;font-size:20px;line-height:1.15}
+.lg{font-size:12px;color:var(--mu);margin-top:6px}
+.note a{color:var(--ac)}
+footer{font-size:12px;color:var(--mu);text-align:center;margin-top:8px;line-height:1.5}
+noscript{display:block;padding:14px;margin:12px 0;border-radius:12px;background:var(--card);color:var(--tx);font-size:14px}
+footer a{color:var(--mu);margin:0 8px}
+.nv{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 6px;font-size:14px}.nv a{color:var(--mu);text-decoration:none;padding:4px 0}.nv a:hover,.nv a[aria-current]{color:var(--ac)}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+<noscript>Bu hesaplama aracının çalışması için tarayıcınızda JavaScript açık olmalıdır.</noscript>
+<nav class="nv" aria-label="Ana menü"><a href="index.html" aria-current="page">Hesaplama</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<header class="hd"><svg width="52" height="52" viewBox="0 0 56 56" role="img" aria-label="HAH logo"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><h1>HAYRAT AĞIRLIK HESAPLAMA</h1></header>
+<div class="card">
+  <div class="grid">
+    <div><label for="type">Profil cinsi</label><select id="type"></select></div>
+    <div><label id="slab" for="size">Ölçü</label><select id="size"></select></div>
+    <div id="tw"><label for="thk">Et kalınlığı (mm)</label><select id="thk"></select></div>
+    <div><label for="len">Boy</label>
+      <div class="row"><input id="len" type="number" inputmode="decimal" min="0" step="any" placeholder="örn. 6" value="6"><select id="unit" style="width:90px"><option value="m">m</option><option value="mm">mm</option></select></div></div>
+    <div><label for="qty">Adet</label><input id="qty" type="number" inputmode="numeric" min="1" step="1" value="1"></div>
+    <div><label for="kerf">Testere kesim payı (mm / kesim)</label><input id="kerf" type="number" inputmode="decimal" min="0" step="any" value="3"></div>
+    <div><label for="stock">Stok boy (m)</label><input id="stock" type="number" inputmode="decimal" min="0" step="any" value="6"></div>
+    <div><label for="ctype">Kesim tipi</label><select id="ctype"><option value="d">Düz (90°)</option><option value="s">Tek uç açılı</option><option value="p">İki uç açılı, paralel (//)</option><option value="t">İki uç açılı, ters (trapez)</option></select></div>
+    <div id="aw" class="hid"><label for="ang">Kesim açısı (° , 90° düzden)</label><input id="ang" type="number" inputmode="decimal" min="0" max="80" step="any" value="45"></div>
+    <div id="pw" class="hid"><label for="plane">Kesim yönü (açı hangi kenarda)</label><select id="plane"><option value="b">Yatay (üstten bakış, genişlik)</option><option value="h">Dikey (yandan bakış, yükseklik)</option></select></div>
+    <div id="ww" class="hid"><label for="wdt">Kesilen kesit ölçüsü (mm)</label><input id="wdt" type="number" inputmode="decimal" min="1" step="any" value="100"></div>
+    <div id="mw" class="hid"><label for="lmode">Yerleşim</label><select id="lmode"><option value="auto">Otomatik (en çok parça)</option><option value="same">Hep aynı yön</option><option value="rot">Ters-düz dönüşümlü</option></select></div>
+    <div id="pfw" class="hid" style="grid-column:1/-1"><div id="pf"></div></div>
+  </div>
+  <div class="big" aria-live="polite"><b id="tot">0</b> <b style="font-size:20px;color:var(--mu)">kg</b><span id="sub"></span></div>
+  <div id="fire" class="fire"></div>
+  <div id="lay" class="sc"></div><div class="lg" id="lg"></div>
+  <div id="v3w" class="hid"><div id="v3" style="height:300px;border-radius:12px;background:var(--bg);overflow:hidden;margin-top:12px"></div><div class="lg" id="v3m"></div></div>
+  <button id="add">Listeye ekle</button>
+</div>
+<div class="card" id="lc">
+  <div class="sc"><table>
+    <thead><tr><th>Profil</th><th class="n">Boy</th><th class="n">Adet</th><th class="n">kg/m</th><th class="n">Ağırlık</th><th class="n">Fire</th><th></th></tr></thead>
+    <tbody id="tb"></tbody>
+    <tfoot><tr><td colspan="4">Toplam</td><td class="n" id="gt">0 kg</td><td class="n" id="gf">0 kg</td><td></td></tr></tfoot>
+  </table></div>
+  <button id="pdf">PDF indir</button>
+  <div class="note" id="pdfmsg"></div>
+  <div class="note">Çelik yoğunluğu 7,85 g/cm³ alınmıştır. Standart profil değerleri (IPE, HEA, HEB, UPN, köşebent) tablo ağırlıklarıdır; boru, kutu, lama ve dolu profiller hesapla bulunur. Kutu ve boruda köşe yuvarlaklığı yaklaşık alınmıştır. Fire hesabında her parça için kesim payı eklenir; stok boy başına parça sayısı stok boy ÷ (parça boyu + kesim payı) ile bulunur, artan kısa uç da fireye dahildir. Açılı kesimde boy, uzun kenar ölçüsüdür; parça ağırlığı ortalama boyla hesaplanır. Ters-düz yerleşimde her ikinci parça 180° döndürülerek açılar birbirine oturtulur.</div>
+</div>
+<section class="card seo">
+  <h2>Çelik profil ağırlık hesaplama</h2>
+  <p>HAYRAT AĞIRLIK HESAPLAMA; IPE, HEA, HEB, UPN, köşebent, kutu profil, boru, lama ve dolu profiller için boya göre ağırlık (kg) hesaplar. Testere kesim payını ve stok boyu girerek fireyi görebilir, açılı (gönyeli) kesimli parçaları ters-düz yerleştirerek boydan daha fazla parça çıkarabilir ve kesim listesini PDF olarak alabilirsiniz.</p>
+  <details><summary>Çelik profilin ağırlığı nasıl hesaplanır?</summary><p>Ağırlık = birim ağırlık (kg/m) × boy (m) × adet. IPE, HEA, HEB, UPN ve köşebentte birim ağırlık standart tablodan alınır; boru, kutu profil, lama ve dolu profillerde kesit alanı × 7,85 g/cm³ çelik yoğunluğu ile bulunur.</p></details>
+  <details><summary>Testere kesim payı ve fire nasıl hesaplanır?</summary><p>Her kesim için testere kalınlığı kadar boy kaybı eklenir, stok boydan kaç parça çıkacağı bulunur. Kalan uçlar ve kesim kayıpları fire olarak kg ve yüzde ile gösterilir.</p></details>
+  <details><summary>Açılı (gönyeli) kesimde parçalar nasıl yerleştirilir?</summary><p>Açılı uçlu parçalar bir düz, bir ters (180° çevrilmiş) yerleştirilerek açılar birbirine oturtulur. Böylece boydan daha fazla parça çıkar ve fire azalır.</p></details>
+  <p><b>Ağırlık tabloları:</b> <a href="ipe-agirlik-tablosu.html">IPE</a> · <a href="hea-agirlik-tablosu.html">HEA</a> · <a href="heb-agirlik-tablosu.html">HEB</a> · <a href="upn-agirlik-tablosu.html">UPN</a> · <a href="kutu-profil-agirlik-tablosu.html">Kutu profil</a> · <a href="boru-agirlik-tablosu.html">Boru</a> · <a href="kosebent-agirlik-tablosu.html">Köşebent</a></p>
+  <p><b>Rehberler:</b> <a href="celik-profil-agirligi-nasil-hesaplanir.html">Çelik profil ağırlığı nasıl hesaplanır?</a> · <a href="kesim-fire-hesabi.html">Kesim fire'si nasıl hesaplanır ve azaltılır?</a></p>
+</section>
+<footer><a href="gizlilik-politikasi.html">Gizlilik Politikası</a><a href="sorumluluk-reddi.html">Sorumluluk Reddi</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a><br>Hesaplamalar bilgilendirme amaçlıdır. Sipariş ve imalat öncesi üretici / standart tablosuyla doğrulayınız.</footer>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const T={
+IPE:{s:{80:6.0,100:8.1,120:10.4,140:12.9,160:15.8,180:18.8,200:22.4,220:26.2,240:30.7,270:36.1,300:42.2,330:49.1,360:57.1,400:66.3,450:77.6,500:90.7,550:106,600:122}},
+HEA:{s:{100:16.7,120:19.9,140:24.7,160:30.4,180:35.5,200:42.3,220:50.5,240:60.3,260:68.2,280:76.4,300:88.3,320:97.6,340:105,360:112,400:125,450:140,500:155,600:178}},
+HEB:{s:{100:20.4,120:26.7,140:33.7,160:42.6,180:51.2,200:61.3,220:71.5,240:83.2,260:93.0,280:103,300:117,320:127,340:134,360:142,400:155,450:171,500:187,600:212}},
+UPN:{s:{80:8.64,100:10.6,120:13.4,140:16.0,160:18.8,180:22.0,200:25.3,220:29.4,240:33.2,260:37.9,280:41.8,300:46.2}},
+"Köşebent (L)":{s:{"30x30x3":1.36,"40x40x4":2.42,"50x50x5":3.77,"60x60x6":5.42,"70x70x7":7.38,"80x80x8":9.63,"100x100x10":15.1}},
+"Boru":{f:"boru",s:[21.3,26.9,33.7,42.4,48.3,60.3,76.1,88.9,114.3,139.7,168.3],t:[2,2.5,3,3.2,4,5,6,8],sl:"Dış çap (mm)"},
+"Kutu profil":{f:"kutu",s:["20x20","30x30","40x40","50x50","60x60","80x80","100x100","120x120","20x40","30x50","40x60","40x80","50x100","60x120","80x120","100x150"],t:[1.5,2,2.5,3,4,5,6,8],sl:"Ölçü (mm)"},
+"Lama":{f:"lama",s:[20,25,30,40,50,60,80,100,120,150,200],t:[3,4,5,6,8,10,12,15,20],sl:"Genişlik (mm)",tl:"Kalınlık (mm)"},
+"Dolu yuvarlak":{f:"yuv",s:[8,10,12,16,20,25,30,40,50,60,80,100],sl:"Çap (mm)"},
+"Dolu kare":{f:"kare",s:[10,12,16,20,25,30,40,50],sl:"Kenar (mm)"}
+};
+const BI={80:46,100:55,120:64,140:73,160:82,180:91,200:100,220:110,240:120,270:135,300:150,330:160,360:170,400:180,450:190,500:200,550:210,600:220},
+BH={100:100,120:120,140:140,160:160,180:180,200:200,220:220,240:240,260:260,280:280,300:300,320:300,340:300,360:300,400:300,450:300,500:300,600:300},
+HAh={100:96,120:114,140:133,160:152,180:171,200:190,220:210,240:230,260:250,280:270,300:290,320:310,340:330,360:350,400:390,450:440,500:490,600:590},
+UB={80:45,100:50,120:55,140:60,160:65,180:70,200:75,220:80,240:85,260:90,280:95,300:100};
+function dims(ty,sz,t){const v=parseFloat(sz);
+ if(ty==="IPE")return[BI[sz],v];
+ if(ty==="HEA")return[BH[sz],HAh[sz]];
+ if(ty==="HEB")return[BH[sz],v];
+ if(ty==="UPN")return[UB[sz],v];
+ if(ty==="Kutu profil"){const p=sz.split("x").map(Number);return[p[0],p[1]]}
+ if(ty==="Lama")return[v,t];
+ return[v,v]}
+function autoW(){const ty=$("type").value,d=T[ty],m=dims(ty,$("size").value,d.t?parseFloat($("thk").value):0),o=$("plane").options;o[0].text="Yatay (üstten bakış) · "+tr(m[0])+" mm kenar";o[1].text="Dikey (yandan bakış) · "+tr(m[1])+" mm kenar";$("wdt").value=$("plane").value==="b"?m[0]:m[1]}
+function vis(){const x=$("ctype").value!=="d";["aw","pw","ww","mw","pfw","v3w"].forEach(i=>$(i).classList.toggle("hid",!x))}
+function layout(ct,th,W,L,k,S,mode){
+ const o=ct==="d"?0:W*Math.tan(th*Math.PI/180),kx=o>0?k/Math.cos(th*Math.PI/180):k;
+ const base=o>0?{s:[0,1],p:[1,1],t:[1,-1]}[ct]:[0,0];
+ const d=(base[1]-base[0])*o,bot=L-Math.max(0,d);
+ const res={n:0,avg:L>0?bot+d/2:0,o,kc:kx,ps:[],na:0,nb:0};
+ if(!(L>0)||!(S>0))return res;
+ if(L<=Math.abs(d)){res.bad=true;return res}
+ const run=(rot,sf)=>{const ps=[];let pv=null;
+  for(let i=0;i<4000;i++){
+   const fl=(rot&&i%2===1)!==sf,sl=fl?base[1]:base[0],sr=fl?base[0]:base[1],dd=(sr-sl)*o,bl=L-Math.max(0,dd);
+   let x0;
+   if(!pv)x0=Math.max(0,-sl*o);
+   else{const g=(pv.sr!==0||sl!==0)?kx:k;x0=Math.max(pv.x1+g,pv.x1+pv.sr*o+g-sl*o)}
+   const x1=x0+bl;
+   if(x1+Math.max(0,sr*o)>S+1e-9)break;
+   ps.push({x0,x1,sl,sr,fl});pv={x1,sr}}
+  return ps};
+ const best=(x,y)=>y.length>x.length?y:x;
+ const a=best(run(false,false),run(false,true)),b=best(run(true,false),run(true,true));
+ res.na=a.length;res.nb=b.length;
+ res.ps=mode==="same"?a:mode==="rot"?b:(b.length>a.length?b:a);res.n=res.ps.length;res.last=res.n?res.ps[res.n-1].sr:0;
+ return res}
+function draw(c){const el=$("lay"),lg=$("lg"),l=c.lay;
+ if(!c.ok||!(c.W>0)){el.innerHTML="";lg.textContent="";return}
+ const W=c.W,S=c.S*1000,o=l.o,sc=Math.min(60/W,4000/S),h=W*sc,p=10,w=S*sc,Y=y=>p+h-y*sc,X=x=>p+x*sc;
+ let s=`<svg width="${w+2*p}" height="${h+2*p}" role="img" aria-label="Yerleşim planı"><defs><pattern id="ht" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--mu)" stroke-width="1" opacity=".45"/></pattern></defs><rect x="${p}" y="${p}" width="${w}" height="${h}" fill="url(#ht)" style="stroke:var(--mu)" stroke-width="1"/>`;
+ l.ps.forEach((q,i)=>{const pts=[[q.x0,0],[q.x1,0],[q.x1+q.sr*o,W],[q.x0+q.sl*o,W]].map(a=>X(a[0]).toFixed(1)+","+Y(a[1]).toFixed(1)).join(" ");
+  s+=`<polygon points="${pts}" style="fill:${q.fl?"#ff9f0a":"var(--ac)"};stroke:var(--card)" fill-opacity=".85" stroke-width="1"/>`;
+  if((q.x1-q.x0)*sc>24)s+=`<text x="${X((q.x0+q.x1)/2)}" y="${p+h/2+4}" text-anchor="middle" font-size="11" fill="#fff">${i+1}</text>`});
+ el.innerHTML=s+"</svg>";
+ lg.textContent="İlk stok boy, gerçek açıyla (yana kaydırılabilir). Mavi: düz yön · Turuncu: ters çevrilmiş (180°) · Taralı: fire."+(o>0?" Stok boy başına: aynı yön "+l.na+" parça, ters-düz "+l.nb+" parça.":"")}
+function prof(){const el=$('pf');if($('pfw').classList.contains('hid'))return;
+ const ty=$('type').value,d=T[ty],t=d.t?parseFloat($('thk').value):0,m=dims(ty,$('size').value,t),b=m[0],h=m[1],H=$('plane').value==='b';
+ const s=Math.min(90/b,70/h),w=b*s,hh=h*s,c=110,cy=75,x=c-w/2,y=cy-hh/2,x1=x+w,y1=y+hh;
+ const f1=`style='fill:var(--mu);fill-opacity:.35;stroke:var(--mu);stroke-width:1.2'`,A='stroke:var(--ac);fill:none;stroke-width:';
+ let g;
+ if(ty==='Kutu profil'){const e=Math.max(2,t*s);g=`<path fill-rule='evenodd' d='M${x} ${y}H${x1}V${y1}H${x}ZM${x+e} ${y+e}V${y1-e}H${x1-e}V${y+e}Z' ${f1}/>`}
+ else if(ty==='Boru'||ty==='Dolu yuvarlak'){g=`<circle cx='${c}' cy='${cy}' r='${w/2}' ${f1}/>`;if(ty==='Boru')g+=`<circle cx='${c}' cy='${cy}' r='${Math.max(1,w/2-Math.max(2,t*s))}' style='fill:var(--card);stroke:var(--mu);stroke-width:1.2'/>`}
+ else if(ty==='IPE'||ty==='HEA'||ty==='HEB'){const tf=Math.max(4,hh*.09),tw=Math.max(3,w*.08);g=`<path d='M${x} ${y}H${x1}V${y+tf}H${c+tw/2}V${y1-tf}H${x1}V${y1}H${x}V${y1-tf}H${c-tw/2}V${y+tf}H${x}Z' ${f1}/>`}
+ else if(ty==='UPN'){const tf=Math.max(4,hh*.09),tw=Math.max(3,w*.12);g=`<path d='M${x} ${y}H${x1}V${y+tf}H${x+tw}V${y1-tf}H${x1}V${y1}H${x}Z' ${f1}/>`}
+ else if(ty.startsWith('Köşebent')){const tl=Math.max(3,w*.15);g=`<path d='M${x} ${y}H${x+tl}V${y1-tl}H${x1}V${y1}H${x}Z' ${f1}/>`}
+ else g=`<rect x='${x}' y='${y}' width='${w}' height='${hh}' ${f1}/>`;
+ let o;
+ if(H)o=`<line x1='${x}' y1='${y}' x2='${x1}' y2='${y}' style='${A}4'/><line x1='${x}' y1='${y-7}' x2='${x1}' y2='${y-7}' style='${A}1.5'/><line x1='${c}' y1='6' x2='${c}' y2='${y-14}' style='${A}2'/><path d='M${c-4} ${y-20}L${c} ${y-13}L${c+4} ${y-20}' style='${A}2'/><text x='${c+8}' y='14' font-size='11' style='fill:var(--ac)'>üstten bakış</text><text x='${x1+4}' y='${y-3}' font-size='11' style='fill:var(--ac)'>${tr(b)} mm</text>`;
+ else o=`<line x1='${x}' y1='${y}' x2='${x}' y2='${y1}' style='${A}4'/><line x1='${x-7}' y1='${y}' x2='${x-7}' y2='${y1}' style='${A}1.5'/><line x1='6' y1='${cy}' x2='${x-14}' y2='${cy}' style='${A}2'/><path d='M${x-20} ${cy-4}L${x-13} ${cy}L${x-20} ${cy+4}' style='${A}2'/><text x='4' y='${cy-8}' font-size='10' style='fill:var(--ac)'>yandan bakış</text><text x='${x-10}' y='${y1+14}' text-anchor='end' font-size='11' style='fill:var(--ac)'>${tr(h)} mm</text>`;
+ el.innerHTML=`<svg width='220' height='143' viewBox='0 0 200 130' role='img' aria-label='Profil kesiti'>${g}${o}</svg><div class='lg'>Kesim açısı, vurgulanan ${tr(H?b:h)} mm kenar boyunca verilir.</div>`}
+function shp(ty,b,h,t,sz){const S=new THREE.Shape(),poly=(q,p)=>{q.moveTo(p[0][0],p[0][1]);for(let i=1;i<p.length;i++)q.lineTo(p[i][0],p[i][1]);q.closePath()};
+ if(ty==='Kutu profil'){t=Math.min(t,b/2-.5,h/2-.5);poly(S,[[0,0],[b,0],[b,h],[0,h]]);const p=new THREE.Path();poly(p,[[t,t],[t,h-t],[b-t,h-t],[b-t,t]]);S.holes.push(p)}
+ else if(ty==='Boru'||ty==='Dolu yuvarlak'){S.absarc(b/2,h/2,b/2,0,Math.PI*2,false);if(ty==='Boru'){const p=new THREE.Path();p.absarc(b/2,h/2,Math.max(1,b/2-t),0,Math.PI*2,true);S.holes.push(p)}}
+ else if(ty==='IPE'||ty==='HEA'||ty==='HEB'){const tf=Math.max(4,h*.075),tw=Math.max(3,b*.06),a=(b-tw)/2;poly(S,[[0,0],[b,0],[b,tf],[a+tw,tf],[a+tw,h-tf],[b,h-tf],[b,h],[0,h],[0,h-tf],[a,h-tf],[a,tf],[0,tf]])}
+ else if(ty==='UPN'){const tf=Math.max(4,h*.07),tw=Math.max(4,b*.11);poly(S,[[0,0],[b,0],[b,tf],[tw,tf],[tw,h-tf],[b,h-tf],[b,h],[0,h]])}
+ else if(ty.startsWith('Köşebent')){const tl=parseFloat(sz.split('x')[2])||3;poly(S,[[0,0],[b,0],[b,tl],[tl,tl],[tl,h],[0,h]])}
+ else poly(S,[[0,0],[b,0],[b,h],[0,h]]);
+ return S}
+let V=null;
+function v3init(){if(V)return V;if(typeof THREE==='undefined')return null;
+ const host=$('v3'),w=host.clientWidth||600,h=300,r=new THREE.WebGLRenderer({antialias:true,alpha:true});
+ r.setPixelRatio(Math.min(2,window.devicePixelRatio||1));r.setSize(w,h);const cv=r.domElement;cv.style.cssText='display:block;touch-action:none;cursor:grab';host.appendChild(cv);
+ const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,w/h,1,200000);
+ sc.add(new THREE.AmbientLight(0xffffff,.7));
+ const l1=new THREE.DirectionalLight(0xffffff,.85);l1.position.set(1,2,1.5);sc.add(l1);
+ const l2=new THREE.DirectionalLight(0xffffff,.4);l2.position.set(-1.5,-1,-1);sc.add(l2);
+ V={r,sc,cam,th:.8,ph:1.15,rad:500,fit:0,grp:null,auto:true};
+ let dn=false,lx=0,ly=0;
+ cv.addEventListener('pointerdown',e=>{dn=true;V.auto=false;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing'});
+ cv.addEventListener('pointermove',e=>{if(!dn)return;V.th-=(e.clientX-lx)*.01;V.ph=Math.min(3.04,Math.max(.1,V.ph-(e.clientY-ly)*.01));lx=e.clientX;ly=e.clientY});
+ const up=()=>{dn=false;cv.style.cursor='grab'};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+ cv.addEventListener('wheel',e=>{e.preventDefault();V.rad=Math.min(V.fit*6,Math.max(V.fit*.4,V.rad*(1+e.deltaY*.001)))},{passive:false});
+ window.addEventListener('resize',()=>{const w2=host.clientWidth;if(w2){r.setSize(w2,h);cam.aspect=w2/h;cam.updateProjectionMatrix()}});
+ (function loop(){requestAnimationFrame(loop);if($('v3w').classList.contains('hid'))return;if(V.auto)V.th+=.005;const R=V.rad,s=Math.sin(V.ph);cam.position.set(R*s*Math.sin(V.th),R*Math.cos(V.ph),R*s*Math.cos(V.th));cam.lookAt(0,0,0);r.render(sc,cam)})();
+ return V}
+function v3(c){if($('v3w').classList.contains('hid'))return;
+ const m=$('v3m'),Vw=v3init();
+ if(!Vw){m.textContent='3B görünüm yüklenemedi (three.js erişilemedi).';return}
+ if(Vw.grp){Vw.sc.remove(Vw.grp);Vw.grp.traverse(q=>{if(q.geometry)q.geometry.dispose()});Vw.grp=null}
+ const ty=$('type').value,d=T[ty],t=d.t?parseFloat($('thk').value):0,dm=dims(ty,$('size').value,t),b=dm[0],h=dm[1],pl=$('plane').value,ct=$('ctype').value,o=c.lay.o;
+ if(!(c.L>0)||c.lay.bad||!b||!h){m.textContent='Parça boyu ve açı geçerli olunca 3B görünüm çizilir.';return}
+ const base=o>0?{s:[0,1],p:[1,1],t:[1,-1]}[ct]:[0,0],dd=(base[1]-base[0])*o,cap=6*Math.max(b,h)+3*Math.abs(dd);
+ let bl=c.L*1000-Math.max(0,dd);const clip=bl>cap;if(clip)bl=cap;
+ const g=new THREE.ExtrudeGeometry(shp(ty,b,h,t,$('size').value),{depth:bl,bevelEnabled:false,curveSegments:48,steps:1}),P=g.attributes.position;
+ for(let i=0;i<P.count;i++){const z=P.getZ(i),u=pl==='b'?P.getX(i)/b:P.getY(i)/h;P.setZ(i,z+(z<bl/2?base[0]:base[1])*o*u)}
+ P.needsUpdate=true;g.computeBoundingBox();const bb=g.boundingBox;g.translate(-(bb.min.x+bb.max.x)/2,-(bb.min.y+bb.max.y)/2,-(bb.min.z+bb.max.z)/2);g.computeVertexNormals();g.computeBoundingSphere();
+ const grp=new THREE.Group();
+ grp.add(new THREE.Mesh(g,[new THREE.MeshStandardMaterial({color:0xff9f0a,metalness:.2,roughness:.5,side:THREE.DoubleSide}),new THREE.MeshStandardMaterial({color:0x9aa5b1,metalness:.55,roughness:.4,side:THREE.DoubleSide})]));
+ grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(g,20),new THREE.LineBasicMaterial({color:0x222222})));
+ Vw.sc.add(grp);Vw.grp=grp;
+ const fit=g.boundingSphere.radius*3.2;if(Vw.fit!==fit){Vw.fit=fit;Vw.rad=fit}
+ m.textContent='Sürükle: döndür · Tekerlek: yakınlaştır. Turuncu yüzler açılı kesim yüzeyleridir. Kesit şekli yaklaşıktır.'+(clip?' Görünüm için boy kısalttıldı (gerçek boy '+f(c.L,2)+' m).':'')}
+const K=.00785;
+function kgm(ty,sz,t){const d=T[ty];
+ if(!d.f)return d.s[sz];
+ const v=parseFloat(sz);
+ if(d.f==="boru")return Math.PI*(v-t)*t*K;
+ if(d.f==="kutu"){const[a,b]=sz.split("x").map(Number);const ro=t<=6?2*t:t<=10?2.5*t:3*t,ri=ro-t;
+  return(2*t*(a+b-2*t)-(4-Math.PI)*(ro*ro-ri*ri))*K}
+ if(d.f==="lama")return v*t*K;
+ if(d.f==="yuv")return Math.PI*v*v/4*K;
+ if(d.f==="kare")return v*v*K}
+const $=i=>document.getElementById(i);
+const f=(n,d=2)=>n.toLocaleString("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d});
+let list=[];
+const tr=x=>String(x).replace(".",",");
+function fill(sel,arr){sel.innerHTML=arr.map(x=>`<option value="${x}">${typeof x==="number"?tr(x):x}</option>`).join("")}
+function tOk(ty,sz,t){if(ty==="Boru")return t<=parseFloat(sz)/5;if(ty==="Kutu profil")return t<=Math.min(...sz.split("x").map(Number))/6;return true}
+function fillThk(){const ty=$("type").value,d=T[ty];if(!d.t)return;const sz=$("size").value,prev=$("thk").value;
+ let ok=d.t.filter(t=>tOk(ty,sz,t));if(!ok.length)ok=[d.t[0]];
+ fill($("thk"),ok);if(ok.map(String).includes(prev))$("thk").value=prev}
+function setType(){const d=T[$("type").value];
+ fill($("size"),Array.isArray(d.s)?d.s:Object.keys(d.s));
+ $("slab").textContent=d.sl||"Ölçü";
+ $("tw").classList.toggle("hid",!d.t);
+ if(d.t){fillThk();$("tw").querySelector("label").textContent=d.tl||"Et kalınlığı (mm)"}
+ autoW();calc()}
+function cur(){const ty=$("type").value,d=T[ty],sz=$("size").value,t=d.t?parseFloat($("thk").value):0;
+ let L=parseFloat($("len").value)||0;if($("unit").value==="mm")L/=1000;
+ const q=Math.max(1,parseInt($("qty").value)||1);
+ const w=kgm(ty,sz,t);
+ const name=ty+" "+tr(sz)+(d.t?" × "+tr(t):"");
+ const kmm=parseFloat($("kerf").value)||0,S=parseFloat($("stock").value)||0;
+ const ct=$("ctype").value,th=Math.min(80,Math.max(0,parseFloat($("ang").value)||0)),W=parseFloat($("wdt").value)||0;
+ const lay=layout(ct,th,W,L*1000,kmm,S*1000,$("lmode").value);
+ const r={name:name+(ct!=="d"&&th>0?" ∠"+th+"°":""),L,q,w,S,W,lay,n:lay.n,avg:lay.avg/1000,ok:lay.n>=1,k:kmm,p:[ct,th,W,L*1000,kmm,S*1000,$('lmode').value],cl:$('ctype').selectedOptions[0].text,pl:$('plane').selectedOptions[0].text};
+ r.tot=w*r.avg*q;
+ if(r.ok){r.bars=Math.ceil(q/r.n);r.raw=r.bars*S*w;r.fire=r.raw-r.tot;r.kerfLoss=Math.max(0,q-(lay.last===0?r.bars:0))*w*lay.kc/1000;r.kerfLoss=Math.min(r.kerfLoss,r.fire);r.left=Math.max(0,r.fire-r.kerfLoss);r.pct=r.fire/r.raw*100}
+ return r}
+function calc(){const c=cur();prof();$("tot").textContent=f(c.tot);
+ $("sub").textContent=f(c.w,3)+" kg/m × "+f(c.avg,3)+" m × "+c.q+" adet";
+ $("fire").innerHTML=c.ok?`<div>Stok boy başına <b>${c.n}</b> parça çıkar → gerekli <b>${c.bars}</b> adet ${f(c.S,2)} m boy (ham ${f(c.raw)} kg)</div><div>Fire: <b>${f(c.fire)} kg</b> (%${f(c.pct,1)})</div><div class="w">Kesim kaybı ${f(c.kerfLoss)} kg + artan parça ${f(c.left)} kg</div>`:(c.L>0?`<div>${c.S<=0?"Stok boy girin, fire hesaplanamadı.":c.lay.bad?"Açı ve ölçü uyumsuz: kısa kenar sıfırın altına iniyor.":"Parça boyu + kesim payı stok boyu aşıyor, fire hesaplanamadı."}</div>`:"");draw(c);v3(c)}
+function render(){$("tb").innerHTML=list.map((r,i)=>`<tr><td>${r.name}</td><td class="n">${f(r.L,3)} m</td><td class="n">${r.q}</td><td class="n">${f(r.w,3)}</td><td class="n">${f(r.tot)} kg</td><td class="n">${r.ok?f(r.fire)+" kg":"–"}</td><td><button class="x" data-i="${i}" aria-label="Sil">×</button></td></tr>`).join("");
+ const g=list.reduce((a,r)=>a+r.tot,0);$("gt").textContent=f(g)+" kg";$("gf").textContent=f(list.reduce((a,r)=>a+(r.ok?r.fire:0),0))+" kg";$("lc").classList.toggle("hid",!list.length)}
+$("type").innerHTML=Object.keys(T).map(k=>`<option>${k}</option>`).join("");
+$("type").addEventListener("change",setType);
+$("size").addEventListener("change",()=>{fillThk();autoW();calc()});
+["thk","plane"].forEach(i=>$(i).addEventListener("change",()=>{autoW();calc()}));
+$("ctype").addEventListener("change",()=>{vis();calc()});
+["unit","lmode"].forEach(i=>$(i).addEventListener("change",calc));
+["len","qty","kerf","stock","ang","wdt"].forEach(i=>$(i).addEventListener("input",calc));
+$("add").onclick=()=>{const c=cur();if(c.L>0){c.lay=null;list.push(c);render()}};
+$("tb").onclick=e=>{const i=e.target.dataset.i;if(i!==undefined){list.splice(i,1);render()}};
+
+/* ---------- PDF: tarayıcı yazdırma penceresine ihtiyaç duymadan doğrudan PDF üretir ---------- */
+const PF='"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif';
+const rr=(c,x,y,w,h,r)=>{c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()};
+function wrap(c,t,mw){const out=[];let cu="";String(t).split(" ").forEach(w=>{const x=cu?cu+" "+w:w;if(c.measureText(x).width>mw&&cu){out.push(cu);cu=w}else cu=x});if(cu)out.push(cu);return out.length?out:[""]}
+function pdfPages(){
+ const PW=2339,PH=1654,M=80,P=12,LH=36,pages=[],UW=PW-2*M;
+ const g=list.reduce((a,r)=>a+r.tot,0),gf=list.reduce((a,r)=>a+(r.ok?r.fire:0),0),gb=list.reduce((a,r)=>a+(r.ok?r.bars:0),0);
+ const d=new Date().toLocaleDateString("tr-TR");
+ const cols=[["#",3,"l"],["Profil",17,"l"],["Kesim",25,"l"],["Boy (m)",8,"r"],["Adet",6,"r"],["1 boydan çıkan adet",10,"r"],["Pay (mm)",7,"r"],["kg/m",7,"r"],["Ağırlık (kg)",9,"r"],["Fire (kg)",8,"r"],["İhtiyaç boy",11,"r"]];
+ const tw=cols.reduce((a,c)=>a+c[1],0),xs=[];let ac=M;cols.forEach(c=>{const w=UW*c[1]/tw;xs.push([ac,w]);ac+=w});
+ let cv,c,y;
+ const plan=(r,dr,cnt)=>{
+  if(!(r.ok&&r.p&&r.p[2]>0))return 0;
+  const[ct,th,W,L,k,S,md]=r.p,l=layout(ct,th,W,L,k,S,md),o=l.o,pcs=cnt?l.ps.slice(0,cnt):l.ps,
+   end=pcs.reduce((a,q)=>Math.max(a,q.x1+Math.max(0,q.sr*o)),0),left=Math.max(0,S-end),sc=Math.min((UW-2*P)/S,200/W),h=W*sc,bw=S*sc,H=P+LH+8+h+P;
+  if(!dr)return H;
+  c.strokeStyle="#999";c.lineWidth=1.5;c.strokeRect(M,y,UW,H);
+  c.fillStyle="#444";c.font="400 22px "+PF;c.textAlign="left";c.textBaseline="top";
+  c.fillText(cnt?"Son boy (artan) · "+f(S/1000,2)+" m boyda "+pcs.length+" parça · artan uç: "+f(left,0)+" mm":"Yerleşim planı · 1 stok boy ("+f(S/1000,2)+" m): "+l.n+" parça · Mavi: düz yön · Turuncu: ters çevrilmiş (180°) · Taralı: fire · artan uç: "+f(left,0)+" mm",M+P,y+P);
+  const ox=M+P,oy=y+P+LH+8,X=v=>ox+v*sc,Y=v=>oy+h-v*sc;
+  c.save();c.beginPath();c.rect(ox,oy,bw,h);c.clip();c.fillStyle="#f4f4f6";c.fillRect(ox,oy,bw,h);c.strokeStyle="#b5b5b5";c.lineWidth=1;
+  for(let i=-h;i<bw;i+=10){c.beginPath();c.moveTo(ox+i,oy+h);c.lineTo(ox+i+h,oy);c.stroke()}c.restore();
+  pcs.forEach((q,i)=>{c.beginPath();[[q.x0,0],[q.x1,0],[q.x1+q.sr*o,W],[q.x0+q.sl*o,W]].forEach((a,j)=>j?c.lineTo(X(a[0]),Y(a[1])):c.moveTo(X(a[0]),Y(a[1])));c.closePath();
+   c.globalAlpha=.88;c.fillStyle=q.fl?"#ff9f0a":"#0071e3";c.fill();c.globalAlpha=1;c.strokeStyle="#fff";c.lineWidth=1.5;c.stroke();
+   if(h>=26&&(q.x1-q.x0)*sc>34){c.fillStyle="#fff";c.font="700 20px "+PF;c.textAlign="center";c.textBaseline="middle";c.fillText(String(i+1),X((q.x0+q.x1)/2),oy+h/2);c.textBaseline="top"}});
+  c.strokeStyle="#888";c.lineWidth=1.5;c.strokeRect(ox,oy,bw,h);
+  if(left*sc>150){const lx=X(end)+(bw-end*sc)/2,tx="artan "+f(left,0)+" mm";c.font="700 22px "+PF;c.textAlign="center";c.textBaseline="middle";
+   const tw2=c.measureText(tx).width;c.fillStyle="rgba(255,255,255,.88)";c.fillRect(lx-tw2/2-8,oy+h/2-16,tw2+16,32);c.fillStyle="#333";c.fillText(tx,lx,oy+h/2);c.textBaseline="top"}
+  c.textAlign="left";y+=H};
+ const row=(cells,bold)=>{
+  c.font=(bold?"700 ":"400 ")+"26px "+PF;
+  const ls=cells.map((t,i)=>wrap(c,t,xs[i][1]-2*P)),n=Math.max(...ls.map(l=>l.length)),h=2*P+n*LH;
+  return{ls,h}};
+ const paint=(rw,bold,bg)=>{
+  if(bg){c.fillStyle=bg;c.fillRect(M,y,UW,rw.h)}
+  c.fillStyle="#000";c.font=(bold?"700 ":"400 ")+"26px "+PF;
+  rw.ls.forEach((l,i)=>{const[x,w]=xs[i],r=cols[i][2]==="r";c.textAlign=r?"right":"left";l.forEach((t,k)=>c.fillText(t,r?x+w-P:x+P,y+P+k*LH))});
+  c.strokeStyle="#999";c.lineWidth=1.5;xs.forEach(([x,w])=>c.strokeRect(x,y,w,rw.h));
+  y+=rw.h};
+ const head=()=>paint(row(cols.map(k=>k[0]),true),true,"#e9e9ec");
+ const np=()=>{cv=document.createElement("canvas");cv.width=PW;cv.height=PH;c=cv.getContext("2d");c.fillStyle="#fff";c.fillRect(0,0,PW,PH);c.textBaseline="top";pages.push(cv);
+  if(pages.length===1){
+   c.save();c.translate(M,M);c.scale(100/56,100/56);rr(c,0,0,56,56,14);c.fillStyle="#0071e3";c.fill();
+   c.fillStyle="#fff";c.font="800 19px "+PF;c.textAlign="center";c.textBaseline="alphabetic";c.fillText("HAH",28,29);
+   c.strokeStyle="#fff";c.lineWidth=2.5;c.lineCap="round";c.beginPath();c.moveTo(13,39);c.lineTo(43,39);c.moveTo(13,47);c.lineTo(43,47);c.moveTo(28,39);c.lineTo(28,47);c.stroke();c.restore();
+   c.textBaseline="top";c.textAlign="left";c.fillStyle="#000";c.font="700 46px "+PF;c.fillText("HAYRAT AĞIRLIK HESAPLAMA",M+130,M+4);
+   c.fillStyle="#555";c.font="400 28px "+PF;c.fillText("Kesim listesi · "+d,M+130,M+62);y=M+130}
+  else{c.textAlign="left";c.fillStyle="#555";c.font="400 26px "+PF;c.fillText("HAYRAT AĞIRLIK HESAPLAMA · Kesim listesi · "+d,M,M);y=M+50}
+  head()};
+ np();
+ list.forEach((r,i)=>{
+  const cells=[i+1,r.name,r.cl.startsWith("Düz")?"Düz (90°)":r.cl+" · "+r.pl,f(r.L,3),r.q,r.ok?r.n:"–",f(r.k,1),f(r.w,3),f(r.tot),r.ok?f(r.fire):"–",r.ok?r.bars+" × "+f(r.S,2)+" m":"–"];
+  const m=r.ok?r.q-(r.bars-1)*r.n:0,two=r.ok&&m>0&&m<r.n,rw=row(cells,false),ph=plan(r,false)+(two?plan(r,false,m):0);if(y+rw.h+ph>PH-M-50)np();paint(rw,false);plan(r,true);if(two)plan(r,true,m)});
+ const tot=row(["","Toplam","","","","","","",f(g),f(gf),gb+" boy"],true);if(y+tot.h>PH-M-50)np();paint(tot,true,"#f1f1f3");
+ c.textAlign="left";c.fillStyle="#555";c.font="400 24px "+PF;y+=16;
+ wrap(c,"Boy, uzun kenar ölçüsüdür. Çelik yoğunluğu 7,85 g/cm³. Fire, kesim kaybı ve artan uçları içerir.",UW).forEach(t=>{c.fillText(t,M,y);y+=30});
+ pages.forEach((p,i)=>{const k=p.getContext("2d");k.fillStyle="#777";k.font="400 22px "+PF;k.textBaseline="top";k.textAlign="right";k.fillText("Sayfa "+(i+1)+" / "+pages.length,PW-M,PH-M+10)});
+ return pages}
+function b64(u){const s=atob(u.split(",")[1]),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a}
+function mkPdf(j,pw,ph){
+ const en=new TextEncoder(),parts=[],off=[];let pos=0;
+ const put=x=>{const u=typeof x==="string"?en.encode(x):x;parts.push(u);pos+=u.length};
+ const obj=(n,fn)=>{off[n]=pos;put(n+" 0 obj\n");fn();put("\nendobj\n")},N=j.length;
+ put("%PDF-1.4\n");
+ obj(1,()=>put("<< /Type /Catalog /Pages 2 0 R >>"));
+ obj(2,()=>put("<< /Type /Pages /Count "+N+" /Kids ["+j.map((_,i)=>(3+i*3)+" 0 R").join(" ")+"] >>"));
+ j.forEach((q,i)=>{const p=3+i*3,ct=p+1,im=p+2,cs="q "+pw+" 0 0 "+ph+" 0 0 cm /Im0 Do Q";
+  obj(p,()=>put("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+pw+" "+ph+"] /Resources << /XObject << /Im0 "+im+" 0 R >> >> /Contents "+ct+" 0 R >>"));
+  obj(ct,()=>put("<< /Length "+cs.length+" >>\nstream\n"+cs+"\nendstream"));
+  obj(im,()=>{put("<< /Type /XObject /Subtype /Image /Width "+q.w+" /Height "+q.h+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+q.d.length+" >>\nstream\n");put(q.d);put("\nendstream")})});
+ const T2=2+N*3,xr=pos;
+ put("xref\n0 "+(T2+1)+"\n0000000000 65535 f \n");
+ for(let i=1;i<=T2;i++)put(String(off[i]).padStart(10,"0")+" 00000 n \n");
+ put("trailer\n<< /Size "+(T2+1)+" /Root 1 0 R >>\nstartxref\n"+xr+"\n%%EOF");
+ return new Blob(parts,{type:"application/pdf"})}
+let pdfUrl=null;
+$("pdf").onclick=()=>{const m=$("pdfmsg");
+ if(!list.length){m.textContent="Önce listeye en az bir kalem ekleyin.";return}
+ try{
+  const pg=pdfPages(),blob=mkPdf(pg.map(p=>({d:b64(p.toDataURL("image/jpeg",.92)),w:p.width,h:p.height})),842,595);
+  if(pdfUrl)URL.revokeObjectURL(pdfUrl);pdfUrl=URL.createObjectURL(blob);
+  const n="HAH-Kesim-Listesi-"+new Date().toISOString().slice(0,10)+".pdf",a=document.createElement("a");
+  a.href=pdfUrl;a.download=n;document.body.appendChild(a);a.click();a.remove();
+  m.innerHTML='PDF hazırlandı. İndirme başlamadıysa <a href="'+pdfUrl+'" target="_blank" rel="noopener" download="'+n+'">buraya dokunun</a>.'
+ }catch(e){m.textContent="PDF oluşturulamadı: "+e.message}};
+setType();vis();calc();render();
+</script>
+</body>
+</html>
