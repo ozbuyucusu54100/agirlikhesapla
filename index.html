@@ -78,8 +78,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
     <div><label for="type">Profil cinsi</label><select id="type"></select></div>
     <div><label id="slab" for="size">Ölçü</label><select id="size"></select></div>
     <div id="tw"><label for="thk">Et kalınlığı (mm)</label><select id="thk"></select></div>
-    <div><label for="len">Boy</label>
-      <div class="row"><input id="len" type="number" inputmode="decimal" min="0" step="any" placeholder="örn. 6" value="6"><select id="unit" style="width:90px"><option value="m">m</option><option value="mm">mm</option></select></div></div>
+    <div><label for="len">Kesilecek parça boyu (mm)</label><input id="len" type="number" inputmode="decimal" min="0" step="any" placeholder="örn. 1250" value="1000"></div>
     <div><label for="qty">Adet</label><input id="qty" type="number" inputmode="numeric" min="1" step="1" value="1"></div>
     <div><label for="kerf">Testere kesim payı (mm / kesim)</label><input id="kerf" type="number" inputmode="decimal" min="0" step="any" value="3"></div>
     <div><label for="stock">Stok boy (m)</label><input id="stock" type="number" inputmode="decimal" min="0" step="any" value="6"></div>
@@ -87,24 +86,26 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
     <div id="aw" class="hid"><label for="ang">Kesim açısı (° , 90° düzden)</label><input id="ang" type="number" inputmode="decimal" min="0" max="80" step="any" value="45"></div>
     <div id="pw" class="hid"><label for="plane">Kesim yönü (açı hangi kenarda)</label><select id="plane"><option value="b">Yatay (üstten bakış, genişlik)</option><option value="h">Dikey (yandan bakış, yükseklik)</option></select></div>
     <div id="ww" class="hid"><label for="wdt">Kesilen kesit ölçüsü (mm)</label><input id="wdt" type="number" inputmode="decimal" min="1" step="any" value="100"></div>
-    <div id="mw" class="hid"><label for="lmode">Yerleşim</label><select id="lmode"><option value="auto">Otomatik (en çok parça)</option><option value="same">Hep aynı yön</option><option value="rot">Ters-düz dönüşümlü</option></select></div>
     <div id="pfw" class="hid" style="grid-column:1/-1"><div id="pf"></div></div>
   </div>
+  <button id="add">+ Parçayı listeye ekle</button><div class="note" id="addmsg">Farklı boyda parça için boyu ve adedi değiştirip tekrar ekleyin.</div>
   <div class="big" aria-live="polite"><b id="tot">0</b> <b style="font-size:20px;color:var(--mu)">kg</b><span id="sub"></span></div>
   <div id="fire" class="fire"></div>
   <div id="lay" class="sc"></div><div class="lg" id="lg"></div>
-  <div id="v3w" class="hid"><div id="v3" style="height:300px;border-radius:12px;background:var(--bg);overflow:hidden;margin-top:12px"></div><div class="lg" id="v3m"></div></div>
-  <button id="add">Listeye ekle</button>
+  <div id="v3w"><div id="v3" style="height:300px;border-radius:12px;background:var(--bg);overflow:hidden;margin-top:12px"></div><div class="lg" id="v3m"></div></div>
+  
 </div>
 <div class="card" id="lc">
   <div class="sc"><table>
-    <thead><tr><th>Profil</th><th class="n">Boy</th><th class="n">Adet</th><th class="n">kg/m</th><th class="n">Ağırlık</th><th class="n">Fire</th><th></th></tr></thead>
+    <thead><tr><th>#</th><th>Profil</th><th class="n">Boy (mm)</th><th class="n">Adet</th><th class="n">Ağırlık</th><th></th></tr></thead>
     <tbody id="tb"></tbody>
-    <tfoot><tr><td colspan="4">Toplam</td><td class="n" id="gt">0 kg</td><td class="n" id="gf">0 kg</td><td></td></tr></tfoot>
+    <tfoot><tr><td colspan="4">Toplam ağırlık</td><td class="n" id="gt">0 kg</td><td></td></tr><tr><td colspan="4">Toplam fire</td><td class="n" id="gf">0 kg</td><td></td></tr><tr><td colspan="4">Genel yerleşim verimliliği</td><td class="n" id="gv">–</td><td></td></tr></tfoot>
   </table></div>
+  <div class="note">Aynı profil, ölçü, stok boy ve kesim payına sahip parçalar birlikte, en az fire verecek şekilde stok boylara yerleştirilir. Parça numaraları listedeki sıraya göredir.</div>
+  <div id="plans"></div>
   <button id="pdf">PDF indir</button>
   <div class="note" id="pdfmsg"></div>
-  <div class="note">Çelik yoğunluğu 7,85 g/cm³ alınmıştır. Standart profil değerleri (IPE, HEA, HEB, UPN, köşebent) tablo ağırlıklarıdır; boru, kutu, lama ve dolu profiller hesapla bulunur. Kutu ve boruda köşe yuvarlaklığı yaklaşık alınmıştır. Fire hesabında her parça için kesim payı eklenir; stok boy başına parça sayısı stok boy ÷ (parça boyu + kesim payı) ile bulunur, artan kısa uç da fireye dahildir. Açılı kesimde boy, uzun kenar ölçüsüdür; parça ağırlığı ortalama boyla hesaplanır. Ters-düz yerleşimde her ikinci parça 180° döndürülerek açılar birbirine oturtulur.</div>
+  <div class="note">Çelik yoğunluğu 7,85 g/cm³ alınmıştır. Standart profil değerleri (IPE, HEA, HEB, UPN, köşebent) tablo ağırlıklarıdır; boru, kutu, lama ve dolu profiller hesapla bulunur. Kutu ve boruda köşe yuvarlaklığı yaklaşık alınmıştır. Parça boyu milimetre cinsinden girilir. Açılı kesimde boy, uzun kenar ölçüsüdür; parça ağırlığı ortalama boyla hesaplanır. Fire hesabında her kesim için testere payı eklenir, artan kısa uçlar da fireye dahildir. Açılı parçalar gerekirse 180° çevrilerek yerleştirilir, böylece açılar birbirine oturur.</div>
 </div>
 <section class="card seo">
   <h2>Çelik profil ağırlık hesaplama</h2>
@@ -144,38 +145,42 @@ function dims(ty,sz,t){const v=parseFloat(sz);
  if(ty==="Lama")return[v,t];
  return[v,v]}
 function autoW(){const ty=$("type").value,d=T[ty],m=dims(ty,$("size").value,d.t?parseFloat($("thk").value):0),o=$("plane").options;o[0].text="Yatay (üstten bakış) · "+tr(m[0])+" mm kenar";o[1].text="Dikey (yandan bakış) · "+tr(m[1])+" mm kenar";$("wdt").value=$("plane").value==="b"?m[0]:m[1]}
-function vis(){const x=$("ctype").value!=="d";["aw","pw","ww","mw","pfw","v3w"].forEach(i=>$(i).classList.toggle("hid",!x))}
-function layout(ct,th,W,L,k,S,mode){
- const o=ct==="d"?0:W*Math.tan(th*Math.PI/180),kx=o>0?k/Math.cos(th*Math.PI/180):k;
- const base=o>0?{s:[0,1],p:[1,1],t:[1,-1]}[ct]:[0,0];
- const d=(base[1]-base[0])*o,bot=L-Math.max(0,d);
- const res={n:0,avg:L>0?bot+d/2:0,o,kc:kx,ps:[],na:0,nb:0};
- if(!(L>0)||!(S>0))return res;
- if(L<=Math.abs(d)){res.bad=true;return res}
- const run=(rot,sf)=>{const ps=[];let pv=null;
-  for(let i=0;i<4000;i++){
-   const fl=(rot&&i%2===1)!==sf,sl=fl?base[1]:base[0],sr=fl?base[0]:base[1],dd=(sr-sl)*o,bl=L-Math.max(0,dd);
-   let x0;
-   if(!pv)x0=Math.max(0,-sl*o);
-   else{const g=(pv.sr!==0||sl!==0)?kx:k;x0=Math.max(pv.x1+g,pv.x1+pv.sr*o+g-sl*o)}
-   const x1=x0+bl;
-   if(x1+Math.max(0,sr*o)>S+1e-9)break;
-   ps.push({x0,x1,sl,sr,fl});pv={x1,sr}}
-  return ps};
- const best=(x,y)=>y.length>x.length?y:x;
- const a=best(run(false,false),run(false,true)),b=best(run(true,false),run(true,true));
- res.na=a.length;res.nb=b.length;
- res.ps=mode==="same"?a:mode==="rot"?b:(b.length>a.length?b:a);res.n=res.ps.length;res.last=res.n?res.ps[res.n-1].sr:0;
- return res}
-function draw(c){const el=$("lay"),lg=$("lg"),l=c.lay;
- if(!c.ok||!(c.W>0)){el.innerHTML="";lg.textContent="";return}
- const W=c.W,S=c.S*1000,o=l.o,sc=Math.min(60/W,4000/S),h=W*sc,p=10,w=S*sc,Y=y=>p+h-y*sc,X=x=>p+x*sc;
- let s=`<svg width="${w+2*p}" height="${h+2*p}" role="img" aria-label="Yerleşim planı"><defs><pattern id="ht" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--mu)" stroke-width="1" opacity=".45"/></pattern></defs><rect x="${p}" y="${p}" width="${w}" height="${h}" fill="url(#ht)" style="stroke:var(--mu)" stroke-width="1"/>`;
- l.ps.forEach((q,i)=>{const pts=[[q.x0,0],[q.x1,0],[q.x1+q.sr*o,W],[q.x0+q.sl*o,W]].map(a=>X(a[0]).toFixed(1)+","+Y(a[1]).toFixed(1)).join(" ");
-  s+=`<polygon points="${pts}" style="fill:${q.fl?"#ff9f0a":"var(--ac)"};stroke:var(--card)" fill-opacity=".85" stroke-width="1"/>`;
-  if((q.x1-q.x0)*sc>24)s+=`<text x="${X((q.x0+q.x1)/2)}" y="${p+h/2+4}" text-anchor="middle" font-size="11" fill="#fff">${i+1}</text>`});
- el.innerHTML=s+"</svg>";
- lg.textContent="İlk stok boy, gerçek açıyla (yana kaydırılabilir). Mavi: düz yön · Turuncu: ters çevrilmiş (180°) · Taralı: fire."+(o>0?" Stok boy başına: aynı yön "+l.na+" parça, ters-düz "+l.nb+" parça.":"")}
+function vis(){const x=$("ctype").value!=="d";["aw","pw","ww","pfw"].forEach(i=>$(i).classList.toggle("hid",!x))}
+function place(bar,p,fl){const o=p.o,B=p.base,sl=fl?B[1]:B[0],sr=fl?B[0]:B[1],dd=(sr-sl)*o,bl=p.L-Math.max(0,dd),pv=bar.last;
+ let x0;
+ if(!pv)x0=Math.max(0,-sl*o);
+ else{const g=Math.max(pv.sr!==0?pv.kx:p.k,sl!==0?p.kx:p.k);x0=pv.x1+g+Math.max(0,(pv.sr*pv.tn-sl*p.tn)*Math.min(pv.W,p.W))}
+ const x1=x0+bl,end=x1+Math.max(0,sr*o);
+ return end>p.S+1e-9?null:{x0,x1,sl,sr,end}}
+function pack(ps,iter){const S=ps[0].S,inst=[];ps.forEach((p,i)=>{for(let j=0;j<p.q;j++)inst.push(i)});
+ if(!inst.length)return null;
+ const fit=(bar,p)=>{let br=null;for(const fl of p.fls){const r=place(bar,p,fl);if(r&&(!br||r.end<br.r.end))br={bar,fl,r}}return br};
+ const run=ord=>{const bars=[];
+  for(const i of ord){const p=ps[i];let bb=null;
+   for(const bar of bars){const br=fit(bar,p);if(br&&(!bb||br.r.end>bb.r.end))bb=br}
+   if(!bb){const bar={ps:[],last:null,end:0};bb=fit(bar,p);if(!bb)return null;bars.push(bar)}
+   const{bar,fl,r}=bb;bar.ps.push({i,fl,x0:r.x0,x1:r.x1,sl:r.sl,sr:r.sr});bar.last={x1:r.x1,sr:r.sr,tn:p.tn,W:p.W,kx:p.kx};bar.end=r.end}
+  return bars};
+ let best=null,bs=1/0;
+ const tryO=ord=>{const b=run(ord);if(!b)return;const sc=b.length*1e7+Math.min(...b.map(x=>x.end));if(sc<bs){bs=sc;best=b}};
+ tryO(inst.slice().sort((a,b)=>ps[b].L-ps[a].L));
+ const lb=Math.ceil(inst.reduce((a,i)=>a+ps[i].avg,0)/S-1e-9);
+ if(best&&best.length>lb&&inst.length>1&&inst.length<=300){let s=12345;const rnd=()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296};
+  const cap=Math.min(iter,Math.floor(8000/inst.length));for(let it=0;it<cap&&best.length>lb;it++){const key=inst.map(i=>[i,it%4===3?rnd():ps[i].L*(1+(rnd()-.5)*.5)]);key.sort((a,b)=>b[1]-a[1]);tryO(key.map(x=>x[0]))}}
+ return best}
+const pc=i=>"hsl("+((i*67+210)%360)+",65%,50%)";
+function uniq(bars){const m=new Map();bars.forEach(b=>{const k=b.ps.map(x=>x.i+(x.fl?"r":"")).join(",");const e=m.get(k);if(e)e.c++;else m.set(k,{b,c:1})});return[...m.values()]}
+const beff=(gr,b)=>b.ps.reduce((a,q)=>a+gr.ps[q.i].avg,0)/gr.S*100;
+function mkG(ps){const bars=pack(ps,ps.length>1?250:0);if(!bars)return null;
+ const S=ps[0].S,w=ps[0].w,used=ps.reduce((a,p)=>a+p.w*p.avg/1000*p.q,0),raw=bars.length*S/1000*w;
+ return{ps,bars,S,w,used,raw,fire:raw-used,pct:raw?(raw-used)/raw*100:0,Hm:Math.max(1,...ps.map(p=>p.W)),u:uniq(bars)}}
+function planAll(){const m=new Map();list.forEach(p=>{if(!m.has(p.key))m.set(p.key,[]);m.get(p.key).push(p)});return[...m.values()].map(mkG).filter(Boolean)}
+function barSvg(gr,b,pv){const S=gr.S,Hm=gr.Hm,sc=Math.min(60/Hm,4000/S),h=Hm*sc,p=10,w=S*sc,Y=y=>p+h-y*sc,X=x=>p+x*sc;
+ let s=`<svg width="${w+2*p}" height="${h+2*p}" role="img" aria-label="Kesim planı"><defs><pattern id="ht" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--mu)" stroke-width="1" opacity=".45"/></pattern></defs><rect x="${p}" y="${p}" width="${w}" height="${h}" fill="url(#ht)" style="stroke:var(--mu)" stroke-width="1"/>`;
+ b.ps.forEach((q,j)=>{const a=gr.ps[q.i],o=a.o,pts=[[q.x0,0],[q.x1,0],[q.x1+q.sr*o,a.W],[q.x0+q.sl*o,a.W]].map(z=>X(z[0]).toFixed(1)+","+Y(z[1]).toFixed(1)).join(" ");
+  s+=`<polygon points="${pts}" style="fill:${pv?(q.fl?"#ff9f0a":"var(--ac)"):pc(a.id)};stroke:var(--card)" fill-opacity=".85" stroke-width="1"/>`;
+  if((q.x1-q.x0)*sc>24)s+=`<text x="${X((q.x0+q.x1)/2)}" y="${p+h/2+4}" text-anchor="middle" font-size="11" fill="#fff">${pv?j+1:a.id+1}</text>`});
+ return s+"</svg>"}
 function prof(){const el=$('pf');if($('pfw').classList.contains('hid'))return;
  const ty=$('type').value,d=T[ty],t=d.t?parseFloat($('thk').value):0,m=dims(ty,$('size').value,t),b=m[0],h=m[1],H=$('plane').value==='b';
  const s=Math.min(90/b,70/h),w=b*s,hh=h*s,c=110,cy=75,x=c-w/2,y=cy-hh/2,x1=x+w,y1=y+hh;
@@ -207,32 +212,37 @@ function v3init(){if(V)return V;if(typeof THREE==='undefined')return null;
  sc.add(new THREE.AmbientLight(0xffffff,.7));
  const l1=new THREE.DirectionalLight(0xffffff,.85);l1.position.set(1,2,1.5);sc.add(l1);
  const l2=new THREE.DirectionalLight(0xffffff,.4);l2.position.set(-1.5,-1,-1);sc.add(l2);
- V={r,sc,cam,th:.8,ph:1.15,rad:500,fit:0,grp:null,auto:true};
- let dn=false,lx=0,ly=0;
- cv.addEventListener('pointerdown',e=>{dn=true;V.auto=false;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing'});
- cv.addEventListener('pointermove',e=>{if(!dn)return;V.th-=(e.clientX-lx)*.01;V.ph=Math.min(3.04,Math.max(.1,V.ph-(e.clientY-ly)*.01));lx=e.clientX;ly=e.clientY});
- const up=()=>{dn=false;cv.style.cursor='grab'};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
- cv.addEventListener('wheel',e=>{e.preventDefault();V.rad=Math.min(V.fit*6,Math.max(V.fit*.4,V.rad*(1+e.deltaY*.001)))},{passive:false});
+ V={r,sc,cam,th:.8,ph:1.15,rad:500,fit:0,grp:null,auto:true,pan:new THREE.Vector3(),pm:false};
+ const pt=new Map();let pd=0,pr=0,pm=null;const dist=()=>{const a=[...pt.values()];return Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)},mid=()=>{const a=[...pt.values()];return{x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2}};
+ const cl=x=>Math.min(V.fit*12,Math.max(V.fit*.25,x));let lt=0,lx0=0,ly0=0;
+ const mv=(dx,dy)=>{cam.updateMatrixWorld();const k=2*V.rad*.315/h,rx=new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld,0),ry=new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld,1);V.pan.addScaledVector(rx,-dx*k).addScaledVector(ry,dy*k);if(V.pan.length()>V.fit*1.5)V.pan.setLength(V.fit*1.5)};
+ V.zoom=k=>{V.rad=cl(V.rad*k)};V.center=()=>{V.pan.set(0,0,0);V.rad=V.fit};
+ cv.addEventListener('pointerdown',e=>{V.auto=false;pt.set(e.pointerId,{x:e.clientX,y:e.clientY});cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing';if(pt.size===2){pd=dist();pr=V.rad;pm=mid()}else{const n=Date.now();if(n-lt<350&&Math.hypot(e.clientX-lx0,e.clientY-ly0)<25){V.center();lt=0}else{lt=n;lx0=e.clientX;ly0=e.clientY}}});
+ cv.addEventListener('pointermove',e=>{const p=pt.get(e.pointerId);if(!p)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;
+  if(pt.size===2){const d=dist(),m=mid();if(pd>0&&d>0)V.rad=cl(pr*pd/d);if(pm)mv(m.x-pm.x,m.y-pm.y);pm=m}
+  else if(V.pm)mv(dx,dy);
+  else{V.th-=dx*.01;V.ph=Math.min(3.04,Math.max(.1,V.ph-dy*.01))}});
+ const up=e=>{pt.delete(e.pointerId);if(pt.size<2)pm=null;cv.style.cursor='grab'};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+ cv.addEventListener('wheel',e=>{e.preventDefault();V.zoom(1+e.deltaY*.001)},{passive:false});
  window.addEventListener('resize',()=>{const w2=host.clientWidth;if(w2){r.setSize(w2,h);cam.aspect=w2/h;cam.updateProjectionMatrix()}});
- (function loop(){requestAnimationFrame(loop);if($('v3w').classList.contains('hid'))return;if(V.auto)V.th+=.005;const R=V.rad,s=Math.sin(V.ph);cam.position.set(R*s*Math.sin(V.th),R*Math.cos(V.ph),R*s*Math.cos(V.th));cam.lookAt(0,0,0);r.render(sc,cam)})();
+ (function loop(){requestAnimationFrame(loop);if(V.auto)V.th+=.005;const R=V.rad,s=Math.sin(V.ph);const Q=V.pan;cam.position.set(Q.x+R*s*Math.sin(V.th),Q.y+R*Math.cos(V.ph),Q.z+R*s*Math.cos(V.th));cam.lookAt(Q);r.render(sc,cam)})();
  return V}
-function v3(c){if($('v3w').classList.contains('hid'))return;
- const m=$('v3m'),Vw=v3init();
+function v3(c){const m=$('v3m'),Vw=v3init();
  if(!Vw){m.textContent='3B görünüm yüklenemedi (three.js erişilemedi).';return}
  if(Vw.grp){Vw.sc.remove(Vw.grp);Vw.grp.traverse(q=>{if(q.geometry)q.geometry.dispose()});Vw.grp=null}
- const ty=$('type').value,d=T[ty],t=d.t?parseFloat($('thk').value):0,dm=dims(ty,$('size').value,t),b=dm[0],h=dm[1],pl=$('plane').value,ct=$('ctype').value,o=c.lay.o;
- if(!(c.L>0)||c.lay.bad||!b||!h){m.textContent='Parça boyu ve açı geçerli olunca 3B görünüm çizilir.';return}
- const base=o>0?{s:[0,1],p:[1,1],t:[1,-1]}[ct]:[0,0],dd=(base[1]-base[0])*o,cap=6*Math.max(b,h)+3*Math.abs(dd);
- let bl=c.L*1000-Math.max(0,dd);const clip=bl>cap;if(clip)bl=cap;
- const g=new THREE.ExtrudeGeometry(shp(ty,b,h,t,$('size').value),{depth:bl,bevelEnabled:false,curveSegments:48,steps:1}),P=g.attributes.position;
+ const ty=c.ty,t=c.t,b=c.b,h=c.h,o=c.o,base=c.base,pl=c.plv;
+ if(!(c.L>0)||c.bad||!b||!h){m.textContent='Parça boyu ve açı geçerli olunca 3B görünüm çizilir.';return}
+ const dd=(base[1]-base[0])*o,cap=6*Math.max(b,h)+3*Math.abs(dd);
+ let bl=c.L-Math.max(0,dd);const clip=bl>cap;if(clip)bl=cap;
+ const g=new THREE.ExtrudeGeometry(shp(ty,b,h,t,c.sz),{depth:bl,bevelEnabled:false,curveSegments:48,steps:1}),P=g.attributes.position;
  for(let i=0;i<P.count;i++){const z=P.getZ(i),u=pl==='b'?P.getX(i)/b:P.getY(i)/h;P.setZ(i,z+(z<bl/2?base[0]:base[1])*o*u)}
  P.needsUpdate=true;g.computeBoundingBox();const bb=g.boundingBox;g.translate(-(bb.min.x+bb.max.x)/2,-(bb.min.y+bb.max.y)/2,-(bb.min.z+bb.max.z)/2);g.computeVertexNormals();g.computeBoundingSphere();
  const grp=new THREE.Group();
  grp.add(new THREE.Mesh(g,[new THREE.MeshStandardMaterial({color:0xff9f0a,metalness:.2,roughness:.5,side:THREE.DoubleSide}),new THREE.MeshStandardMaterial({color:0x9aa5b1,metalness:.55,roughness:.4,side:THREE.DoubleSide})]));
  grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(g,20),new THREE.LineBasicMaterial({color:0x222222})));
  Vw.sc.add(grp);Vw.grp=grp;
- const fit=g.boundingSphere.radius*3.2;if(Vw.fit!==fit){Vw.fit=fit;Vw.rad=fit}
- m.textContent='Sürükle: döndür · Tekerlek: yakınlaştır. Turuncu yüzler açılı kesim yüzeyleridir. Kesit şekli yaklaşıktır.'+(clip?' Görünüm için boy kısalttıldı (gerçek boy '+f(c.L,2)+' m).':'')}
+ const fit=g.boundingSphere.radius*3.2;if(Vw.fit!==fit){Vw.fit=fit;Vw.rad=fit;Vw.pan.set(0,0,0)}
+ m.textContent='Tek parmak: döndür · İki parmak: yakınlaştır/uzaklaştır ve kaydır · Çift dokunuş: ortala. Turuncu yüzler kesim yüzeyleridir. Kesit şekli yaklaşıktır.'+(clip?' Görünüm için boy kısaltıldı (gerçek boy '+f(c.L,0)+' mm).':'')}
 const K=.00785;
 function kgm(ty,sz,t){const d=T[ty];
  if(!d.f)return d.s[sz];
@@ -258,31 +268,36 @@ function setType(){const d=T[$("type").value];
  $("tw").classList.toggle("hid",!d.t);
  if(d.t){fillThk();$("tw").querySelector("label").textContent=d.tl||"Et kalınlığı (mm)"}
  autoW();calc()}
-function cur(){const ty=$("type").value,d=T[ty],sz=$("size").value,t=d.t?parseFloat($("thk").value):0;
- let L=parseFloat($("len").value)||0;if($("unit").value==="mm")L/=1000;
- const q=Math.max(1,parseInt($("qty").value)||1);
- const w=kgm(ty,sz,t);
- const name=ty+" "+tr(sz)+(d.t?" × "+tr(t):"");
- const kmm=parseFloat($("kerf").value)||0,S=parseFloat($("stock").value)||0;
- const ct=$("ctype").value,th=Math.min(80,Math.max(0,parseFloat($("ang").value)||0)),W=parseFloat($("wdt").value)||0;
- const lay=layout(ct,th,W,L*1000,kmm,S*1000,$("lmode").value);
- const r={name:name+(ct!=="d"&&th>0?" ∠"+th+"°":""),L,q,w,S,W,lay,n:lay.n,avg:lay.avg/1000,ok:lay.n>=1,k:kmm,p:[ct,th,W,L*1000,kmm,S*1000,$('lmode').value],cl:$('ctype').selectedOptions[0].text,pl:$('plane').selectedOptions[0].text};
- r.tot=w*r.avg*q;
- if(r.ok){r.bars=Math.ceil(q/r.n);r.raw=r.bars*S*w;r.fire=r.raw-r.tot;r.kerfLoss=Math.max(0,q-(lay.last===0?r.bars:0))*w*lay.kc/1000;r.kerfLoss=Math.min(r.kerfLoss,r.fire);r.left=Math.max(0,r.fire-r.kerfLoss);r.pct=r.fire/r.raw*100}
- return r}
+function cur(){const ty=$("type").value,d=T[ty],sz=$("size").value,t=d.t?parseFloat($("thk").value):0,dm=dims(ty,sz,t);
+ const L=parseFloat($("len").value)||0,q=Math.min(2000,Math.max(1,parseInt($("qty").value)||1)),w=kgm(ty,sz,t);
+ const k=parseFloat($("kerf").value)||0,S=(parseFloat($("stock").value)||0)*1000,ct=$("ctype").value,th=ct==="d"?0:Math.min(80,Math.max(0,parseFloat($("ang").value)||0)),W=parseFloat($("wdt").value)||0;
+ const o=th>0?W*Math.tan(th*Math.PI/180):0,base=o>0?{s:[0,1],p:[1,1],t:[1,-1]}[ct]:[0,0],dd=(base[1]-base[0])*o,
+  tn=o>0?Math.tan(th*Math.PI/180):0,kx=o>0?k/Math.cos(th*Math.PI/180):k,avg=L-Math.abs(dd)/2;
+ const c={ty,sz,t,b:dm[0],h:dm[1],L,q,w,k,S,ct,th,W,o,base,tn,kx,avg,bad:L>0&&L<=Math.abs(dd),
+  fls:o>0&&base[0]!==base[1]?[false,true]:[false],key:[ty,sz,t,S,k].join("|"),
+  name:ty+" "+tr(sz)+(d.t?" × "+tr(t):"")+(o>0?" ∠"+th+"°":""),
+  cl:$("ctype").selectedOptions[0].text,plv:$("plane").value,pl:$("plane").selectedOptions[0].text};
+ c.tot=w*avg/1000*q;c.ok=L>0&&S>0&&!c.bad&&!!place({last:null},c,false);return c}
 function calc(){const c=cur();prof();$("tot").textContent=f(c.tot);
- $("sub").textContent=f(c.w,3)+" kg/m × "+f(c.avg,3)+" m × "+c.q+" adet";
- $("fire").innerHTML=c.ok?`<div>Stok boy başına <b>${c.n}</b> parça çıkar → gerekli <b>${c.bars}</b> adet ${f(c.S,2)} m boy (ham ${f(c.raw)} kg)</div><div>Fire: <b>${f(c.fire)} kg</b> (%${f(c.pct,1)})</div><div class="w">Kesim kaybı ${f(c.kerfLoss)} kg + artan parça ${f(c.left)} kg</div>`:(c.L>0?`<div>${c.S<=0?"Stok boy girin, fire hesaplanamadı.":c.lay.bad?"Açı ve ölçü uyumsuz: kısa kenar sıfırın altına iniyor.":"Parça boyu + kesim payı stok boyu aşıyor, fire hesaplanamadı."}</div>`:"");draw(c);v3(c)}
-function render(){$("tb").innerHTML=list.map((r,i)=>`<tr><td>${r.name}</td><td class="n">${f(r.L,3)} m</td><td class="n">${r.q}</td><td class="n">${f(r.w,3)}</td><td class="n">${f(r.tot)} kg</td><td class="n">${r.ok?f(r.fire)+" kg":"–"}</td><td><button class="x" data-i="${i}" aria-label="Sil">×</button></td></tr>`).join("");
- const g=list.reduce((a,r)=>a+r.tot,0);$("gt").textContent=f(g)+" kg";$("gf").textContent=f(list.reduce((a,r)=>a+(r.ok?r.fire:0),0))+" kg";$("lc").classList.toggle("hid",!list.length)}
+ $("sub").textContent=f(c.w,3)+" kg/m × "+f(c.avg/1000,3)+" m × "+c.q+" adet";
+ const g=c.ok?mkG([c]):null;
+ $("fire").innerHTML=g?`<div>Stok boy başına <b>${g.bars[0].ps.length}</b> parça çıkar → gerekli <b>${g.bars.length}</b> adet ${f(c.S/1000,2)} m boy (ham ${f(g.raw)} kg)</div><div>Fire: <b>${f(g.fire)} kg</b> (%${f(g.pct,1)})</div><div>Yerleşim verimliliği: <b>%${f(100-g.pct,1)}</b></div>`:(c.L>0?`<div>${c.S<=0?"Stok boy girin, fire hesaplanamadı.":c.bad?"Açı ve ölçü uyumsuz: kısa kenar sıfırın altına iniyor.":"Parça boyu + kesim payı stok boyu aşıyor, fire hesaplanamadı."}</div>`:"");
+ $("lay").innerHTML=g?barSvg(g,g.bars[0],1):"";
+ $("lg").textContent=g?"İlk stok boy, gerçek açıyla (yana kaydırılabilir). Mavi: düz yön · Turuncu: ters çevrilmiş (180°) · Taralı: fire.":"";
+ try{v3(c)}catch(e){$("v3m").textContent="3B görünüm açılamadı."}}
+function render(){list.forEach((r,i)=>r.id=i);
+ $("tb").innerHTML=list.map((r,i)=>`<tr><td><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${pc(i)};margin-right:6px"></i>${i+1}</td><td>${r.name}</td><td class="n">${f(r.L,0)}</td><td class="n">${r.q}</td><td class="n">${f(r.tot)} kg</td><td><button class="x" data-i="${i}" aria-label="Sil">×</button></td></tr>`).join("");
+ const G=planAll();
+ $("gt").textContent=f(list.reduce((a,r)=>a+r.tot,0))+" kg";$("gf").textContent=f(G.reduce((a,x)=>a+x.fire,0))+" kg";{const rw=G.reduce((a,x)=>a+x.raw,0),fr=G.reduce((a,x)=>a+x.fire,0);$("gv").textContent=rw?"%"+f(100*(1-fr/rw),1):"–"}
+ $("plans").innerHTML=G.map(g=>{const p=g.ps[0];return `<div class="fire"><b>${p.ty} ${tr(p.sz)}${p.t?" × "+tr(p.t):""}</b> · stok ${f(g.S/1000,2)} m · kesim payı ${f(p.k,1)} mm<br>Gerekli <b>${g.bars.length}</b> boy (ham ${f(g.raw)} kg) · Fire <b>${f(g.fire)} kg</b> (%${f(g.pct,1)}) · Verimlilik <b>%${f(100-g.pct,1)}</b></div>`+g.u.map(u=>`<div class="lg">${u.c} × boy · ${u.b.ps.length} parça · artan uç ${f(g.S-u.b.end,0)} mm · verimlilik %${f(beff(g,u.b),1)}</div><div class="sc">${barSvg(g,u.b)}</div>`).join("")}).join("");
+ $("lc").classList.toggle("hid",!list.length)}
 $("type").innerHTML=Object.keys(T).map(k=>`<option>${k}</option>`).join("");
 $("type").addEventListener("change",setType);
 $("size").addEventListener("change",()=>{fillThk();autoW();calc()});
 ["thk","plane"].forEach(i=>$(i).addEventListener("change",()=>{autoW();calc()}));
 $("ctype").addEventListener("change",()=>{vis();calc()});
-["unit","lmode"].forEach(i=>$(i).addEventListener("change",calc));
 ["len","qty","kerf","stock","ang","wdt"].forEach(i=>$(i).addEventListener("input",calc));
-$("add").onclick=()=>{const c=cur();if(c.L>0){c.lay=null;list.push(c);render()}};
+$("add").onclick=()=>{const c=cur(),m=$("addmsg");if(c.ok){list.push(c);render();m.innerHTML="✓ Eklendi · listede "+list.length+" kalem var. <a href=\"#lc\">Listeye git</a> · Farklı boyda parça için boyu değiştirip tekrar ekleyin."}else m.textContent="Parça eklenemedi: boyu, açıyı ve stok boyu kontrol edin."};
 $("tb").onclick=e=>{const i=e.target.dataset.i;if(i!==undefined){list.splice(i,1);render()}};
 
 /* ---------- PDF: tarayıcı yazdırma penceresine ihtiyaç duymadan doğrudan PDF üretir ---------- */
@@ -290,28 +305,27 @@ const PF='"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,san
 const rr=(c,x,y,w,h,r)=>{c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()};
 function wrap(c,t,mw){const out=[];let cu="";String(t).split(" ").forEach(w=>{const x=cu?cu+" "+w:w;if(c.measureText(x).width>mw&&cu){out.push(cu);cu=w}else cu=x});if(cu)out.push(cu);return out.length?out:[""]}
 function pdfPages(){
- const PW=2339,PH=1654,M=80,P=12,LH=36,pages=[],UW=PW-2*M;
- const g=list.reduce((a,r)=>a+r.tot,0),gf=list.reduce((a,r)=>a+(r.ok?r.fire:0),0),gb=list.reduce((a,r)=>a+(r.ok?r.bars:0),0);
+ const PW=2339,PH=1654,M=80,P=12,LH=36,pages=[],UW=PW-2*M,G=planAll();
+ const g=list.reduce((a,r)=>a+r.tot,0),gf=G.reduce((a,x)=>a+x.fire,0),gb=G.reduce((a,x)=>a+x.bars.length,0);
  const d=new Date().toLocaleDateString("tr-TR");
- const cols=[["#",3,"l"],["Profil",17,"l"],["Kesim",25,"l"],["Boy (m)",8,"r"],["Adet",6,"r"],["1 boydan çıkan adet",10,"r"],["Pay (mm)",7,"r"],["kg/m",7,"r"],["Ağırlık (kg)",9,"r"],["Fire (kg)",8,"r"],["İhtiyaç boy",11,"r"]];
+ const cols=[["#",4,"l"],["Profil",20,"l"],["Kesim",30,"l"],["Boy (mm)",10,"r"],["Adet",7,"r"],["kg/m",8,"r"],["Ağırlık (kg)",11,"r"],["Stok boy",10,"r"]];
  const tw=cols.reduce((a,c)=>a+c[1],0),xs=[];let ac=M;cols.forEach(c=>{const w=UW*c[1]/tw;xs.push([ac,w]);ac+=w});
  let cv,c,y;
- const plan=(r,dr,cnt)=>{
-  if(!(r.ok&&r.p&&r.p[2]>0))return 0;
-  const[ct,th,W,L,k,S,md]=r.p,l=layout(ct,th,W,L,k,S,md),o=l.o,pcs=cnt?l.ps.slice(0,cnt):l.ps,
-   end=pcs.reduce((a,q)=>Math.max(a,q.x1+Math.max(0,q.sr*o)),0),left=Math.max(0,S-end),sc=Math.min((UW-2*P)/S,200/W),h=W*sc,bw=S*sc,H=P+LH+8+h+P;
+ const barC=(gr,u,dr)=>{
+  const b=u.b,S=gr.S,Hm=gr.Hm,sc=Math.min((UW-2*P)/S,200/Hm),h=Hm*sc,bw=S*sc,H=P+LH+8+h+P;
   if(!dr)return H;
   c.strokeStyle="#999";c.lineWidth=1.5;c.strokeRect(M,y,UW,H);
   c.fillStyle="#444";c.font="400 22px "+PF;c.textAlign="left";c.textBaseline="top";
-  c.fillText(cnt?"Son boy (artan) · "+f(S/1000,2)+" m boyda "+pcs.length+" parça · artan uç: "+f(left,0)+" mm":"Yerleşim planı · 1 stok boy ("+f(S/1000,2)+" m): "+l.n+" parça · Mavi: düz yön · Turuncu: ters çevrilmiş (180°) · Taralı: fire · artan uç: "+f(left,0)+" mm",M+P,y+P);
+  c.fillText(u.c+" × boy ("+f(S/1000,2)+" m) · "+b.ps.length+" parça · artan uç: "+f(S-b.end,0)+" mm · verimlilik %"+f(beff(gr,b),1),M+P,y+P);
   const ox=M+P,oy=y+P+LH+8,X=v=>ox+v*sc,Y=v=>oy+h-v*sc;
   c.save();c.beginPath();c.rect(ox,oy,bw,h);c.clip();c.fillStyle="#f4f4f6";c.fillRect(ox,oy,bw,h);c.strokeStyle="#b5b5b5";c.lineWidth=1;
   for(let i=-h;i<bw;i+=10){c.beginPath();c.moveTo(ox+i,oy+h);c.lineTo(ox+i+h,oy);c.stroke()}c.restore();
-  pcs.forEach((q,i)=>{c.beginPath();[[q.x0,0],[q.x1,0],[q.x1+q.sr*o,W],[q.x0+q.sl*o,W]].forEach((a,j)=>j?c.lineTo(X(a[0]),Y(a[1])):c.moveTo(X(a[0]),Y(a[1])));c.closePath();
-   c.globalAlpha=.88;c.fillStyle=q.fl?"#ff9f0a":"#0071e3";c.fill();c.globalAlpha=1;c.strokeStyle="#fff";c.lineWidth=1.5;c.stroke();
-   if(h>=26&&(q.x1-q.x0)*sc>34){c.fillStyle="#fff";c.font="700 20px "+PF;c.textAlign="center";c.textBaseline="middle";c.fillText(String(i+1),X((q.x0+q.x1)/2),oy+h/2);c.textBaseline="top"}});
+  b.ps.forEach(q=>{const a=gr.ps[q.i],o=a.o;c.beginPath();[[q.x0,0],[q.x1,0],[q.x1+q.sr*o,a.W],[q.x0+q.sl*o,a.W]].forEach((z,j)=>j?c.lineTo(X(z[0]),Y(z[1])):c.moveTo(X(z[0]),Y(z[1])));c.closePath();
+   c.globalAlpha=.88;c.fillStyle=pc(a.id);c.fill();c.globalAlpha=1;c.strokeStyle="#fff";c.lineWidth=1.5;c.stroke();
+   if(h>=26&&(q.x1-q.x0)*sc>34){c.fillStyle="#fff";c.font="700 20px "+PF;c.textAlign="center";c.textBaseline="middle";c.fillText(String(a.id+1),X((q.x0+q.x1)/2),oy+h/2);c.textBaseline="top"}});
   c.strokeStyle="#888";c.lineWidth=1.5;c.strokeRect(ox,oy,bw,h);
-  if(left*sc>150){const lx=X(end)+(bw-end*sc)/2,tx="artan "+f(left,0)+" mm";c.font="700 22px "+PF;c.textAlign="center";c.textBaseline="middle";
+  const left=S-b.end;
+  if(left*sc>150){const lx=X(b.end)+(bw-b.end*sc)/2,tx="artan "+f(left,0)+" mm";c.font="700 22px "+PF;c.textAlign="center";c.textBaseline="middle";
    const tw2=c.measureText(tx).width;c.fillStyle="rgba(255,255,255,.88)";c.fillRect(lx-tw2/2-8,oy+h/2-16,tw2+16,32);c.fillStyle="#333";c.fillText(tx,lx,oy+h/2);c.textBaseline="top"}
   c.textAlign="left";y+=H};
  const row=(cells,bold)=>{
@@ -325,7 +339,7 @@ function pdfPages(){
   c.strokeStyle="#999";c.lineWidth=1.5;xs.forEach(([x,w])=>c.strokeRect(x,y,w,rw.h));
   y+=rw.h};
  const head=()=>paint(row(cols.map(k=>k[0]),true),true,"#e9e9ec");
- const np=()=>{cv=document.createElement("canvas");cv.width=PW;cv.height=PH;c=cv.getContext("2d");c.fillStyle="#fff";c.fillRect(0,0,PW,PH);c.textBaseline="top";pages.push(cv);
+ const np=nh=>{cv=document.createElement("canvas");cv.width=PW;cv.height=PH;c=cv.getContext("2d");c.fillStyle="#fff";c.fillRect(0,0,PW,PH);c.textBaseline="top";pages.push(cv);
   if(pages.length===1){
    c.save();c.translate(M,M);c.scale(100/56,100/56);rr(c,0,0,56,56,14);c.fillStyle="#0071e3";c.fill();
    c.fillStyle="#fff";c.font="800 19px "+PF;c.textAlign="center";c.textBaseline="alphabetic";c.fillText("HAH",28,29);
@@ -333,13 +347,21 @@ function pdfPages(){
    c.textBaseline="top";c.textAlign="left";c.fillStyle="#000";c.font="700 46px "+PF;c.fillText("HAYRAT AĞIRLIK HESAPLAMA",M+130,M+4);
    c.fillStyle="#555";c.font="400 28px "+PF;c.fillText("Kesim listesi · "+d,M+130,M+62);y=M+130}
   else{c.textAlign="left";c.fillStyle="#555";c.font="400 26px "+PF;c.fillText("HAYRAT AĞIRLIK HESAPLAMA · Kesim listesi · "+d,M,M);y=M+50}
-  head()};
+  if(!nh)head()};
  np();
  list.forEach((r,i)=>{
-  const cells=[i+1,r.name,r.cl.startsWith("Düz")?"Düz (90°)":r.cl+" · "+r.pl,f(r.L,3),r.q,r.ok?r.n:"–",f(r.k,1),f(r.w,3),f(r.tot),r.ok?f(r.fire):"–",r.ok?r.bars+" × "+f(r.S,2)+" m":"–"];
-  const m=r.ok?r.q-(r.bars-1)*r.n:0,two=r.ok&&m>0&&m<r.n,rw=row(cells,false),ph=plan(r,false)+(two?plan(r,false,m):0);if(y+rw.h+ph>PH-M-50)np();paint(rw,false);plan(r,true);if(two)plan(r,true,m)});
- const tot=row(["","Toplam","","","","","","",f(g),f(gf),gb+" boy"],true);if(y+tot.h>PH-M-50)np();paint(tot,true,"#f1f1f3");
+  const rw=row([i+1,r.name,r.cl.startsWith("Düz")?"Düz (90°)":r.cl+" · "+r.pl,f(r.L,0),r.q,f(r.w,3),f(r.tot),f(r.S/1000,2)+" m"],false);
+  if(y+rw.h>PH-M-50)np();paint(rw,false)});
+ const tot=row(["","Toplam","","","","",f(g),gb+" boy"],true);if(y+tot.h>PH-M-50)np();paint(tot,true,"#f1f1f3");
+ y+=24;if(y+2*LH>PH-M-50)np(1);
+ c.textAlign="left";c.textBaseline="top";c.fillStyle="#000";c.font="700 30px "+PF;c.fillText("Kesim planı · toplam fire: "+f(gf)+" kg · genel verimlilik %"+f(100*(1-gf/(G.reduce((a,x)=>a+x.raw,0)||1)),1),M,y);y+=LH+4;
+ c.fillStyle="#555";c.font="400 22px "+PF;c.fillText("Parça numaraları yukarıdaki listenin sırasına göredir.",M,y);y+=LH;
+ G.forEach(gr=>{const p=gr.ps[0],hd=p.ty+" "+tr(p.sz)+(p.t?" × "+tr(p.t):"")+" · stok "+f(gr.S/1000,2)+" m · kesim payı "+f(p.k,1)+" mm · "+gr.bars.length+" boy · fire "+f(gr.fire)+" kg (%"+f(gr.pct,1)+") · verimlilik %"+f(100-gr.pct,1);
+  if(y+LH+barC(gr,gr.u[0],0)>PH-M-50)np(1);
+  c.fillStyle="#000";c.font="600 26px "+PF;c.textAlign="left";c.textBaseline="top";c.fillText(hd,M,y);y+=LH+4;
+  gr.u.forEach(u=>{if(y+barC(gr,u,0)>PH-M-50)np(1);barC(gr,u,1);y+=8})});
  c.textAlign="left";c.fillStyle="#555";c.font="400 24px "+PF;y+=16;
+ if(y+30>PH-M-50)np(1);
  wrap(c,"Boy, uzun kenar ölçüsüdür. Çelik yoğunluğu 7,85 g/cm³. Fire, kesim kaybı ve artan uçları içerir.",UW).forEach(t=>{c.fillText(t,M,y);y+=30});
  pages.forEach((p,i)=>{const k=p.getContext("2d");k.fillStyle="#777";k.font="400 22px "+PF;k.textBaseline="top";k.textAlign="right";k.fillText("Sayfa "+(i+1)+" / "+pages.length,PW-M,PH-M+10)});
  return pages}
