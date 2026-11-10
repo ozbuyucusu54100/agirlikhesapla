@@ -84,6 +84,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
     <div><label for="stock">Stok boy (m)</label><input id="stock" type="number" inputmode="decimal" min="0" step="any" value="6"></div>
     <div><label for="ctype">Kesim tipi</label><select id="ctype"><option value="d">Düz (90°)</option><option value="s">Tek uç açılı</option><option value="p">İki uç açılı, paralel (//)</option><option value="t">İki uç açılı, ters (trapez)</option></select></div>
     <div id="aw" class="hid"><label for="ang">Kesim açısı (° , 90° düzden)</label><input id="ang" type="number" inputmode="decimal" min="0" max="80" step="any" value="45"></div>
+    <div id="aw2" class="hid"><label for="ang2">Sağ uç açısı (° , 90° düzden)</label><input id="ang2" type="number" inputmode="decimal" min="0" max="80" step="any" value="45"></div>
     <div id="pw" class="hid"><label for="plane">Kesim yönü (açı hangi kenarda)</label><select id="plane"><option value="b">Yatay (üstten bakış, genişlik)</option><option value="h">Dikey (yandan bakış, yükseklik)</option></select></div>
     <div id="ww" class="hid"><label for="wdt">Kesilen kesit ölçüsü (mm)</label><input id="wdt" type="number" inputmode="decimal" min="1" step="any" value="100"></div>
     <div id="pfw" class="hid" style="grid-column:1/-1"><div id="pf"></div></div>
@@ -94,6 +95,13 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <div id="lay" class="sc"></div><div class="lg" id="lg"></div>
   <div id="v3w"><div id="v3" style="height:300px;border-radius:12px;background:var(--bg);overflow:hidden;margin-top:12px"></div><div class="lg" id="v3m"></div></div>
   
+</div>
+<div class="card" id="stc">
+  <h2 style="margin:0 0 8px;font-size:18px">STEP dosyasından otomatik kesim listesi</h2>
+  <div class="note" id="stm">Çizilen profillerin STEP dosyalarını ekleyin; profil cinsi, ölçü, boy ve kesim açıları dosyadan okunur. Adetleri girdiğinizde kesim listesi otomatik oluşur. Tablodaki değerleri değiştirebilir, × ile satır silebilirsiniz. Kerf ve stok boy yukarıdaki alanlardan alınır.</div>
+  <div class="sc"><table id="stt" class="hid"><thead><tr><th>Dosya</th><th>Profil / ölçü</th><th class="n">Boy (mm)</th><th>Kesim</th><th class="n">Adet</th><th></th></tr></thead><tbody id="stb"></tbody></table></div>
+  <input id="stp" type="file" multiple hidden>
+  <button id="stadd" type="button">+ Yeni STEP ekle</button>
 </div>
 <div class="card" id="lc">
   <div class="sc"><table>
@@ -116,7 +124,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <p><b>Ağırlık tabloları:</b> <a href="ipe-agirlik-tablosu.html">IPE</a> · <a href="hea-agirlik-tablosu.html">HEA</a> · <a href="heb-agirlik-tablosu.html">HEB</a> · <a href="upn-agirlik-tablosu.html">UPN</a> · <a href="kutu-profil-agirlik-tablosu.html">Kutu profil</a> · <a href="boru-agirlik-tablosu.html">Boru</a> · <a href="kosebent-agirlik-tablosu.html">Köşebent</a></p>
   <p><b>Rehberler:</b> <a href="celik-profil-agirligi-nasil-hesaplanir.html">Çelik profil ağırlığı nasıl hesaplanır?</a> · <a href="kesim-fire-hesabi.html">Kesim fire'si nasıl hesaplanır ve azaltılır?</a></p>
 </section>
-<footer><a href="gizlilik-politikasi.html">Gizlilik Politikası</a><a href="sorumluluk-reddi.html">Sorumluluk Reddi</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a><br>Hesaplamalar bilgilendirme amaçlıdır. Sipariş ve imalat öncesi üretici / standart tablosuyla doğrulayınız.</footer>
+<footer><a href="gizlilik-politikasi.html">Gizlilik Politikası</a><a href="sorumluluk-reddi.html">Sorumluluk Reddi</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a><br>Hesaplamalar bilgilendirme amaçlıdır. Sipariş ve imalat öncesi üretici / standart tablosuyla doğrulayınız.<br><small style="opacity:.55;font-size:11px">v1.01 · Ziyaretçi: <span id="c-ziyaretci">–</span> · İndirilen PDF: <span id="c-pdf">–</span></small></footer>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -145,13 +153,13 @@ function dims(ty,sz,t){const v=parseFloat(sz);
  if(ty==="Lama")return[v,t];
  return[v,v]}
 function autoW(){const ty=$("type").value,d=T[ty],m=dims(ty,$("size").value,d.t?parseFloat($("thk").value):0),o=$("plane").options;o[0].text="Yatay (üstten bakış) · "+tr(m[0])+" mm kenar";o[1].text="Dikey (yandan bakış) · "+tr(m[1])+" mm kenar";$("wdt").value=$("plane").value==="b"?m[0]:m[1]}
-function vis(){const x=$("ctype").value!=="d";["aw","pw","ww","pfw"].forEach(i=>$(i).classList.toggle("hid",!x))}
-function place(bar,p,fl){const o=p.o,B=p.base,sl=fl?B[1]:B[0],sr=fl?B[0]:B[1],dd=(sr-sl)*o,bl=p.L-Math.max(0,dd),pv=bar.last;
+function vis(){const ct=$("ctype").value,x=ct!=="d",two=ct==="p"||ct==="t";["aw","pw","ww","pfw"].forEach(i=>$(i).classList.toggle("hid",!x));$("aw2").classList.toggle("hid",!two);$("aw").querySelector("label").textContent=two?"Sol uç açısı (° , 90° düzden)":"Kesim açısı (° , 90° düzden)"}
+function place(bar,p,fl){const B=p.base,Q=p.tt,sl=fl?B[1]:B[0],sr=fl?B[0]:B[1],tl=fl?Q[1]:Q[0],tr2=fl?Q[0]:Q[1],SL=sl*tl*p.W,SR=sr*tr2*p.W,dd=SR-SL,bl=p.L-Math.max(0,dd),pv=bar.last,kl=p.k*Math.sqrt(1+tl*tl),kr=p.k*Math.sqrt(1+tr2*tr2);
  let x0;
- if(!pv)x0=Math.max(0,-sl*o);
- else{const g=Math.max(pv.sr!==0?pv.kx:p.k,sl!==0?p.kx:p.k);x0=pv.x1+g+Math.max(0,(pv.sr*pv.tn-sl*p.tn)*Math.min(pv.W,p.W))}
- const x1=x0+bl,end=x1+Math.max(0,sr*o);
- return end>p.S+1e-9?null:{x0,x1,sl,sr,end}}
+ if(!pv)x0=Math.max(0,-SL);
+ else{const g=Math.max(pv.sr!==0?pv.kx:p.k,sl!==0?kl:p.k);x0=pv.x1+g+Math.max(0,(pv.sr*pv.tn-sl*tl)*Math.min(pv.W,p.W))}
+ const x1=x0+bl,end=x1+Math.max(0,SR);
+ return end>p.S+1e-9?null:{x0,x1,sl:SL,sr:SR,end,sg:sr,tr:tr2,kr}}
 function pack(ps,iter){const S=ps[0].S,inst=[];ps.forEach((p,i)=>{for(let j=0;j<p.q;j++)inst.push(i)});
  if(!inst.length)return null;
  const fit=(bar,p)=>{let br=null;for(const fl of p.fls){const r=place(bar,p,fl);if(r&&(!br||r.end<br.r.end))br={bar,fl,r}}return br};
@@ -159,14 +167,14 @@ function pack(ps,iter){const S=ps[0].S,inst=[];ps.forEach((p,i)=>{for(let j=0;j<
   for(const i of ord){const p=ps[i];let bb=null;
    for(const bar of bars){const br=fit(bar,p);if(br&&(!bb||br.r.end>bb.r.end))bb=br}
    if(!bb){const bar={ps:[],last:null,end:0};bb=fit(bar,p);if(!bb)return null;bars.push(bar)}
-   const{bar,fl,r}=bb;bar.ps.push({i,fl,x0:r.x0,x1:r.x1,sl:r.sl,sr:r.sr});bar.last={x1:r.x1,sr:r.sr,tn:p.tn,W:p.W,kx:p.kx};bar.end=r.end}
+   const{bar,fl,r}=bb;bar.ps.push({i,fl,x0:r.x0,x1:r.x1,sl:r.sl,sr:r.sr});bar.last={x1:r.x1,sr:r.sg,tn:r.tr,W:p.W,kx:r.kr};bar.end=r.end}
   return bars};
  let best=null,bs=1/0;
  const tryO=ord=>{const b=run(ord);if(!b)return;const sc=b.length*1e7+Math.min(...b.map(x=>x.end));if(sc<bs){bs=sc;best=b}};
  tryO(inst.slice().sort((a,b)=>ps[b].L-ps[a].L));
- const lb=Math.ceil(inst.reduce((a,i)=>a+ps[i].avg,0)/S-1e-9);
- if(best&&best.length>lb&&inst.length>1&&inst.length<=300){let s=12345;const rnd=()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296};
-  const cap=Math.min(iter,Math.floor(8000/inst.length));for(let it=0;it<cap&&best.length>lb;it++){const key=inst.map(i=>[i,it%4===3?rnd():ps[i].L*(1+(rnd()-.5)*.5)]);key.sort((a,b)=>b[1]-a[1]);tryO(key.map(x=>x[0]))}}
+ const kk=ps[0].k,lb=Math.ceil(inst.reduce((a,i)=>a+ps[i].avg+kk,0)/(S+kk)-1e-9);
+ if(best&&best.length>lb&&inst.length>1&&inst.length<=600){let s=12345;const rnd=()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296};
+  const cap=iter?Math.min(3000,Math.floor(60000/inst.length)):0;for(let it=0;it<cap&&best.length>lb;it++){const key=inst.map(i=>[i,it%4===3?rnd():ps[i].L*(1+(rnd()-.5)*.5)]);key.sort((a,b)=>b[1]-a[1]);tryO(key.map(x=>x[0]))}}
  return best}
 const pc=i=>"hsl("+((i*67+210)%360)+",65%,50%)";
 function uniq(bars){const m=new Map();bars.forEach(b=>{const k=b.ps.map(x=>x.i+(x.fl?"r":"")).join(",");const e=m.get(k);if(e)e.c++;else m.set(k,{b,c:1})});return[...m.values()]}
@@ -177,7 +185,7 @@ function mkG(ps){const bars=pack(ps,ps.length>1?250:0);if(!bars)return null;
 function planAll(){const m=new Map();list.forEach(p=>{if(!m.has(p.key))m.set(p.key,[]);m.get(p.key).push(p)});return[...m.values()].map(mkG).filter(Boolean)}
 function barSvg(gr,b,pv){const S=gr.S,Hm=gr.Hm,sc=Math.min(60/Hm,4000/S),h=Hm*sc,p=10,w=S*sc,Y=y=>p+h-y*sc,X=x=>p+x*sc;
  let s=`<svg width="${w+2*p}" height="${h+2*p}" role="img" aria-label="Kesim planı"><defs><pattern id="ht" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--mu)" stroke-width="1" opacity=".45"/></pattern></defs><rect x="${p}" y="${p}" width="${w}" height="${h}" fill="url(#ht)" style="stroke:var(--mu)" stroke-width="1"/>`;
- b.ps.forEach((q,j)=>{const a=gr.ps[q.i],o=a.o,pts=[[q.x0,0],[q.x1,0],[q.x1+q.sr*o,a.W],[q.x0+q.sl*o,a.W]].map(z=>X(z[0]).toFixed(1)+","+Y(z[1]).toFixed(1)).join(" ");
+ b.ps.forEach((q,j)=>{const a=gr.ps[q.i],pts=[[q.x0,0],[q.x1,0],[q.x1+q.sr,a.W],[q.x0+q.sl,a.W]].map(z=>X(z[0]).toFixed(1)+","+Y(z[1]).toFixed(1)).join(" ");
   s+=`<polygon points="${pts}" style="fill:${pv?(q.fl?"#ff9f0a":"var(--ac)"):pc(a.id)};stroke:var(--card)" fill-opacity=".85" stroke-width="1"/>`;
   if((q.x1-q.x0)*sc>24)s+=`<text x="${X((q.x0+q.x1)/2)}" y="${p+h/2+4}" text-anchor="middle" font-size="11" fill="#fff">${pv?j+1:a.id+1}</text>`});
  return s+"</svg>"}
@@ -230,19 +238,23 @@ function v3init(){if(V)return V;if(typeof THREE==='undefined')return null;
 function v3(c){const m=$('v3m'),Vw=v3init();
  if(!Vw){m.textContent='3B görünüm yüklenemedi (three.js erişilemedi).';return}
  if(Vw.grp){Vw.sc.remove(Vw.grp);Vw.grp.traverse(q=>{if(q.geometry)q.geometry.dispose()});Vw.grp=null}
- const ty=c.ty,t=c.t,b=c.b,h=c.h,o=c.o,base=c.base,pl=c.plv;
+ const ty=c.ty,t=c.t,b=c.b,h=c.h,base=c.base,SL=c.SL,SR=c.SR,pl=c.plv;
  if(!(c.L>0)||c.bad||!b||!h){m.textContent='Parça boyu ve açı geçerli olunca 3B görünüm çizilir.';return}
- const dd=(base[1]-base[0])*o,cap=6*Math.max(b,h)+3*Math.abs(dd);
+ const dd=SR-SL,cap=6*Math.max(b,h)+3*Math.abs(dd);
  let bl=c.L-Math.max(0,dd);const clip=bl>cap;if(clip)bl=cap;
  const g=new THREE.ExtrudeGeometry(shp(ty,b,h,t,c.sz),{depth:bl,bevelEnabled:false,curveSegments:48,steps:1}),P=g.attributes.position;
- for(let i=0;i<P.count;i++){const z=P.getZ(i),u=pl==='b'?P.getX(i)/b:P.getY(i)/h;P.setZ(i,z+(z<bl/2?base[0]:base[1])*o*u)}
+ for(let i=0;i<P.count;i++){const z=P.getZ(i),u=pl==='b'?P.getX(i)/b:P.getY(i)/h;P.setZ(i,z+(z<bl/2?SL:SR)*u)}
  P.needsUpdate=true;g.computeBoundingBox();const bb=g.boundingBox;g.translate(-(bb.min.x+bb.max.x)/2,-(bb.min.y+bb.max.y)/2,-(bb.min.z+bb.max.z)/2);g.computeVertexNormals();g.computeBoundingSphere();
  const grp=new THREE.Group();
  grp.add(new THREE.Mesh(g,[new THREE.MeshStandardMaterial({color:0xff9f0a,metalness:.2,roughness:.5,side:THREE.DoubleSide}),new THREE.MeshStandardMaterial({color:0x9aa5b1,metalness:.55,roughness:.4,side:THREE.DoubleSide})]));
  grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(g,20),new THREE.LineBasicMaterial({color:0x222222})));
+ const lab=(tx,z)=>{const cv=document.createElement('canvas');cv.width=256;cv.height=72;const x=cv.getContext('2d');x.fillStyle='rgba(0,0,0,.75)';x.fillRect(0,0,256,72);x.fillStyle='#fff';x.font='700 38px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(tx,128,38);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false})),r=g.boundingSphere.radius;sp.scale.set(r*.95,r*.95*72/256,1);sp.position.set(0,Math.max(b,h)*.8,z);sp.renderOrder=9;grp.add(sp)};
+ const zl=-(bb.max.z-bb.min.z)/2;
+ if(c.base[0])lab('Sol ∠'+c.th+'°',zl);if(c.base[1])lab('Sağ ∠'+c.th2+'°',-zl);
  Vw.sc.add(grp);Vw.grp=grp;
  const fit=g.boundingSphere.radius*3.2;if(Vw.fit!==fit){Vw.fit=fit;Vw.rad=fit;Vw.pan.set(0,0,0)}
- m.textContent='Tek parmak: döndür · İki parmak: yakınlaştır/uzaklaştır ve kaydır · Çift dokunuş: ortala. Turuncu yüzler kesim yüzeyleridir. Kesit şekli yaklaşıktır.'+(clip?' Görünüm için boy kısaltıldı (gerçek boy '+f(c.L,0)+' mm).':'')}
+ m.textContent='Tek parmak: döndür · İki parmak: yakınlaştır/uzaklaştır ve kaydır · Çift dokunuş: ortala. Turuncu yüzler kesim yüzeyleridir, etiketler uç açılarını gösterir. Kesit şekli yaklaşıktır.'+(clip?' Görünüm için boy kısaltıldı (gerçek boy '+f(c.L,0)+' mm).':'')}
 const K=.00785;
 function kgm(ty,sz,t){const d=T[ty];
  if(!d.f)return d.s[sz];
@@ -270,12 +282,12 @@ function setType(){const d=T[$("type").value];
  autoW();calc()}
 function cur(){const ty=$("type").value,d=T[ty],sz=$("size").value,t=d.t?parseFloat($("thk").value):0,dm=dims(ty,sz,t);
  const L=parseFloat($("len").value)||0,q=Math.min(2000,Math.max(1,parseInt($("qty").value)||1)),w=kgm(ty,sz,t);
- const k=parseFloat($("kerf").value)||0,S=(parseFloat($("stock").value)||0)*1000,ct=$("ctype").value,th=ct==="d"?0:Math.min(80,Math.max(0,parseFloat($("ang").value)||0)),W=parseFloat($("wdt").value)||0;
- const o=th>0?W*Math.tan(th*Math.PI/180):0,base=o>0?{s:[0,1],p:[1,1],t:[1,-1]}[ct]:[0,0],dd=(base[1]-base[0])*o,
-  tn=o>0?Math.tan(th*Math.PI/180):0,kx=o>0?k/Math.cos(th*Math.PI/180):k,avg=L-Math.abs(dd)/2;
- const c={ty,sz,t,b:dm[0],h:dm[1],L,q,w,k,S,ct,th,W,o,base,tn,kx,avg,bad:L>0&&L<=Math.abs(dd),
-  fls:o>0&&base[0]!==base[1]?[false,true]:[false],key:[ty,sz,t,S,k].join("|"),
-  name:ty+" "+tr(sz)+(d.t?" × "+tr(t):"")+(o>0?" ∠"+th+"°":""),
+ const k=parseFloat($("kerf").value)||0,S=(parseFloat($("stock").value)||0)*1000,ct=$("ctype").value,cl=x=>Math.min(80,Math.max(0,parseFloat(x)||0)),th=ct==="d"?0:cl($("ang").value),th2=ct==="p"||ct==="t"?cl($("ang2").value):th,W=parseFloat($("wdt").value)||0;
+ const sg0=ct==="d"?[0,0]:{s:[0,1],p:[1,1],t:[1,-1]}[ct],tt=[sg0[0]&&th>0&&W>0?Math.tan(th*Math.PI/180):0,sg0[1]&&th2>0&&W>0?Math.tan(th2*Math.PI/180):0],base=[tt[0]?sg0[0]:0,tt[1]?sg0[1]:0],
+  SL=base[0]*tt[0]*W,SR=base[1]*tt[1]*W,dd=SR-SL,avg=L-Math.abs(dd)/2,ang=th!==th2?th+"°/"+th2+"°":th+"°";
+ const c={ty,sz,t,b:dm[0],h:dm[1],L,q,w,k,S,ct,th,th2,W,base,tt,SL,SR,dd,avg,ang,bad:L>0&&L<=Math.abs(dd),
+  fls:SL!==SR?[false,true]:[false],key:[ty,sz,t,S,k].join("|"),
+  name:ty+" "+tr(sz)+(d.t?" × "+tr(t):"")+(tt[0]||tt[1]?" ∠"+ang:""),
   cl:$("ctype").selectedOptions[0].text,plv:$("plane").value,pl:$("plane").selectedOptions[0].text};
  c.tot=w*avg/1000*q;c.ok=L>0&&S>0&&!c.bad&&!!place({last:null},c,false);return c}
 function calc(){const c=cur();prof();$("tot").textContent=f(c.tot);
@@ -296,7 +308,7 @@ $("type").addEventListener("change",setType);
 $("size").addEventListener("change",()=>{fillThk();autoW();calc()});
 ["thk","plane"].forEach(i=>$(i).addEventListener("change",()=>{autoW();calc()}));
 $("ctype").addEventListener("change",()=>{vis();calc()});
-["len","qty","kerf","stock","ang","wdt"].forEach(i=>$(i).addEventListener("input",calc));
+["len","qty","kerf","stock","ang","ang2","wdt"].forEach(i=>$(i).addEventListener("input",calc));
 $("add").onclick=()=>{const c=cur(),m=$("addmsg");if(c.ok){list.push(c);render();m.innerHTML="✓ Eklendi · listede "+list.length+" kalem var. <a href=\"#lc\">Listeye git</a> · Farklı boyda parça için boyu değiştirip tekrar ekleyin."}else m.textContent="Parça eklenemedi: boyu, açıyı ve stok boyu kontrol edin."};
 $("tb").onclick=e=>{const i=e.target.dataset.i;if(i!==undefined){list.splice(i,1);render()}};
 
@@ -320,7 +332,7 @@ function pdfPages(){
   const ox=M+P,oy=y+P+LH+8,X=v=>ox+v*sc,Y=v=>oy+h-v*sc;
   c.save();c.beginPath();c.rect(ox,oy,bw,h);c.clip();c.fillStyle="#f4f4f6";c.fillRect(ox,oy,bw,h);c.strokeStyle="#b5b5b5";c.lineWidth=1;
   for(let i=-h;i<bw;i+=10){c.beginPath();c.moveTo(ox+i,oy+h);c.lineTo(ox+i+h,oy);c.stroke()}c.restore();
-  b.ps.forEach(q=>{const a=gr.ps[q.i],o=a.o;c.beginPath();[[q.x0,0],[q.x1,0],[q.x1+q.sr*o,a.W],[q.x0+q.sl*o,a.W]].forEach((z,j)=>j?c.lineTo(X(z[0]),Y(z[1])):c.moveTo(X(z[0]),Y(z[1])));c.closePath();
+  b.ps.forEach(q=>{const a=gr.ps[q.i];c.beginPath();[[q.x0,0],[q.x1,0],[q.x1+q.sr,a.W],[q.x0+q.sl,a.W]].forEach((z,j)=>j?c.lineTo(X(z[0]),Y(z[1])):c.moveTo(X(z[0]),Y(z[1])));c.closePath();
    c.globalAlpha=.88;c.fillStyle=pc(a.id);c.fill();c.globalAlpha=1;c.strokeStyle="#fff";c.lineWidth=1.5;c.stroke();
    if(h>=26&&(q.x1-q.x0)*sc>34){c.fillStyle="#fff";c.font="700 20px "+PF;c.textAlign="center";c.textBaseline="middle";c.fillText(String(a.id+1),X((q.x0+q.x1)/2),oy+h/2);c.textBaseline="top"}});
   c.strokeStyle="#888";c.lineWidth=1.5;c.strokeRect(ox,oy,bw,h);
@@ -350,7 +362,7 @@ function pdfPages(){
   if(!nh)head()};
  np();
  list.forEach((r,i)=>{
-  const rw=row([i+1,r.name,r.cl.startsWith("Düz")?"Düz (90°)":r.cl+" · "+r.pl,f(r.L,0),r.q,f(r.w,3),f(r.tot),f(r.S/1000,2)+" m"],false);
+  const rw=row([i+1,r.name,r.cl.startsWith("Düz")?"Düz (90°)":r.cl+" · "+r.ang+" · "+r.pl,f(r.L,0),r.q,f(r.w,3),f(r.tot),f(r.S/1000,2)+" m"],false);
   if(y+rw.h>PH-M-50)np();paint(rw,false)});
  const tot=row(["","Toplam","","","","",f(g),gb+" boy"],true);if(y+tot.h>PH-M-50)np();paint(tot,true,"#f1f1f3");
  y+=24;if(y+2*LH>PH-M-50)np(1);
@@ -390,9 +402,132 @@ $("pdf").onclick=()=>{const m=$("pdfmsg");
   if(pdfUrl)URL.revokeObjectURL(pdfUrl);pdfUrl=URL.createObjectURL(blob);
   const n="HAH-Kesim-Listesi-"+new Date().toISOString().slice(0,10)+".pdf",a=document.createElement("a");
   a.href=pdfUrl;a.download=n;document.body.appendChild(a);a.click();a.remove();
-  m.innerHTML='PDF hazırlandı. İndirme başlamadıysa <a href="'+pdfUrl+'" target="_blank" rel="noopener" download="'+n+'">buraya dokunun</a>.'
+  if(window.hahCount)hahCount("pdf");m.innerHTML='PDF hazırlandı. İndirme başlamadıysa <a href="'+pdfUrl+'" target="_blank" rel="noopener" download="'+n+'">buraya dokunun</a>.'
  }catch(e){m.textContent="PDF oluşturulamadı: "+e.message}};
 setType();vis();calc();render();
+</script>
+<script>
+/* STEP (.step/.stp) dosyasından profil, boy ve açı okuyup kesim listesini otomatik oluşturur. */
+(()=>{
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+ cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],nl=a=>Math.hypot(a[0],a[1],a[2]),
+ near=(a,v)=>a.reduce((p,x)=>Math.abs(x-v)<Math.abs(p-v)?x:p),
+ SZ=ty=>Array.isArray(T[ty].s)?T[ty].s:Object.keys(T[ty].s),
+ TH=(ty,sz)=>{const o=T[ty].t?T[ty].t.filter(t=>tOk(ty,sz,t)):[];return o.length?o:(T[ty].t?[T[ty].t[0]]:[])};
+let rows=[];
+
+function parse(txt){
+ const E=new Map(),re=/#(\d+)\s*=\s*([A-Z0-9_]+)\s*\(([\s\S]*?)\)\s*;/g;let m;
+ while((m=re.exec(txt)))E.set(+m[1],{n:m[2],a:m[3]});
+ const sc=/SI_UNIT\(\s*\.MILLI\.\s*,\s*\.METRE\.\s*\)/.test(txt)?1:/SI_UNIT\(\s*\$\s*,\s*\.METRE\.\s*\)/.test(txt)?1000:/INCH/.test(txt)?25.4:1;
+ const R=s=>[...s.matchAll(/#(\d+)/g)].map(x=>+x[1]);
+ const nums=id=>E.get(id).a.match(/\(([^()]*)\)\s*$/)[1].split(",").map(Number);
+ const vp=v=>nums(R(E.get(v).a)[0]).map(x=>x*sc);
+ const sets=[],solids=[...E.values()].filter(e=>e.n==="MANIFOLD_SOLID_BREP");
+ if(solids.length)solids.forEach(e=>{const s=new Set(),sh=E.get(R(e.a)[0]);if(!sh)return;
+  R(sh.a).forEach(f=>{const F=E.get(f);if(!F)return;R(F.a).forEach(b=>{const B=E.get(b);if(!B||!/^FACE/.test(B.n))return;
+   const lp=E.get(R(B.a)[0]);if(lp)R(lp.a).forEach(o=>{const O=E.get(o);if(O)s.add(R(O.a)[0])})})});sets.push(s)});
+ else sets.push(new Set([...E].filter(([,e])=>e.n==="EDGE_CURVE").map(([i])=>i)));
+
+ const an=s=>{
+  const ed=[];s.forEach(i=>{try{const a=E.get(i),r=R(a.a);let c=E.get(r[2]);
+   while(c&&(c.n==="SURFACE_CURVE"||c.n==="SEAM_CURVE"))c=E.get(R(c.a)[0]);
+   ed.push({v1:r[0],v2:r[1],p1:vp(r[0]),p2:vp(r[1]),c})}catch(x){}});
+  const G=new Map();
+  ed.forEach(e=>{if(!e.c||e.c.n!=="LINE")return;const v=sub(e.p2,e.p1),l=nl(v);if(l<1e-6)return;let u=v.map(x=>x/l);
+   const z=x=>Math.abs(x)<=1e-3;if(u[0]<-1e-3||(z(u[0])&&(u[1]<-1e-3||(z(u[1])&&u[2]<0))))u=u.map(x=>-x);
+   const k=u.map(x=>Math.round(x*1e3)/1e3||0).join(),g=G.get(k)||{u,l:0};g.l+=l;G.set(k,g)});
+  const best=[...G.values()].sort((a,b)=>b.l-a.l)[0];if(!best)return null;
+  const d=best.u,a0=Math.abs(d[0])<.9?[1,0,0]:[0,1,0];let e1=cr(d,a0);const n1=nl(e1);e1=e1.map(x=>x/n1);const e2=cr(d,e1);
+  const V=new Map();ed.forEach(e=>{V.set(e.v1,e.p1);V.set(e.v2,e.p2)});
+  const P=[...V.values()].map(p=>[dot(p,e1),dot(p,e2),dot(p,d)]);if(P.length<3)return null;
+  const ext=a=>{const c=Math.cos(a),s2=Math.sin(a);let u0=1e18,u1=-1e18,v0=1e18,v1=-1e18;
+   P.forEach(p=>{const u=p[0]*c+p[1]*s2,v=-p[0]*s2+p[1]*c;u0=Math.min(u0,u);u1=Math.max(u1,u);v0=Math.min(v0,v);v1=Math.max(v1,v)});
+   return{a,u0,u1,v0,v1,A:(u1-u0)*(v1-v0)}};
+  let B=null;for(let k=0;k<180;k++){const r=ext(k*Math.PI/360);if(!B||r.A<B.A-1e-9)B=r}
+  const ar=B.a;for(let k=-25;k<=25;k++){const r=ext(ar+k*Math.PI/18000);if(r.A<B.A-1e-9)B=r}
+  const c=Math.cos(B.a),s2=Math.sin(B.a),bu=B.u1-B.u0,bv=B.v1-B.v0,sw=bu>bv;
+  const q=P.map(p=>{const u=p[0]*c+p[1]*s2-B.u0,v=-p[0]*s2+p[1]*c-B.v0;return{x:sw?v:u,y:sw?u:v,t:p[2]}});
+  const bs=Math.min(bu,bv),bl=Math.max(bu,bv),tn=Math.min(...q.map(p=>p.t)),tx=Math.max(...q.map(p=>p.t)),mid=(tn+tx)/2;
+  const sl=g=>{const n=g.length;if(n<3)return[0,0];const mx=g.reduce((a,p)=>a+p.x,0)/n,my=g.reduce((a,p)=>a+p.y,0)/n,mt=g.reduce((a,p)=>a+p.t,0)/n;
+   let Sxx=0,Syy=0,Sxy=0,Stx=0,Sty=0;g.forEach(p=>{const x=p.x-mx,y=p.y-my,t=p.t-mt;Sxx+=x*x;Syy+=y*y;Sxy+=x*y;Stx+=t*x;Sty+=t*y});
+   const D=Sxx*Syy-Sxy*Sxy;if(D<1e-9*(Sxx+Syy)*(Sxx+Syy))return[0,0];return[(Stx*Syy-Sty*Sxy)/D,(Sty*Sxx-Stx*Sxy)/D]};
+  const[bx0,by0]=sl(q.filter(p=>p.t<mid)),[bx1,by1]=sl(q.filter(p=>p.t>=mid)),tol=.012,
+   useX=Math.max(Math.abs(bx0),Math.abs(bx1))>=Math.max(Math.abs(by0),Math.abs(by1)),
+   s0=useX?bx0:by0,s1=useX?bx1:by1,g0=Math.abs(s0)>tol,g1=Math.abs(s1)>tol;
+  const ag=s=>Math.round(Math.atan(Math.abs(s))*180/Math.PI*2)/2;let ct="d",th=0,th2=0;
+  if(g0||g1){ct=g0&&g1?(s0*s1>0?"p":"t"):"s";th=g0?ag(s0):ag(s1);th2=g1?ag(s1):th}
+  const rad=ed.filter(e=>{if(!e.c||e.c.n!=="CIRCLE")return false;const R0=parseFloat(e.c.a.split(",").pop())*sc;
+   return(e.v1===e.v2||nl(sub(e.p1,e.p2))>1.9*R0)&&Math.abs(dot(nums(R(E.get(R(e.c.a)[0]).a)[1]),d))>.999}).map(e=>parseFloat(e.c.a.split(",").pop())*sc);
+  const ins=q.filter(p=>Math.min(p.x,bs-p.x)>.3&&Math.min(p.y,bl-p.y)>.3),
+   xr=ins.length?Math.max(...ins.map(p=>p.x))-Math.min(...ins.map(p=>p.x)):0,yr=ins.length?Math.max(...ins.map(p=>p.y))-Math.min(...ins.map(p=>p.y)):0,
+   hol=ins.length>=4&&xr>.5*bs&&yr>.5*bl,n=new Set(q.map(p=>Math.round(p.x*10)+"_"+Math.round(p.y*10))).size,
+   t0=Math.min(...q.map(p=>Math.min(p.x,bs-p.x,p.y,bl-p.y)).filter(v=>v>.3),bs);
+  return{L:tx-tn,bs,bl,rad,hol,n,tk:(bs-xr)/2,t0,ct,th,th2,useX}};
+
+ const cls=a=>{const{bs,bl,rad,hol,n}=a;
+  if(rad.length){const Rm=Math.max(...rad),r=Math.min(...rad);
+   if(Rm-r>.3)return{ty:"Boru",sz:String(near(T.Boru.s,2*Rm)),t:String(near(T.Boru.t,Rm-r))};
+   return{ty:"Dolu yuvarlak",sz:String(near(T["Dolu yuvarlak"].s,2*Rm)),t:""}}
+  if(hol){const k=T["Kutu profil"].s.reduce((p,s)=>{const[x,y]=s.split("x").map(Number),e=Math.abs(x-bs)+Math.abs(y-bl);return e<p.e?{s,e}:p},{e:1e9});
+   return{ty:"Kutu profil",sz:k.s,t:String(near(T["Kutu profil"].t,a.tk))}}
+  if(n<=4)return Math.abs(bs-bl)<.6?{ty:"Dolu kare",sz:String(near(T["Dolu kare"].s,bs)),t:""}:{ty:"Lama",sz:String(near(T.Lama.s,bl)),t:String(near(T.Lama.t,bs))};
+  let best=null;const c=(ty,sz,e)=>{if(!best||e<best.e)best={ty,sz,e,t:""}},sp=(x,y)=>Math.abs(Math.min(x,y)-bs)+Math.abs(Math.max(x,y)-bl),pen=n<=8?4:0;
+  for(const k in BI)c("IPE",k,sp(BI[k],+k)+pen);
+  for(const k in BH){c("HEA",k,sp(BH[k],HAh[k])+pen);c("HEB",k,sp(BH[k],+k)+pen)}
+  for(const k in UB)c("UPN",k,sp(UB[k],+k));
+  for(const k in T["Köşebent (L)"].s){const p=k.split("x").map(Number);c("Köşebent (L)",k,sp(p[0],p[0])+Math.abs(p[2]-a.t0)+(n>10?4:0))}
+  return best};
+
+ const pname=[...E.values()].filter(e=>e.n==="PRODUCT").map(e=>(e.a.split("'")[3]||"")).find(x=>x&&!/^(part|none|\s*)$/i.test(x))||"";
+ const grp=new Map();
+ sets.forEach(s=>{const a=an(s);if(!a||!(a.L>0))return;const c=cls(a),tt=c.t?parseFloat(c.t):0,m=dims(c.ty,c.sz,tt),
+   sw=Math.abs(a.bs-m[0])>Math.abs(a.bs-m[1]),pl=(a.useX!==sw)?"b":"h",L=Math.round(a.L*10)/10,k=[c.ty,c.sz,c.t,L,a.ct,a.th,a.th2,pl].join("|"),g=grp.get(k);
+   if(g)g.cnt++;else grp.set(k,{ty:c.ty,sz:c.sz,t:c.t,L,ct:a.ct,th:a.th,th2:a.th2,pl,cnt:1,pn:pname})});
+ return[...grp.values()].map(g=>({...g,q:g.cnt}))}
+
+const opt=(a,v)=>a.map(x=>`<option value="${x}"${String(x)===String(v)?" selected":""}>${typeof x==="number"?tr(x):x}</option>`).join("");
+const CT=[["d","Düz 90°"],["s","Tek uç açılı"],["p","Paralel //"],["t","Ters (trapez)"]];
+function draw(){$("stt").classList.toggle("hid",!rows.length);
+ $("stb").innerHTML=rows.map((r,i)=>`<tr data-i="${i}"><td>${r.f}${r.cnt>1?` <small>(${r.cnt} parça)</small>`:""}</td><td><select data-k="ty">${opt(Object.keys(T),r.ty)}</select> <select data-k="sz">${opt(SZ(r.ty),r.sz)}</select>${T[r.ty].t?` <select data-k="t">${opt(TH(r.ty,r.sz),r.t)}</select>`:""}</td><td><input data-k="L" type="number" step="any" min="0" value="${r.L}"></td><td><select data-k="ct">${CT.map(([v,l])=>`<option value="${v}"${v===r.ct?" selected":""}>${l}</option>`).join("")}</select> <input data-k="th" type="number" step="any" min="0" max="80" value="${r.th}" style="width:70px"> °${r.ct==="p"||r.ct==="t"?` / <input data-k="th2" type="number" step="any" min="0" max="80" value="${r.th2}" style="width:70px"> °`:""}</td><td><input data-k="q" type="number" min="0" step="1" value="${r.q}"></td><td><button class="x" data-del="${i}" aria-label="Sil">×</button></td></tr>`).join("")}
+
+function mk(r){try{$("type").value=r.ty;setType();$("size").value=r.sz;fillThk();if(T[r.ty].t&&r.t)$("thk").value=r.t;
+ $("ctype").value=r.ct;vis();$("ang").value=r.th||45;$("ang2").value=r.th2||r.th||45;$("plane").value=r.pl;autoW();$("len").value=r.L;$("qty").value=r.q;
+ const c=cur();c.name+=" · "+r.f;return c}catch(e){return null}}
+
+function sync(){list=list.filter(x=>!x.st);
+ rows.forEach(r=>{if(!(r.q>0)||!(r.L>0))return;const c=mk(r);if(c&&c.ok){c.st=1;list.push(c)}});render()}
+
+const on=e=>{const k=e.target.dataset.k;if(!k)return;const r=rows[e.target.closest("tr").dataset.i],v=e.target.value;
+ if(k==="L"||k==="th"||k==="th2"||k==="q")r[k]=parseFloat(v)||0;else r[k]=v;
+ if(k==="ty"){r.sz=String(SZ(v)[0]);r.t=T[v].t?String(TH(v,r.sz)[0]):""}
+ if(k==="sz"&&T[r.ty].t){const o=TH(r.ty,v).map(String);if(!o.includes(String(r.t)))r.t=o[0]}
+ if(k==="ct"&&v!=="d"&&!r.th)r.th=45;if(k==="ct"&&(v==="p"||v==="t")&&!r.th2)r.th2=r.th;if(k==="ct"&&v==="s")r.th2=r.th;
+ if(["ty","sz","ct"].includes(k))draw();(e.type==="input"?ds:sync)()};
+let tm;const ds=()=>{clearTimeout(tm);tm=setTimeout(sync,250)};
+$("stb").addEventListener("change",on);
+$("stb").addEventListener("input",e=>{if(["L","th","th2","q"].includes(e.target.dataset.k))on(e)});
+
+$("stb").addEventListener("click",e=>{const i=e.target.dataset.del;if(i!==undefined){rows.splice(i,1);draw();sync()}});
+$("stadd").onclick=()=>$("stp").click();
+$("stp").onchange=async e=>{const m=$("stm");let bad=0;const fs=[...e.target.files];e.target.value="";
+ for(const fl of fs){try{const ps=parse(await fl.text());if(!ps.length)bad++;
+  const nm=fl.name.replace(/\.(step|stp)$/i,"");rows=rows.filter(r=>r.f!==nm);ps.forEach(p=>rows.push({...p,f:nm}))}catch(x){bad++}}
+ draw();sync();
+ m.textContent=rows.length?"STEP listesinde "+rows.length+" kalem var. Adetleri girin; kesim listesi otomatik güncellenir. Başka STEP dosyaları da ekleyebilirsiniz."+(bad?" "+bad+" dosya okunamadı.":""):"Dosyadan profil okunamadı. Parçayı katı model olarak STEP (AP203/AP214/AP242) biçiminde kaydedin."};
+})();
+
+</script>
+<script>
+/* Sayaçlar: abacus.jasoncameron.dev (ücretsiz, hesap gerektirmez). Ulaşılamazsa sayfa normal çalışır, sayaç "–" kalır. */
+(()=>{const B="https://abacus.jasoncameron.dev",NS="hayrat-agirlik-hesaplama",
+ call=(op,k)=>fetch(B+"/"+op+"/"+NS+"/"+k).then(r=>r.ok?r.json():(r.status===404&&op==="get"?{value:0}:Promise.reject())).then(j=>typeof j.value==="number"?j.value:Promise.reject()),
+ show=(k,v)=>{const e=document.getElementById("c-"+k);if(e)e.textContent=v.toLocaleString("tr-TR")};
+ window.hahCount=k=>call("hit",k).then(v=>show(k,v)).catch(()=>{});
+ let seen=false;try{seen=localStorage.getItem("hah_seen")==="1"}catch(e){}
+ call(seen?"get":"hit","ziyaretci").then(v=>{if(!seen)try{localStorage.setItem("hah_seen","1")}catch(e){}show("ziyaretci",v)}).catch(()=>{});
+ call("get","pdf").then(v=>show("pdf",v)).catch(()=>{});
+})();
 </script>
 </body>
 </html>
