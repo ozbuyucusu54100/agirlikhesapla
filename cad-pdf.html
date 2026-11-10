@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DXF → PDF Dönüştürücü (CAD'den PDF'e) | HAYRAT Ağırlık Hesaplama</title>
+<meta name="description" content="DXF dosyalarını tarayıcıda vektörel PDF'e çevirin. Kağıt boyutu, ölçek, katman ve renk seçimi. Dosya sunucuya yüklenmez.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0071e3">
+<link rel="canonical" href="https://hayratagirlik.com/cad-pdf.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='14' fill='%230071e3'/%3E%3Ctext x='28' y='33' text-anchor='middle' font-size='19' font-weight='800' fill='white' font-family='Arial'%3EHAH%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<style>
+.hid{display:none!important}
+label{display:block;font-size:13px;color:var(--mu);margin-bottom:5px}
+select,input[type=number]{width:100%;font-size:16px;padding:11px 12px;border-radius:11px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);font-family:inherit}
+button{font:600 15px/1 inherit;padding:12px 16px;border-radius:12px;border:0;background:var(--ac);color:var(--acx);cursor:pointer}
+button.g{background:var(--bg);color:var(--tx);border:1px solid var(--ln);padding:9px 12px;font-size:14px}
+button:disabled{opacity:.5;cursor:default}
+.drop{display:block;border:2px dashed var(--ln);border-radius:14px;padding:22px 14px;text-align:center;color:var(--mu);cursor:pointer}
+.drop.on{border-color:var(--ac);color:var(--ac)}
+.drop b{display:block;color:var(--tx);font-size:16px}
+.og{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.chk{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--tx);margin:0}
+.chk input{width:auto}
+#pv{position:relative;height:min(64vh,560px);min-height:300px;border-radius:14px;overflow:hidden;background:var(--bg);touch-action:none}
+#cv{display:block;width:100%;height:100%}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:12px}
+.kv div{background:var(--bg);border-radius:12px;padding:10px 12px}
+.kv span{display:block;font-size:12px;color:var(--mu)}
+.kv b{font-size:16px}
+.ly{max-height:240px;overflow:auto;margin:10px 0 0;padding:0;list-style:none}
+.ly li{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--ln);font-size:14px}
+.ly li:last-child{border-bottom:0}
+.ly input{width:auto;flex:none}
+.ly i{width:12px;height:12px;border-radius:3px;flex:none;border:1px solid var(--ln)}
+.ly label{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0;color:var(--tx);cursor:pointer}
+.ly em{color:var(--mu);font-style:normal;font-size:12px}
+.wn{color:#d93025}
+</style>
+</head>
+<body>
+<main>
+<a class="hd" href="index.html"><svg width="40" height="40" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,Segoe UI,Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><b>HAYRAT AĞIRLIK HESAPLAMA</b></a>
+<nav class="nv" aria-label="Ana menü"><a href="index.html">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html">STEP Görüntüleyici</a><a href="cad-pdf.html" aria-current="page">CAD → PDF</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<h1>DXF → PDF dönüştürücü</h1>
+<p class="lead">DXF çiziminizi seçin; kağıt boyutu ve ölçeği belirleyin, vektörel PDF olarak indirin. Dosya sunucuya yüklenmez, cihazınızda işlenir.</p>
+<noscript><p>Bu aracın çalışması için tarayıcınızda JavaScript açık olmalıdır.</p></noscript>
+
+<div class="card">
+  <label class="drop" id="drop" for="fi"><b>DXF dosyası seçin veya buraya bırakın</b>.dxf (ASCII) · DWG için aşağıdaki nota bakın</label>
+  <input id="fi" type="file" accept=".dxf,.dwg,.DXF,.DWG" class="hid">
+  <div class="note" id="msg" style="margin-top:8px">Henüz dosya seçilmedi.</div>
+</div>
+
+<div id="work" class="hid">
+<div class="card">
+  <div class="og">
+    <div><label for="pp">Kağıt</label><select id="pp"><option value="A4">A4</option><option value="A3" selected>A3</option><option value="A2">A2</option><option value="A1">A1</option><option value="A0">A0</option><option value="cust">Çizim boyutuna göre</option></select></div>
+    <div><label for="ori">Yön</label><select id="ori"><option value="a">Otomatik</option><option value="h">Yatay</option><option value="v">Dikey</option></select></div>
+    <div><label for="sc">Ölçek</label><select id="sc"><option value="std">Otomatik (standart ölçek)</option><option value="fit">Kağıda tam sığdır</option><option value="1">1:1</option><option value="2">1:2</option><option value="5">1:5</option><option value="10">1:10</option><option value="20">1:20</option><option value="25">1:25</option><option value="50">1:50</option><option value="100">1:100</option><option value="200">1:200</option><option value="500">1:500</option></select></div>
+    <div><label for="un">Çizim birimi</label><select id="un"><option value="1">mm</option><option value="10">cm</option><option value="1000">m</option><option value="25.4">inç</option><option value="304.8">feet</option></select></div>
+    <div><label for="mg">Kenar boşluğu (mm)</label><input id="mg" type="number" inputmode="decimal" min="0" max="50" step="1" value="10"></div>
+    <div><label for="cm">Renk</label><select id="cm"><option value="c">Renkli</option><option value="k">Siyah-beyaz</option><option value="g">Gri tonlama</option></select></div>
+    <div><label for="lw">Çizgi kalınlığı</label><select id="lw"><option value="0.1">İnce</option><option value="0.18" selected>Normal</option><option value="0.35">Kalın</option></select></div>
+    <div style="align-self:end"><label class="chk"><input id="ft" type="checkbox" checked> Alt bilgi yaz (dosya, ölçek)</label></div>
+  </div>
+  <div class="note" id="inf" style="margin-top:10px"></div>
+</div>
+
+<div class="card">
+  <div id="pv"><canvas id="cv"></canvas></div>
+  <div class="note" style="margin-top:8px">Önizleme: sürükle = kaydır · tekerlek / sıkıştır = yakınlaş · çift tıkla = sığdır.</div>
+  <div class="kv" id="kv"></div>
+  <button id="go" style="width:100%;margin-top:14px">PDF olarak indir</button>
+  <div class="note" id="pm" style="margin-top:8px"></div>
+</div>
+
+<div class="card">
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="flex:1">Katmanlar</b><button class="g" id="lall">Tümü</button><button class="g" id="lnone">Hiçbiri</button></div>
+  <ul class="ly" id="ly"></ul>
+</div>
+</div>
+
+<div class="card seo">
+  <h2 style="margin-top:0;font-size:18px">DWG dosyası için</h2>
+  <p class="note" style="font-size:14px">DWG, AutoCAD'in kapalı bir formatıdır ve tarayıcıda güvenilir biçimde okunamaz. DWG dosyanızı AutoCAD, BricsCAD, DraftSight veya ücretsiz ODA File Converter ile <b>DXF olarak kaydedin</b> (AutoCAD 2010 ASCII DXF önerilir) ve buradan yükleyin.</p>
+  <h2 style="font-size:18px">Desteklenen öğeler</h2>
+  <p class="note" style="font-size:14px">Çizgi, polilinya (yay dahil), daire, yay, elips, spline, yazı (TEXT / MTEXT), blok (INSERT), ölçü (DIMENSION), dolu tarama ve katman renkleri ile çizgi tipleri. Desenli taramalar (ör. ANSI31) yalnızca sınır çizgisiyle çizilir; resim, 3B katı ve OLE nesneleri aktarılmaz. Yazılar PDF'te Helvetica ile yazılır, CAD'deki özel yazı tipi (SHX) birebir görünmeyebilir. Önemli işlerde çıktıyı CAD programındaki çıktıyla karşılaştırın.</p>
+</div>
+
+<footer>
+<a href="gizlilik-politikasi.html">Gizlilik Politikası</a><a href="sorumluluk-reddi.html">Sorumluluk Reddi</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a>
+<p>© 2026 HAYRAT AĞIRLIK HESAPLAMA. Hesaplamalar bilgilendirme amaçlıdır; imalat ve sipariş öncesi üretici / standart tablosuyla doğrulayınız.</p>
+</footer>
+</main>
+
+<script>
+/*CORE*/
+const dg=Math.PI/180;
+const fmt=(n,d=0)=>Number(n).toLocaleString("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const ACI=(()=>{const t=[[0,0,0],[255,0,0],[255,255,0],[0,255,0],[0,255,255],[0,0,255],[255,0,255],[255,255,255],[128,128,128],[192,192,192]];
+ const hsv=(h,s,v)=>{const f=n=>{const k=(n+h/60)%6;return v-v*s*Math.max(0,Math.min(k,4-k,1))};return[f(5),f(3),f(1)].map(x=>Math.round(x*255))};
+ for(let i=10;i<250;i++){const g=Math.floor((i-10)/10),k=(i-10)%10;t.push(hsv(g*15,k%2?.5:1,[1,.8,.6,.5,.3][k>>1]))}
+ [51,91,132,173,214,255].forEach(v=>t.push([v,v,v]));return t})();
+const HW=("278 278 355 556 556 889 667 191 333 333 389 584 278 333 278 278 556 556 556 556 556 556 556 556 556 556 278 278 584 584 584 556 1015 "+
+ "667 667 722 722 667 611 778 722 278 500 667 556 833 722 778 667 778 722 667 611 722 667 944 667 667 611 278 278 278 469 556 333 "+
+ "556 556 500 556 556 278 556 556 222 222 500 222 833 556 556 556 556 333 500 278 556 500 722 500 500 500 334 260 334 584").split(" ").map(Number);
+const sw=s=>{let w=0;for(const ch of s){const c=ch.charCodeAt(0);w+=c>=32&&c<=126?HW[c-32]:556}return w/1000};
+const mul=(M,N)=>[M[0]*N[0]+M[2]*N[1],M[1]*N[0]+M[3]*N[1],M[0]*N[2]+M[2]*N[3],M[1]*N[2]+M[3]*N[3],M[0]*N[4]+M[2]*N[5]+M[4],M[1]*N[4]+M[3]*N[5]+M[5]];
+const G=(e,c,df=0)=>{for(const x of e.d)if(x[0]===c){const v=parseFloat(x[1]);return isNaN(v)?df:v}return df};
+const GS=(e,c,df="")=>{for(const x of e.d)if(x[0]===c)return x[1];return df};
+const GA=(e,c)=>e.d.filter(x=>x[0]===c).map(x=>parseFloat(x[1]));
+const dashOf=n=>{n=(n||"").toUpperCase();if(/DASHDOT|DASH_DOT/.test(n))return[6,1.5,.5,1.5];if(/CENTER/.test(n))return[8,1.5,1.5,1.5];if(/PHANTOM/.test(n))return[8,1.5,1.5,1.5,1.5,1.5];if(/HIDDEN|DASH/.test(n))return[3,1.5];if(/DOT/.test(n))return[.5,1.5];return null};
+
+function parseDxf(txt){
+ const L=txt.split(/\r?\n/),hd={},lrec=[],bl=[],model=[];
+ let sec="",cur=null,poly=null,blk=null,hv="";
+ const addEnt=(list,v)=>{if(v==="VERTEX"&&poly){cur={t:v,d:[]};poly.v.push(cur)}else if(v==="SEQEND"){poly=null;cur=null}else{cur={t:v,d:[],v:[]};list.push(cur);poly=v==="POLYLINE"?cur:null}};
+ for(let k=0;k+1<L.length;k+=2){const c=parseInt(L[k],10),raw=L[k+1],v=raw.trim();
+  if(c===0){cur=null;
+   if(v==="SECTION"){sec="?";continue}
+   if(v==="ENDSEC"){sec="";blk=null;poly=null;continue}
+   if(v==="EOF")break;
+   if(sec==="TABLES"){if(v==="LAYER"){cur={t:v,d:[]};lrec.push(cur)}}
+   else if(sec==="BLOCKS"){if(v==="BLOCK"){blk={d:[],ents:[]};cur={t:v,d:blk.d};bl.push(blk);poly=null}else if(v==="ENDBLK"){blk=null;poly=null}else if(blk)addEnt(blk.ents,v)}
+   else if(sec==="ENTITIES")addEnt(model,v)}
+  else if(c===2&&sec==="?")sec=v;
+  else if(c===9&&sec==="HEADER")hv=v;
+  else if(sec==="HEADER"&&hv&&c===70){hd[hv]=v;hv=""}
+  else if(cur)cur.d.push([c,raw])}
+ const layers=new Map(),blocks=new Map();
+ lrec.forEach(r=>{const n=GS(r,2,"0").trim(),c=G(r,62,7);layers.set(n.toUpperCase(),{name:n,col:Math.abs(c)||7,off:c<0||(G(r,70,0)&1)===1,lt:GS(r,6,"").trim()})});
+ bl.forEach(b=>blocks.set(GS(b,2,"").trim().toUpperCase(),{base:[G(b,10),G(b,20)],ents:b.ents}));
+ return{hd,layers,blocks,model}}
+
+const arcPts=(cx,cy,r,a0,a1,full)=>{let sw=a1-a0;if(full)sw=2*Math.PI;else while(sw<=0)sw+=2*Math.PI;const n=Math.max(full?96:4,Math.ceil(sw/(Math.PI/60))),o=[];for(let i=0;i<=n;i++){const a=a0+sw*i/n;o.push([cx+r*Math.cos(a),cy+r*Math.sin(a)])}return o};
+const bulge=(p,q,b)=>{const th=4*Math.atan(b),dx=q[0]-p[0],dy=q[1]-p[1],l=Math.hypot(dx,dy);if(!l||!th)return[];const h=(l/2)/Math.tan(th/2),cx=(p[0]+q[0])/2-dy/l*h,cy=(p[1]+q[1])/2+dx/l*h,a0=Math.atan2(p[1]-cy,p[0]-cx),r=Math.hypot(p[0]-cx,p[1]-cy),n=Math.max(2,Math.ceil(Math.abs(th)/(Math.PI/60))),o=[];for(let i=1;i<n;i++){const a=a0+th*i/n;o.push([cx+r*Math.cos(a),cy+r*Math.sin(a)])}return o};
+const expand=(vs,cl)=>{const o=[],n=vs.length;for(let i=0;i<n;i++){const p=vs[i];o.push([p.x,p.y]);const q=i<n-1?vs[i+1]:(cl?vs[0]:null);if(q&&p.b)o.push(...bulge([p.x,p.y],[q.x,q.y],p.b))}return o};
+function nurbs(cps,kn,deg,ws){const n=cps.length,out=[],t0=kn[deg],t1=kn[n],N=Math.max(24,n*16);
+ for(let i=0;i<=N;i++){let t=t0+(t1-t0)*i/N;if(i===N)t=t1-1e-9;let s=deg;while(s<n-1&&t>=kn[s+1])s++;
+  const d=[];for(let j=0;j<=deg;j++){const w=ws&&ws.length===n?ws[s-deg+j]:1,p=cps[s-deg+j];d.push([p[0]*w,p[1]*w,w])}
+  for(let r=1;r<=deg;r++)for(let j=deg;j>=r;j--){const a=(t-kn[j+s-deg])/(kn[j+1+s-r]-kn[j+s-deg])||0;for(let q=0;q<3;q++)d[j][q]=(1-a)*d[j-1][q]+a*d[j][q]}
+  const h=d[deg];out.push([h[0]/h[2],h[1]/h[2]])}
+ return out}
+function cleanText(s,m){
+ s=s.replace(/\\U\+([0-9A-Fa-f]{4})/g,(_,h)=>String.fromCharCode(parseInt(h,16))).replace(/%%[cC]/g,"Ø").replace(/%%[dD]/g,"°").replace(/%%[pP]/g,"±").replace(/%%[uUoOkK]/g,"");
+ if(m){s=s.replace(/\\\\/g,"\u0001").replace(/\\P/g,"\n").replace(/\\S([^;^#\/]*)[\^#\/]([^;]*);/g,"$1/$2").replace(/\\[FfCcHhWwAaQqTtSs][^;]*;/g,"").replace(/\\[LlOoKk]/g,"").replace(/\\~/g," ").replace(/[{}]/g,"").replace(/\u0001/g,"\\")}
+ return s}
+function colOf(e,ctx,lay){const tc=GS(e,420,"");if(tc!==""){const n=parseInt(tc);return[(n>>16)&255,(n>>8)&255,n&255]}
+ const a=GS(e,62,""),n=a===""?256:parseInt(a);
+ if(n===256)return lay.col!==undefined?lay.col:7;
+ if(n===0)return ctx.col!==undefined?ctx.col:(lay.col!==undefined?lay.col:7);
+ return Math.abs(n)||7}
+function ltOf(e,ctx,lay){const t=GS(e,6,"BYLAYER").trim().toUpperCase();return t==="BYLAYER"?(lay.lt||""):t==="BYBLOCK"?(ctx.lt||""):t}
+
+function walk(ents,ctx,out,D,dep){
+ for(const e of ents){
+  if(dep===0&&G(e,67,0)===1)continue;
+  let ly=GS(e,8,"0").trim();if(ly==="0"&&ctx.layer)ly=ctx.layer;
+  const lay=D.layers.get(ly.toUpperCase())||{},col=colOf(e,ctx,lay),lt=ltOf(e,ctx,lay),da=dashOf(lt),M=ctx.M,
+   T=(x,y)=>[M[0]*x+M[2]*y+M[4],M[1]*x+M[3]*y+M[5]],
+   Ln=(pts,cl)=>{if(pts.length<2)return;const p=pts.map(q=>T(q[0],q[1]));if(cl)p.push(p[0]);out.lines.push({p,c:col,l:ly,d:da})},
+   Fl=loops=>{const ls=loops.map(l=>l.map(q=>T(q[0],q[1]))).filter(l=>l.length>2);if(ls.length)out.fills.push({loops:ls,c:col,l:ly})},
+   Tx=(x,y,h,rot,s,al,va,wf)=>{const q=T(x,y);if(!s||!(h>0))return;out.texts.push({x:q[0],y:q[1],h:h*Math.hypot(M[0],M[1]),rot:rot+Math.atan2(M[1],M[0]),s,al,va,wf,c:col,l:ly})};
+  switch(e.t){
+  case"LINE":Ln([[G(e,10),G(e,20)],[G(e,11),G(e,21)]]);break;
+  case"CIRCLE":case"ARC":{let cx=G(e,10),cy=G(e,20),r=G(e,40),a0=G(e,50)*dg,a1=G(e,51,360)*dg;const ez=G(e,230,1);
+   if(ez<0){cx=-cx;const t=a0;a0=Math.PI-a1;a1=Math.PI-t}
+   if(r>0)Ln(arcPts(cx,cy,r,a0,a1,e.t==="CIRCLE"));break}
+  case"LWPOLYLINE":{const vs=[];let fl=0;const ez=G(e,230,1);
+   for(const[c,v]of e.d){const n=parseFloat(v);if(c===10)vs.push({x:ez<0?-n:n,y:0,b:0});else if(c===20&&vs.length)vs[vs.length-1].y=n;else if(c===42&&vs.length)vs[vs.length-1].b=ez<0?-n:n;else if(c===70)fl=n}
+   const cl=(fl&1)===1;Ln(expand(vs,cl),cl);break}
+  case"POLYLINE":{const f=G(e,70,0);if(f&(16|64))break;const vs=e.v.filter(v=>!(G(v,70,0)&16)).map(v=>({x:G(v,10),y:G(v,20),b:G(v,42)})),cl=(f&1)===1;Ln(expand(vs,cl),cl);break}
+  case"ELLIPSE":{const cx=G(e,10),cy=G(e,20),mx=G(e,11),my=G(e,21),r=G(e,40,1),t0=G(e,41,0);let t1=G(e,42,2*Math.PI),s=t1-t0;if(s<=1e-9)s+=2*Math.PI;
+   const n=Math.max(24,Math.ceil(s/(Math.PI/45))),p=[];for(let i=0;i<=n;i++){const t=t0+s*i/n,c=Math.cos(t),sn=Math.sin(t);p.push([cx+mx*c-my*r*sn,cy+my*c+mx*r*sn])}Ln(p);break}
+  case"SPLINE":{const deg=G(e,71,3),kn=GA(e,40),ws=GA(e,41),cps=[],fit=[];
+   for(const[c,v]of e.d){const n=parseFloat(v);if(c===10)cps.push([n,0]);else if(c===20&&cps.length)cps[cps.length-1][1]=n;else if(c===11)fit.push([n,0]);else if(c===21&&fit.length)fit[fit.length-1][1]=n}
+   if(cps.length>deg&&kn.length===cps.length+deg+1)Ln(nurbs(cps,kn,deg,ws));else if(fit.length>1)Ln(fit);else Ln(cps);break}
+  case"SOLID":case"TRACE":{const p=[[G(e,10),G(e,20)],[G(e,11),G(e,21)],[G(e,13),G(e,23)],[G(e,12),G(e,22)]];Fl([p]);break}
+  case"3DFACE":{const p=[[G(e,10),G(e,20)],[G(e,11),G(e,21)],[G(e,12),G(e,22)],[G(e,13),G(e,23)]];Ln(p,true);break}
+  case"LEADER":{const p=[];for(const[c,v]of e.d){const n=parseFloat(v);if(c===10)p.push([n,0]);else if(c===20&&p.length)p[p.length-1][1]=n}Ln(p);break}
+  case"TEXT":case"ATTRIB":{const h=G(e,40,1),rot=G(e,50,0)*dg,h72=G(e,72,0),h73=G(e,73,0);let x=G(e,10),y=G(e,20);
+   if(h72!==3&&h72!==5&&(h72||h73)){x=G(e,11,x);y=G(e,21,y)}
+   const al=h72===1||h72===4?1:h72===2?2:0,va=h72===4?"m":["b","u","m","t"][h73]||"b";
+   Tx(x,y,h,rot,cleanText(GS(e,1,""),false).replace(/\n/g," "),al,va,G(e,41,1)||1);break}
+  case"MTEXT":{const h=G(e,40,1),ap=G(e,71,1);let rot=G(e,50,0)*dg;if(GS(e,11,"")!==""&&GS(e,50,"")==="")rot=Math.atan2(G(e,21),G(e,11));
+   const txt=e.d.filter(x=>x[0]===3).map(x=>x[1]).join("")+GS(e,1,""),ls=cleanText(txt,true).split("\n"),st=h*1.5,H=ls.length*st,
+    al=[0,1,2][(ap-1)%3],vp=Math.floor((ap-1)/3),dy0=vp===0?0:vp===1?H/2:H,x=G(e,10),y=G(e,20),c=Math.cos(rot),s=Math.sin(rot);
+   ls.forEach((t,i)=>{const o=dy0-i*st;Tx(x-s*o,y+c*o,h,rot,t,al,"t",1)});break}
+  case"HATCH":{const loops=[];let path=null,ed=null;
+   for(const[c,v]of e.d){const n=parseFloat(v);
+    if(c===92){path={f:n,v:[],ed:[],cl:1};loops.push(path);ed=null}
+    else if(c===97||c===75||c===98){path=null}
+    else if(path){
+     if(path.f&2){if(c===10)path.v.push({x:n,y:0,b:0});else if(c===20&&path.v.length)path.v[path.v.length-1].y=n;else if(c===42&&path.v.length)path.v[path.v.length-1].b=n;else if(c===73)path.cl=n}
+     else{if(c===72){ed={t:n,p:[],q:[0,0],r:0,a0:0,a1:0,ccw:1};path.ed.push(ed)}else if(ed){if(c===10)ed.p.push([n,0]);else if(c===20&&ed.p.length)ed.p[ed.p.length-1][1]=n;else if(c===11)ed.q[0]=n;else if(c===21)ed.q[1]=n;else if(c===40)ed.r=n;else if(c===50)ed.a0=n;else if(c===51)ed.a1=n;else if(c===73)ed.ccw=n}}}}
+   const pl=loops.map(p=>{if(p.f&2)return expand(p.v,true);const o=[];p.ed.forEach(d=>{
+     if(d.t===1&&d.p[0])o.push(d.p[0],d.q);
+     else if(d.t===2&&d.p[0]){const a0=d.a0*dg,a1=d.a1*dg;if(d.ccw)o.push(...arcPts(d.p[0][0],d.p[0][1],d.r,a0,a1));else o.push(...arcPts(d.p[0][0],d.p[0][1],d.r,a1,a0).reverse())}
+     else if(d.t===3&&d.p[0]){const mx=d.q[0],my=d.q[1],r=d.r||1;const t0=d.a0*dg,t1=d.a1*dg;let s=d.ccw?t1-t0:t0-t1;if(s<=0)s+=2*Math.PI;const n=Math.max(24,Math.ceil(s/(Math.PI/45)));for(let i=0;i<=n;i++){const t=d.ccw?t0+s*i/n:t0-s*i/n,c=Math.cos(t),sn=Math.sin(t);o.push([d.p[0][0]+mx*c-my*r*sn,d.p[0][1]+my*c+mx*r*sn])}}
+     else if(d.t===4)o.push(...d.p)});return o}).filter(l=>l.length>2);
+   if(G(e,70,0)===1)Fl(pl);else pl.forEach(l=>Ln(l,true));break}
+  case"INSERT":case"DIMENSION":{
+   const b=D.blocks.get(GS(e,2,"").trim().toUpperCase());if(!b||dep>8)break;
+   let x=G(e,10),y=G(e,20),sx=G(e,41,1)||1,sy=G(e,42,1)||1,rot=G(e,50,0)*dg;
+   if(e.t==="DIMENSION"){x=0;y=0;sx=1;sy=1;rot=0}
+   const cols=Math.max(1,G(e,70,1)),rows=Math.max(1,G(e,71,1)),dx=G(e,44),dy=G(e,45),c=Math.cos(rot),s=Math.sin(rot);
+   for(let r=0;r<Math.min(rows,200);r++)for(let k=0;k<Math.min(cols,200);k++){
+    const ox=x+k*dx*c-r*dy*s,oy=y+k*dx*s+r*dy*c,Mi=mul(mul([1,0,0,1,ox,oy],[c,s,-s,c,0,0]),mul([sx,0,0,sy,0,0],[1,0,0,1,-b.base[0],-b.base[1]]));
+    walk(b.ents,{M:mul(M,Mi),layer:ly,col,lt},out,D,dep+1)}
+   break}
+  }}}
+
+function build(D){
+ const out={lines:[],fills:[],texts:[]};
+ walk(D.model,{M:[1,0,0,1,0,0]},out,D,0);
+ let x0=1e300,y0=1e300,x1=-1e300,y1=-1e300;const ex=(x,y)=>{if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y};
+ out.lines.forEach(l=>l.p.forEach(q=>ex(q[0],q[1])));out.fills.forEach(f=>f.loops.forEach(l=>l.forEach(q=>ex(q[0],q[1]))));
+ out.texts.forEach(t=>{const w=sw(t.s)*t.h*1.3*t.wf*.9,c=Math.cos(t.rot),s=Math.sin(t.rot),a=t.al===1?-w/2:t.al===2?-w:0;ex(t.x+a*c,t.y+a*s);ex(t.x+(a+w)*c,t.y+(a+w)*s)});
+ out.bb=x0<=x1?{x0,y0,x1,y1}:null;
+ const cnt=new Map();[...out.lines,...out.fills,...out.texts].forEach(p=>cnt.set(p.l,(cnt.get(p.l)||0)+1));
+ out.cnt=cnt;out.D=D;return out}
+
+const PAPER={A4:[210,297],A3:[297,420],A2:[420,594],A1:[594,841],A0:[841,1189]};
+const STD=[50,20,10,5,2,1,1/2,1/2.5,1/5,1/10,1/20,1/25,1/50,1/75,1/100,1/125,1/150,1/200,1/250,1/500,1/1000,1/2000,1/5000,1/10000];
+function layout(B,o){const bb=B.bb;if(!bb)return null;
+ const un=o.unit,dw=Math.max((bb.x1-bb.x0)*un,1e-6),dh=Math.max((bb.y1-bb.y0)*un,1e-6),m=o.mg,fo=o.ft?7:0;let W,H,s,warn=false;
+ const sv=o.sc;
+ if(o.pp==="cust"){s=sv==="fit"||sv==="std"?1:1/+sv;W=dw*s+2*m;H=dh*s+2*m+fo}
+ else{const[a,b]=PAPER[o.pp],land=o.ori==="a"?dw>=dh:o.ori==="h";W=land?b:a;H=land?a:b;const aw=W-2*m,ah=H-2*m-fo,f=Math.min(aw/dw,ah/dh);
+  if(sv==="fit")s=f;else if(sv==="std")s=STD.find(x=>x<=f*1.0000001)||f;else{s=1/+sv;warn=dw*s>aw+.01||dh*s>ah+.01}}
+ const aw=W-2*m,ah=H-2*m-fo,U=un*s,
+  st=s>=1?fmt(s,s%1?2:0)+":1":"1:"+fmt(1/s,Math.abs(1/s-Math.round(1/s))<.005?0:1);
+ return{W,H,s,U,warn,st,ox:m+(aw-dw*s)/2,oy:m+fo+(ah-dh*s)/2,bx0:bb.x0,by0:bb.y0,dw,dh}}
+
+function rgbOf(c,mode){let r;if(Array.isArray(c))r=c;else r=ACI[c]||[0,0,0];
+ if(c===7||(r[0]+r[1]+r[2])/765>.93)r=[0,0,0];
+ if(mode==="k")return[0,0,0];
+ if(mode==="g"){const y=Math.round(.3*r[0]+.59*r[1]+.11*r[2]);return[y,y,y]}
+ return r}
+const TRM={"Ş":128,"ş":129,"Ğ":130,"ğ":131,"İ":132,"ı":133};
+function pe(s){let o="";for(const ch of s){let c=TRM[ch];if(c===undefined){c=ch.charCodeAt(0);if(c<32||c>255||(c>=128&&c<160))c=63}
+ o+=c===40||c===41||c===92?"\\"+String.fromCharCode(c):c<32||c>126?"\\"+c.toString(8).padStart(3,"0"):String.fromCharCode(c)}return o}
+const F=n=>String(Math.round(n*1000)/1000),FC=r=>r.map(v=>F(v/255)).join(" ");
+function textGeom(t){const fs=t.h*1.3,wf=t.wf*.9,w=sw(t.s)*fs*wf,dx=t.al===1?-w/2:t.al===2?-w:0,dy=t.va==="t"?-.72*t.h:t.va==="m"?-.36*t.h:t.va==="u"?.2*t.h:0,c=Math.cos(t.rot),s=Math.sin(t.rot);
+ return{fs,wf,c,s,x:t.x+dx*c-dy*s,y:t.y+dx*s+dy*c}}
+
+function content(B,o,on,L){const out=[],g=new Map(),lw=o.lw,U=L.U,X=x=>F(L.ox+(x-L.bx0)*U),Y=y=>F(L.oy+(y-L.by0)*U);
+ out.push("1 J 1 j");
+ B.fills.forEach(f=>{if(on[f.l]===false)return;out.push(FC(rgbOf(f.c,o.cm))+" rg");f.loops.forEach(l=>out.push(l.map((q,i)=>X(q[0])+" "+Y(q[1])+(i?" l":" m")).join(" ")+" h"));out.push("f*")});
+ B.lines.forEach(l=>{if(on[l.l]===false)return;let p=l.p;if(p.length<2)return;
+  const rgb=rgbOf(l.c,o.cm),key=rgb.join()+"|"+(l.d?l.d.join():""),gr=g.get(key)||{rgb,d:l.d,s:[]};
+  gr.s.push(p.map((q,i)=>X(q[0])+" "+Y(q[1])+(i?" l":" m")).join(" "));g.set(key,gr)});
+ g.forEach(gr=>{out.push(FC(gr.rgb)+" RG "+F(lw)+" w "+(gr.d?"["+gr.d.join(" ")+"] 0 d":"[] 0 d"));
+  for(let i=0;i<gr.s.length;i+=500)out.push(gr.s.slice(i,i+500).join(" ")+" S")});
+ out.push("[] 0 d");
+ B.texts.forEach(t=>{if(on[t.l]===false)return;const q=textGeom({...t,h:t.h*U,x:0,y:0}),fs=q.fs;if(fs<.15)return;
+  const p=textGeom({...t,h:t.h});const x=L.ox+(p.x-L.bx0)*U,y=L.oy+(p.y-L.by0)*U;
+  out.push(FC(rgbOf(t.c,o.cm))+" rg BT /F1 "+F(fs)+" Tf "+F(q.wf*q.c)+" "+F(q.wf*q.s)+" "+F(-q.s)+" "+F(q.c)+" "+F(x)+" "+F(y)+" Tm ("+pe(t.s)+") Tj ET")});
+ if(o.ft)out.push("0.35 g BT /F1 3 Tf 1 0 0 1 "+F(o.mg)+" "+F(Math.max(2,o.mg-5))+" Tm ("+pe(o.name+"  ·  Ölçek "+L.st+"  ·  "+(o.pp==="cust"?"Özel boyut":o.pp)+"  ·  hayratagirlik.com")+") Tj ET");
+ return out.join("\n")}
+
+const enc=s=>{const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i)&255;return u};
+async function deflate(u){try{if(typeof CompressionStream==="undefined")return null;return new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new CompressionStream("deflate"))).arrayBuffer())}catch(e){return null}}
+async function makePdf(B,o,on){const L=layout(B,o),k=72/25.4,body="q "+F(k)+" 0 0 "+F(k)+" 0 0 cm\n"+content(B,o,on,L)+"\nQ",raw=enc(body),z=await deflate(raw),data=z||raw,
+  chunks=[],off=[];let pos=0;const put=x=>{const u=typeof x==="string"?enc(x):x;chunks.push(u);pos+=u.length};
+ const obj=(n,fn)=>{off[n]=pos;put(n+" 0 obj\n");fn();put("\nendobj\n")};
+ put("%PDF-1.5\n");
+ obj(1,()=>put("<< /Type /Catalog /Pages 2 0 R >>"));
+ obj(2,()=>put("<< /Type /Pages /Count 1 /Kids [5 0 R] >>"));
+ obj(3,()=>put("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding 4 0 R >>"));
+ obj(4,()=>put("<< /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [128 /Scedilla /scedilla /Gbreve /gbreve /Idotaccent /dotlessi] >>"));
+ obj(5,()=>put("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+F(L.W*k)+" "+F(L.H*k)+"] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>"));
+ obj(6,()=>{put("<< /Length "+data.length+(z?" /Filter /FlateDecode":"")+" >>\nstream\n");put(data);put("\nendstream")});
+ const xr=pos;put("xref\n0 7\n0000000000 65535 f \n");for(let i=1;i<=6;i++)put(String(off[i]).padStart(10,"0")+" 00000 n \n");
+ put("trailer\n<< /Size 7 /Root 1 0 R >>\nstartxref\n"+xr+"\n%%EOF");
+ return new Blob(chunks,{type:"application/pdf"})}
+/*ENDCORE*/
+
+/* ===== arayüz ===== */
+if(typeof document!=="undefined"){(()=>{
+const $=id=>document.getElementById(id);
+let B=null,name="cizim",on={},view={z:1,x:0,y:0},raf=0;
+const msg=(t,w)=>{const m=$("msg");m.textContent=t;m.classList.toggle("wn",!!w)};
+const opts=()=>({pp:$("pp").value,ori:$("ori").value,sc:$("sc").value,unit:+$("un").value||1,mg:Math.max(0,+$("mg").value||0),cm:$("cm").value,lw:+$("lw").value,ft:$("ft").checked,name});
+const DWGV={AC1006:"R10",AC1009:"R11/R12",AC1012:"R13",AC1014:"R14",AC1015:"2000",AC1018:"2004",AC1021:"2007",AC1024:"2010",AC1027:"2013",AC1032:"2018"};
+
+async function decode(buf){const u=new Uint8Array(buf);
+ try{return new TextDecoder("utf-8",{fatal:true}).decode(u)}catch(e){try{return new TextDecoder("windows-1254").decode(u)}catch(x){return new TextDecoder("latin1").decode(u)}}}
+async function open(f){
+ if(!f)return;const ext=(f.name.match(/\.(\w+)$/)||[])[1]||"";
+ if(/^dwg$/i.test(ext)){const h=new TextDecoder("latin1").decode((await f.slice(0,6).arrayBuffer())),v=DWGV[h];
+  msg("DWG dosyası doğrudan okunamıyor"+(v?" (AutoCAD "+v+" biçimi)":"")+". CAD programında veya ücretsiz ODA File Converter ile DXF olarak kaydedip (AutoCAD 2010 ASCII DXF önerilir) yükleyin.",true);return}
+ if(!/^dxf$/i.test(ext)){msg("Lütfen .dxf dosyası seçin.",true);return}
+ msg(f.name+" ("+fmt(f.size/1048576,1)+" MB) işleniyor…");await new Promise(r=>setTimeout(r,30));
+ try{const buf=await f.arrayBuffer();if(new TextDecoder("latin1").decode(new Uint8Array(buf,0,22))==="AutoCAD Binary DXF\r\n"||new TextDecoder("latin1").decode(new Uint8Array(buf,0,18))==="AutoCAD Binary DXF"){msg("İkili (binary) DXF desteklenmiyor. DXF'i ASCII olarak kaydedin.",true);return}
+  const D=parseDxf(await decode(buf)),b=build(D);
+  if(!b.bb){msg("Dosyada çizilebilir öğe bulunamadı (model uzayı boş olabilir).",true);return}
+  B=b;name=f.name;on={};D.layers.forEach(l=>{on[l.name]=!l.off});b.cnt.forEach((n,k)=>{if(!(k in on))on[k]=true});
+  const iu=+D.hd.$INSUNITS||0;$("un").value=({1:"25.4",2:"304.8",4:"1",5:"10",6:"1000"})[iu]||"1";
+  view={z:1,x:0,y:0};$("work").classList.remove("hid");lay();draw();
+  msg(f.name+" açıldı."+(iu?"":" Birim dosyada belirtilmemiş; mm varsayıldı, gerekirse “Çizim birimi”ni değiştirin."))}
+ catch(e){msg("Dosya okunamadı: "+e.message,true)}}
+$("fi").onchange=e=>{open(e.target.files[0]);e.target.value=""};
+const dr=$("drop");["dragenter","dragover"].forEach(t=>dr.addEventListener(t,e=>{e.preventDefault();dr.classList.add("on")}));
+["dragleave","drop"].forEach(t=>dr.addEventListener(t,e=>{e.preventDefault();dr.classList.remove("on")}));
+dr.addEventListener("drop",e=>open(e.dataTransfer.files[0]));
+
+function lay(){const rows=[...B.cnt.keys()].sort((a,b)=>a.localeCompare(b)),D=B.D;
+ $("ly").innerHTML=rows.map((n,i)=>{const l=D.layers.get(n.toUpperCase()),c=rgbOf(l?l.col:7,"c");
+  return`<li><input type="checkbox" id="l${i}" data-n="${n.replace(/"/g,"&quot;")}" ${on[n]!==false?"checked":""}><i style="background:rgb(${c})"></i><label for="l${i}" title="${n.replace(/"/g,"&quot;")}">${n.replace(/</g,"&lt;")}</label><em>${B.cnt.get(n)}</em></li>`}).join("")}
+$("ly").addEventListener("change",e=>{on[e.target.dataset.n]=e.target.checked;draw()});
+$("lall").onclick=()=>{[...B.cnt.keys()].forEach(n=>on[n]=true);lay();draw()};
+$("lnone").onclick=()=>{[...B.cnt.keys()].forEach(n=>on[n]=false);lay();draw()};
+
+const cv=$("cv"),ctx=cv.getContext("2d"),pv=$("pv");
+function size(){const r=devicePixelRatio||1,w=pv.clientWidth,h=pv.clientHeight;if(cv.width!==Math.round(w*r)||cv.height!==Math.round(h*r)){cv.width=Math.round(w*r);cv.height=Math.round(h*r)}return[w,h,r]}
+function geo(){const[w,h]=size(),L=layout(B,opts()),pm0=Math.min((w-24)/L.W,(h-24)/L.H),pm=pm0*view.z;return{w,h,L,pm,x0:(w-L.W*pm)/2+view.x,y0:(h-L.H*pm)/2+view.y}}
+function draw(){cancelAnimationFrame(raf);raf=requestAnimationFrame(paint)}
+function paint(){if(!B)return;const o=opts(),{w,h,L,pm,x0,y0}=geo(),r=devicePixelRatio||1,dark=matchMedia("(prefers-color-scheme: dark)").matches;
+ ctx.setTransform(r,0,0,r,0,0);ctx.clearRect(0,0,w,h);
+ ctx.fillStyle="#fff";ctx.shadowColor="rgba(0,0,0,.35)";ctx.shadowBlur=10;ctx.fillRect(x0,y0,L.W*pm,L.H*pm);ctx.shadowBlur=0;
+ const S=L.U*pm;
+ ctx.save();ctx.beginPath();ctx.rect(x0,y0,L.W*pm,L.H*pm);ctx.clip();
+ ctx.setTransform(r*S,0,0,-r*S,r*(x0+L.ox*pm-L.bx0*S),r*(y0+(L.H-L.oy)*pm+L.by0*S*1));
+ ctx.lineCap="round";ctx.lineJoin="round";
+ const rg=c=>"rgb("+rgbOf(c,o.cm).join()+")",lwpx=Math.max(.8,o.lw*pm);
+ B.fills.forEach(f=>{if(on[f.l]===false)return;ctx.fillStyle=rg(f.c);ctx.beginPath();f.loops.forEach(l=>{l.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.closePath()});ctx.fill("evenodd")});
+ const g=new Map();B.lines.forEach(l=>{if(on[l.l]===false)return;const k=rgbOf(l.c,o.cm).join()+"|"+(l.d?l.d.join():""),a=g.get(k)||{c:l.c,d:l.d,s:[]};a.s.push(l.p);g.set(k,a)});
+ g.forEach(a=>{ctx.strokeStyle=rg(a.c);ctx.lineWidth=lwpx/S;ctx.setLineDash(a.d?a.d.map(v=>v*pm/S):[]);ctx.beginPath();a.s.forEach(p=>{p.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]))});ctx.stroke()});
+ ctx.restore();ctx.setTransform(r,0,0,r,0,0);ctx.setLineDash([]);
+ B.texts.forEach(t=>{if(on[t.l]===false)return;const fs=t.h*L.U*1.3*pm;if(fs<2)return;const q=textGeom(t),px=x0+(L.ox+(q.x-L.bx0)*L.U)*pm,py=y0+(L.H-L.oy-(q.y-L.by0)*L.U)*pm;
+  ctx.save();ctx.translate(px,py);ctx.rotate(-t.rot);ctx.scale(q.wf,1);ctx.font=fs+"px Helvetica,Arial,sans-serif";ctx.fillStyle=rg(t.c);ctx.fillText(t.s,0,0);ctx.restore()});
+ if(o.ft){ctx.fillStyle="#666";ctx.font=Math.max(6,3*pm)+"px Helvetica,Arial,sans-serif";ctx.fillText(name+"  ·  Ölçek "+L.st,x0+o.mg*pm,y0+(L.H-Math.max(2,o.mg-5))*pm)}
+ const bb=B.bb;$("kv").innerHTML=`<div><span>Çizim boyutu</span><b>${fmt((bb.x1-bb.x0)*o.unit,1)} × ${fmt((bb.y1-bb.y0)*o.unit,1)} mm</b></div><div><span>Kağıt</span><b>${fmt(L.W)} × ${fmt(L.H)} mm</b></div><div><span>Ölçek</span><b>${L.st}</b></div><div><span>Öğe sayısı</span><b>${fmt(B.lines.length+B.fills.length+B.texts.length)}</b></div>`;
+ $("inf").innerHTML=L.warn?'<span class="wn">Seçilen ölçekte çizim kağıda sığmıyor; daha büyük kağıt veya küçük ölçek seçin.</span>':"Çizim "+L.st+" ölçeğinde "+(o.pp==="cust"?"çizim boyutunda":o.pp)+" kağıda yerleşti."}
+["pp","ori","sc","un","mg","cm","lw","ft"].forEach(i=>$(i).addEventListener("input",()=>{if(B){view={z:1,x:0,y:0};draw()}}));
+new ResizeObserver(()=>{if(B)draw()}).observe(pv);
+
+/* kaydır / yakınlaş */
+const pt=new Map();
+cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);pt.set(e.pointerId,{x:e.clientX,y:e.clientY})});
+["pointerup","pointercancel"].forEach(t=>cv.addEventListener(t,e=>pt.delete(e.pointerId)));
+function zoomAt(cx,cy,f){if(!B)return;const G0=geo(),nz=Math.min(Math.max(view.z*f,.5),200),k=nz/view.z,mx=(cx-G0.x0),my=(cy-G0.y0);
+ const pm0=G0.pm/view.z,pm2=pm0*nz,[w,h]=[G0.w,G0.h],mmx=mx/G0.pm,mmy=my/G0.pm;
+ view.z=nz;view.x=cx-mmx*pm2-(w-G0.L.W*pm2)/2;view.y=cy-mmy*pm2-(h-G0.L.H*pm2)/2;draw()}
+cv.addEventListener("pointermove",e=>{const p=pt.get(e.pointerId);if(!p||!B)return;
+ if(pt.size===2){const o=[...pt.entries()].find(([k])=>k!==e.pointerId)[1],d0=Math.hypot(p.x-o.x,p.y-o.y);p.x=e.clientX;p.y=e.clientY;const d1=Math.hypot(p.x-o.x,p.y-o.y),r=cv.getBoundingClientRect();if(d0>0)zoomAt((p.x+o.x)/2-r.left,(p.y+o.y)/2-r.top,d1/d0)}
+ else{view.x+=e.clientX-p.x;view.y+=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;draw()}});
+cv.addEventListener("wheel",e=>{e.preventDefault();const r=cv.getBoundingClientRect();zoomAt(e.clientX-r.left,e.clientY-r.top,Math.exp(-e.deltaY*.0015))},{passive:false});
+cv.addEventListener("dblclick",()=>{view={z:1,x:0,y:0};draw()});
+
+$("go").onclick=async()=>{if(!B)return;const b=$("go"),m=$("pm");b.disabled=true;m.textContent="PDF hazırlanıyor…";await new Promise(r=>setTimeout(r,20));
+ try{const blob=await makePdf(B,opts(),on),url=URL.createObjectURL(blob),n=name.replace(/\.dxf$/i,"")+".pdf",a=document.createElement("a");
+  a.href=url;a.download=n;document.body.appendChild(a);a.click();a.remove();if(window.hahCount)hahCount("pdf");
+  m.innerHTML="PDF hazırlandı ("+fmt(blob.size/1024)+" KB). İndirme başlamadıysa <a href=\""+url+"\" target=\"_blank\" rel=\"noopener\" download=\""+n+"\">buraya dokunun</a>."}
+ catch(e){m.textContent="PDF oluşturulamadı: "+e.message}
+ b.disabled=false};
+})()}
+</script>
+</body>
+</html>
