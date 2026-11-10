@@ -67,10 +67,10 @@ button.g[aria-pressed=true]{background:var(--ac);color:var(--acx);border-color:v
   <div id="vw"><canvas id="cv"></canvas><div id="ov">Döndür: sürükle · Kaydır: iki parmak / sağ tuş · Yakınlaş: tekerlek / sıkıştır</div><div id="lb"></div><div id="busy" class="hid">Yükleniyor…</div></div>
   <div class="bar">
     <button class="g" data-v="iso">İzometrik</button><button class="g" data-v="front">Ön</button><button class="g" data-v="top">Üst</button><button class="g" data-v="right">Sağ</button>
-    <button class="g" data-m="d" id="bD" aria-pressed="false">📏 Mesafe ölç</button><button class="g" data-m="a" id="bA" aria-pressed="false">∠ Açı ölç</button><button class="g" id="bClr">Ölçüleri sil</button>
+    <button class="g" data-m="f" id="bF" aria-pressed="false">📐 Yüzey ölç</button><button class="g" data-m="d" id="bD" aria-pressed="false">📍 Nokta ölç</button><button class="g" id="bClr">Ölçüleri sil</button>
     <button class="g" id="bEdge" aria-pressed="true">Kenarlar</button><button class="g" id="bWire" aria-pressed="false">Tel kafes</button><button class="g" id="bBox" aria-pressed="false">Ölçü kutusu</button>
   </div>
-  <div class="note" id="mh" style="margin-top:10px">Ölçü almak için “Mesafe ölç” veya “Açı ölç” seçin, sonra modele dokunun / tıklayın.</div>
+  <div class="note" id="mh" style="margin-top:10px">Ölçü almak için “Yüzey ölç” seçin, sonra modelde bir yüzeye dokunun / tıklayın.</div>
   <ul class="ml" id="ml"></ul>
   <div class="kv" id="kv"></div>
   <ul class="pl" id="pl"></ul>
@@ -78,7 +78,7 @@ button.g[aria-pressed=true]{background:var(--ac);color:var(--acx);border-color:v
 
 <div class="card seo">
   <h2 style="margin-top:0">Nasıl kullanılır?</h2>
-  <p class="note" style="font-size:14px">CAD programınızda parçayı katı model olarak STEP (AP203 / AP214 / AP242) biçiminde kaydedin ve yukarıdan seçin. Ölçü kutusu, modelin X-Y-Z yönündeki en büyük ölçülerini milimetre olarak gösterir. Profil boyu ve kesim açılarını otomatik okutmak için <a href="index.html">Profil Hesaplama</a> sayfasındaki STEP aracını kullanabilirsiniz.</p>
+  <p class="note" style="font-size:14px">CAD programınızda parçayı katı model olarak STEP (AP203 / AP214 / AP242) biçiminde kaydedin ve yukarıdan seçin. Ölçü kutusu, modelin X-Y-Z yönündeki en büyük ölçülerini milimetre olarak gösterir. “Yüzey ölç” yüzeyleri tanır: tek yüzeye dokunursanız alan veya delik/boru çapını, iki yüzeye dokunursanız aralarındaki dik mesafeyi, açıyı veya delik eksenleri arası mesafeyi verir. Profil boyu ve kesim açılarını otomatik okutmak için <a href="index.html">Profil Hesaplama</a> sayfasındaki STEP aracını kullanabilirsiniz.</p>
 </div>
 
 <footer>
@@ -138,7 +138,7 @@ function loadOcc(){if(occP)return occP;
 
 const COL=[0x8a929c,0x6c8fb8,0xb89a6c,0x7ab08a,0xb07a8a,0x9a8ab8];
 async function add(file,k){
- const buf=new Uint8Array(await file.arrayBuffer()),res=occ.ReadStepFile(buf,null);
+ const buf=new Uint8Array(await file.arrayBuffer()),res=occ.ReadStepFile(buf,{linearUnit:"millimeter",linearDeflectionType:"bounding_box_ratio",linearDeflection:0.004,angularDeflection:0.6});
  if(!res||!res.success||!res.meshes.length)throw new Error("okunamadı");
  const nm=file.name.replace(/\.(step|stp)$/i,"");
  res.meshes.forEach((m,i)=>{const g=new THREE.BufferGeometry();
@@ -149,7 +149,7 @@ async function add(file,k){
   const mat=new THREE.MeshStandardMaterial({color:c,metalness:.35,roughness:.55,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1}),
    mesh=new THREE.Mesh(g,mat),eg=new THREE.EdgesGeometry(g,30),ed=new THREE.LineSegments(eg,new THREE.LineBasicMaterial({color:0x1d1d1f,transparent:true,opacity:.55}));
   mesh.add(ed);root.add(mesh);
-  parts.push({m:mesh,e:ed,name:(res.meshes.length>1?nm+" · "+(m.name||"parça "+(i+1)):nm),tri:m.index.array.length/3,col:"#"+c.getHexString()})})}
+  parts.push({m:mesh,e:ed,faces:(m.brep_faces||[]).map(f=>({first:f.first,last:f.last})),name:(res.meshes.length>1?nm+" · "+(m.name||"parça "+(i+1)):nm),tri:m.index.array.length/3,col:"#"+c.getHexString()})})}
 
 function list(){$("pl").innerHTML=parts.map((p,i)=>`<li><input type="checkbox" id="p${i}" data-i="${i}" ${p.m.visible?"checked":""}><i style="background:${p.col}"></i><label for="p${i}" title="${p.name.replace(/"/g,"&quot;")}">${p.name.replace(/</g,"&lt;")}</label><em>${fmt(p.tri,0)} üçgen</em></li>`).join("")}
 $("pl").addEventListener("change",e=>{const i=e.target.dataset.i;if(i===undefined)return;parts[i].m.visible=e.target.checked;info();fit()});
@@ -157,10 +157,10 @@ $("pl").addEventListener("change",e=>{const i=e.target.dataset.i;if(i===undefine
 async function open(files){
  files=[...files].filter(f=>/\.(step|stp)$/i.test(f.name));const m=$("msg");
  if(!files.length){m.textContent="Lütfen .step veya .stp dosyası seçin.";return}
- $("busy").classList.remove("hid");m.textContent="STEP motoru hazırlanıyor…";
+ $("busy").classList.remove("hid");m.textContent="STEP motoru indiriliyor (yalnızca ilk seferde)…";
  try{await loadOcc()}catch(e){m.textContent=e.message;$("busy").classList.add("hid");return}
  let bad=0;
- for(const f of files){m.textContent=f.name+" işleniyor…";await new Promise(r=>setTimeout(r,30));
+ for(const f of files){m.textContent=f.name+" ("+fmt(f.size/1048576,1)+" MB) işleniyor, büyük dosyalarda birkaç saniye sürebilir…";await new Promise(r=>setTimeout(r,30));
   try{await add(f,parts.length)}catch(e){bad++}}
  $("busy").classList.add("hid");list();info();fit();
  m.textContent=parts.length?parts.length+" parça gösteriliyor."+(bad?" "+bad+" dosya okunamadı. Parçayı katı model olarak STEP (AP203/AP214/AP242) biçiminde kaydedin.":""):"Dosya okunamadı. Parçayı katı model olarak STEP (AP203/AP214/AP242) biçiminde kaydedin."}
@@ -179,48 +179,105 @@ document.querySelector(".bar").addEventListener("click",e=>{const b=e.target.clo
  if(b.id==="bBox"&&boxHelper)boxHelper.visible=on;
  render()});
 
-/* ===== ÖLÇÜM ===== */
-let mode=null,pend=[],ms=[];const mg=new THREE.Group();S.add(mg);
-const lbc=$("lb"),ray=new THREE.Raycaster(),MC=0xff9500;
-const hint={d:"Mesafe: birinci noktaya dokunun. Köşelere otomatik yapışır.",a:"Açı: birinci yüzeye, sonra ikinci yüzeye dokunun."};
+/* ===== ÖLÇÜM (yüzey tanıma) ===== */
+let mode=null,pend=[],ms=[],pendObj=[],pendLb=[];const mg=new THREE.Group();S.add(mg);
+const lbc=$("lb"),ray=new THREE.Raycaster(),MC=0xff9500,V=THREE.Vector3;
+const hint={f:"Yüzey ölç: bir yüzeye dokunun. İkinci yüzeye dokununca aralarındaki ölçü çıkar.",d:"Nokta ölç: birinci noktaya dokunun. Köşelere otomatik yapışır."};
+const IDLE="Ölçü almak için “Yüzey ölç” seçin, sonra modelde bir yüzeye dokunun / tıklayın.";
 function setMode(m){mode=m;pend=[];clearPend();vw.classList.toggle("ms",!!m);
- $("bD").setAttribute("aria-pressed",m==="d");$("bA").setAttribute("aria-pressed",m==="a");
- $("mh").textContent=m?hint[m]:"Ölçü almak için “Mesafe ölç” veya “Açı ölç” seçin, sonra modele dokunun / tıklayın.";render()}
-let pendObj=[];
-function clearPend(){pendObj.forEach(o=>{mg.remove(o);o.geometry&&o.geometry.dispose()});pendObj=[]}
-function dot3(pts,col){const g=new THREE.BufferGeometry().setFromPoints(pts),o=new THREE.Points(g,new THREE.PointsMaterial({color:col||MC,size:10,sizeAttenuation:false,depthTest:false,depthWrite:false}));o.renderOrder=10;return o}
-function line3(a,b,col){const g=new THREE.BufferGeometry().setFromPoints([a,b]),o=new THREE.Line(g,new THREE.LineBasicMaterial({color:col||MC,depthTest:false,depthWrite:false}));o.renderOrder=9;return o}
-function pickAt(e){const r=cv.getBoundingClientRect(),nx=(e.clientX-r.left)/r.width*2-1,ny=-((e.clientY-r.top)/r.height*2-1);
- ray.setFromCamera({x:nx,y:ny},cam);
- const h=ray.intersectObjects(parts.filter(p=>p.m.visible).map(p=>p.m),false)[0];if(!h)return null;
- let pt=h.point.clone();const sc=v=>{const q=v.clone().project(cam);return{x:(q.x+1)/2*r.width,y:(1-q.y)/2*r.height}},cx=e.clientX-r.left,cy=e.clientY-r.top;
- let snap=false;
- if(mode==="d"){const g=h.object.geometry,ix=g.index,pos=g.attributes.position;let best=18;
-  [h.face.a,h.face.b,h.face.c].forEach(i=>{const v=new THREE.Vector3().fromBufferAttribute(pos,i).applyMatrix4(h.object.matrixWorld),q=sc(v),d=Math.hypot(q.x-cx,q.y-cy);if(d<best){best=d;pt=v;snap=true}})}
- const n=h.face.normal.clone().transformDirection(h.object.matrixWorld);
- return{pt,n,snap}}
-function pick(e){const h=pickAt(e);if(!h)return;
+ $("bF").setAttribute("aria-pressed",m==="f");$("bD").setAttribute("aria-pressed",m==="d");
+ $("mh").textContent=m?hint[m]:IDLE;render()}
+function rm(o){mg.remove(o);o.geometry&&o.geometry.dispose()}
+function clearPend(){pendObj.forEach(rm);pendObj=[];pendLb=[];lbRebuild()}
+function dot3(pts){const o=new THREE.Points(new THREE.BufferGeometry().setFromPoints(pts),new THREE.PointsMaterial({color:MC,size:10,sizeAttenuation:false,depthTest:false,depthWrite:false}));o.renderOrder=10;return o}
+function line3(a,b){const o=new THREE.Line(new THREE.BufferGeometry().setFromPoints([a,b]),new THREE.LineBasicMaterial({color:MC,depthTest:false,depthWrite:false}));o.renderOrder=9;return o}
+function solve3(M,B){const a=M.map((r,i)=>[...r,B[i]]);for(let i=0;i<3;i++){let p=i;for(let k=i+1;k<3;k++)if(Math.abs(a[k][i])>Math.abs(a[p][i]))p=k;if(Math.abs(a[p][i])<1e-12)return null;[a[i],a[p]]=[a[p],a[i]];for(let k=i+1;k<3;k++){const f=a[k][i]/a[i][i];for(let j=i;j<4;j++)a[k][j]-=f*a[i][j]}}
+ const x=[0,0,0];for(let i=2;i>=0;i--){let t=a[i][3];for(let j=i+1;j<3;j++)t-=a[i][j]*x[j];x[i]=t/a[i][i]}return x}
+
+/* B-rep yüzeyini tanı: düzlem (p) / silindir (c) / diğer (o) */
+function analyze(obj,f){if(f.an)return f.an;
+ const g=obj.geometry,P=g.attributes.position,N=g.attributes.normal,I=g.index,set=new Set(),tris=[];
+ for(let t=f.first;t<=f.last;t++){const a=I.getX(t*3),b=I.getX(t*3+1),c=I.getX(t*3+2);tris.push([a,b,c]);set.add(a);set.add(b);set.add(c)}
+ const idx=[...set],pts=idx.map(i=>new V().fromBufferAttribute(P,i)),nr=idx.map(i=>new V().fromBufferAttribute(N,i).normalize());
+ let area=0;const cen=new V();
+ tris.forEach(([a,b,c])=>{const A=new V().fromBufferAttribute(P,a),B=new V().fromBufferAttribute(P,b),C=new V().fromBufferAttribute(P,c),ar=B.clone().sub(A).cross(C.clone().sub(A)).length()/2;area+=ar;cen.add(A.add(B).add(C).multiplyScalar(ar/3))});
+ cen.divideScalar(area||1);
+ const an={type:"o",area,cen},n=new V();nr.forEach(x=>n.add(x));n.normalize();
+ if(n.lengthSq()&&nr.every(x=>x.dot(n)>.9995)){an.type="p";an.n=n;an.d=n.dot(cen);return f.an=an}
+ let ax=null,best=0;const st=Math.max(1,Math.floor(nr.length/40)),sm=[];for(let i=0;i<nr.length;i+=st)sm.push(nr[i]);
+ for(let i=0;i<sm.length;i++)for(let j=i+1;j<sm.length;j++){const c=sm[i].clone().cross(sm[j]),l=c.length();if(l>best){best=l;ax=c}}
+ if(ax&&best>.05){ax.normalize();
+  if(nr.every(x=>Math.abs(x.dot(ax))<.02)){
+   const e1=Math.abs(ax.x)<.9?new V(1,0,0):new V(0,1,0);e1.sub(ax.clone().multiplyScalar(e1.dot(ax))).normalize();const e2=ax.clone().cross(e1);
+   const M=[[0,0,0],[0,0,0],[0,0,0]],B=[0,0,0];
+   pts.forEach((q,i)=>{const d=q.clone().sub(cen),nx=nr[i].dot(e1),ny=nr[i].dot(e2);
+    [[1,0,nx,d.dot(e1)],[0,1,ny,d.dot(e2)]].forEach(r=>{for(let a=0;a<3;a++){for(let b=0;b<3;b++)M[a][b]+=r[a]*r[b];B[a]+=r[a]*r[3]}})});
+   const sol=solve3(M,B);
+   if(sol){const[cx,cy,r]=sol,R0=Math.abs(r);
+    if(R0>.05&&pts.every(q=>{const d=q.clone().sub(cen);return Math.abs(Math.hypot(d.dot(e1)-cx,d.dot(e2)-cy)-R0)<.02*R0+.01})){
+     const pr=pts.map(q=>q.dot(ax));
+     an.type="c";an.ax=ax;an.c0=cen.clone().add(e1.multiplyScalar(cx)).add(e2.multiplyScalar(cy));an.r=R0;an.hole=r<0;an.len=Math.max(...pr)-Math.min(...pr);return f.an=an}}}}
+ return f.an=an}
+const desc=a=>!a?"Yüzey tanınamadı, nokta olarak alındı.":a.type==="p"?`Düzlem · alan ${fmt(a.area,0)} mm²`:a.type==="c"?`${a.hole?"Delik":"Silindir"} · Ø${fmt(2*a.r,2)} mm · uzunluk ${fmt(a.len,2)} mm`:`Eğri yüzey · alan ${fmt(a.area,0)} mm²`;
+
+function hl(obj,f){const g=obj.geometry,P=g.attributes.position,I=g.index,arr=[];
+ for(let t=f.first;t<=f.last;t++)for(let k=0;k<3;k++){const i=I.getX(t*3+k);arr.push(P.getX(i),P.getY(i),P.getZ(i))}
+ const bg=new THREE.BufferGeometry();bg.setAttribute("position",new THREE.Float32BufferAttribute(arr,3));
+ const o=new THREE.Mesh(bg,new THREE.MeshBasicMaterial({color:MC,transparent:true,opacity:.6,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));o.renderOrder=8;return o}
+const proj=(P,X)=>X.type==="p"?P.clone().sub(X.n.clone().multiplyScalar(X.n.dot(P)-X.d)):X.c0.clone().add(X.ax.clone().multiplyScalar(P.clone().sub(X.c0).dot(X.ax)));
+function rel(A,B){const a=A.an,b=B.an,ta=a?a.type:"o",tb=b?b.type:"o",dg=Math.PI/180;
+ const sw=(ta==="c"&&tb==="p");
+ if(ta==="p"&&tb==="p"){const c=Math.min(1,Math.abs(a.n.dot(b.n)));
+  if(c>.9995){const d=Math.abs(b.n.dot(A.rp)-b.d);return{t:"Paralel yüzeyler",v:fmt(d,2)+" mm",sub:"Yüzeyler arası dik mesafe",p1:A.rp,p2:proj(A.rp,b)}}
+  const th=Math.acos(c)/dg;return{t:"Yüzeyler arası açı",v:fmt(th,2)+"°",sub:`Tamamlayıcı açı ${fmt(180-th,2)}°`,p1:A.rp,p2:B.rp}}
+ if((ta==="p"&&tb==="c")||sw){const Pl=sw?B:A,Cy=sw?A:B,p=Pl.an,c=Cy.an,k=Math.abs(p.n.dot(c.ax));
+  if(k<.01){const d=Math.abs(p.n.dot(c.c0)-p.d),h=c.hole?"delik":"silindir";
+   return{t:"Eksen – yüzey mesafesi",v:fmt(d,2)+" mm",sub:`Ø${fmt(2*c.r,2)} ${h} · yüzeye yakın kenar ${fmt(Math.max(0,d-c.r),2)} · uzak kenar ${fmt(d+c.r,2)} mm`,p1:Cy.rp,p2:proj(Cy.rp,p)}}
+  const th=Math.asin(Math.min(1,k))/dg;return{t:"Eksen – yüzey açısı",v:fmt(th,2)+"°",sub:`Ø${fmt(2*c.r,2)} ${c.hole?"delik":"silindir"}`,p1:A.rp,p2:B.rp}}
+ if(ta==="c"&&tb==="c"){const k=Math.min(1,Math.abs(a.ax.dot(b.ax)));
+  if(k>.9995){const w=b.c0.clone().sub(a.c0);w.sub(a.ax.clone().multiplyScalar(w.dot(a.ax)));const d=w.length(),gap=a.hole===b.hole?` · kenarlar arası ${fmt(d-a.r-b.r,2)} mm`:"";
+   return{t:"Eksenler arası mesafe",v:fmt(d,2)+" mm",sub:`Ø${fmt(2*a.r,2)} ve Ø${fmt(2*b.r,2)}${gap}`,p1:A.rp,p2:proj(A.rp,b)}}
+  const th=Math.acos(k)/dg,cr=a.ax.clone().cross(b.ax).normalize(),d=Math.abs(cr.dot(b.c0.clone().sub(a.c0)));
+  return{t:"Eksenler arası açı",v:fmt(th,2)+"°",sub:`Eksenler arası en kısa mesafe ${fmt(d,2)} mm`,p1:A.rp,p2:B.rp}}
+ if(ta==="p"||tb==="p"){const Pl=ta==="p"?A:B,O=ta==="p"?B:A,d=Math.abs(Pl.an.n.dot(O.rp)-Pl.an.d);
+  return{t:"Nokta – yüzey mesafesi",v:fmt(d,2)+" mm",sub:"Seçilen noktadan düzleme dik mesafe",p1:O.rp,p2:proj(O.rp,Pl.an)}}
+ const d=A.rp.distanceTo(B.rp);return{t:"Nokta mesafesi",v:fmt(d,2)+" mm",sub:`ΔX ${fmt(Math.abs(A.rp.x-B.rp.x),2)} · ΔY ${fmt(Math.abs(A.rp.y-B.rp.y),2)} · ΔZ ${fmt(Math.abs(A.rp.z-B.rp.z),2)}`,p1:A.rp,p2:B.rp}}
+
+function rayAt(e){const r=cv.getBoundingClientRect();ray.setFromCamera({x:(e.clientX-r.left)/r.width*2-1,y:-((e.clientY-r.top)/r.height*2-1)},cam);
+ return ray.intersectObjects(parts.filter(p=>p.m.visible).map(p=>p.m),false)[0]||null}
+function pick(e){const h=rayAt(e);if(!h)return;
  if(pend.length>=2){pend=[];clearPend()}
- pend.push(h);pendObj.push(dot3([h.pt]));mg.add(pendObj[pendObj.length-1]);
- if(pend.length===2){const A=pend[0],B=pend[1];
-  const objs=[...pendObj,line3(A.pt,B.pt)];objs[2].material.linewidth=2;mg.add(objs[2]);
-  const mid=A.pt.clone().add(B.pt).multiplyScalar(.5);let it;
-  if(mode==="d"){const d=A.pt.distanceTo(B.pt),dx=Math.abs(A.pt.x-B.pt.x),dy=Math.abs(A.pt.y-B.pt.y),dz=Math.abs(A.pt.z-B.pt.z);
-   it={objs,mid,txt:fmt(d,2)+" mm",t:"Mesafe",v:fmt(d,2)+" mm",sub:`ΔX ${fmt(dx,2)} · ΔY ${fmt(dy,2)} · ΔZ ${fmt(dz,2)}`+(A.snap&&B.snap?" · köşeden köşeye":"")}}
-  else{const c=Math.min(1,Math.abs(A.n.dot(B.n))),th=Math.acos(c)*180/Math.PI;
-   it={objs,mid,txt:fmt(th,2)+"°",t:"Açı",v:fmt(th,2)+"°",sub:`Yüzeyler arası · tamamlayıcı ${fmt(180-th,2)}°`}}
-  pendObj=[];pend=[];ms.push(it);ml();$("mh").textContent=hint[mode]+" (Yeni ölçü için tekrar dokunun.)"}
- else $("mh").textContent=mode==="d"?"İkinci noktaya dokunun.":"İkinci yüzeye dokunun.";
- render()}
-function ml(){$("ml").innerHTML=ms.map((m,i)=>`<li><b>${m.t}: ${m.v}</b><small>${m.sub}</small><button data-del="${i}" aria-label="Sil">×</button></li>`).join("");
- lbc.innerHTML=ms.map(m=>`<span>${m.txt}</span>`).join("")}
-function clearM(){ms.forEach(m=>m.objs.forEach(o=>{mg.remove(o);o.geometry.dispose()}));ms=[];pend=[];clearPend();ml();render()}
-$("ml").addEventListener("click",e=>{const i=e.target.dataset.del;if(i===undefined)return;ms[i].objs.forEach(o=>{mg.remove(o);o.geometry.dispose()});ms.splice(i,1);ml();render()});
+ let it;
+ if(mode==="d"){const r=cv.getBoundingClientRect(),g=h.object.geometry,pos=g.attributes.position;let pt=h.point.clone(),best=18,snap=false;
+  [h.face.a,h.face.b,h.face.c].forEach(i=>{const v=new V().fromBufferAttribute(pos,i),q=v.clone().project(cam),d=Math.hypot((q.x+1)/2*r.width-(e.clientX-r.left),(1-q.y)/2*r.height-(e.clientY-r.top));if(d<best){best=d;pt=v;snap=true}});
+  it={rp:pt,snap,hl:null}}
+ else{const part=parts.find(p=>p.m===h.object),f=part&&part.faces.find(f=>h.faceIndex>=f.first&&h.faceIndex<=f.last),an=f?analyze(h.object,f):null;
+  let rp=h.point.clone();if(an&&an.type==="c")rp=proj(rp,an);
+  it={rp,an,hl:f?hl(h.object,f):null};
+  $("mh").textContent=desc(an)+(pend.length?"":" · İkinci yüzeye dokunun.");
+  if(an&&an.type==="c")pendLb.push({mid:rp,txt:"Ø"+fmt(2*an.r,2)})}
+ pend.push(it);const d=dot3([it.rp]);pendObj.push(d);mg.add(d);if(it.hl){pendObj.push(it.hl);mg.add(it.hl)}
+ if(pend.length===2){const A=pend[0],B=pend[1];let R;
+  if(mode==="d"){const d=A.rp.distanceTo(B.rp);R={t:"Mesafe",v:fmt(d,2)+" mm",sub:`ΔX ${fmt(Math.abs(A.rp.x-B.rp.x),2)} · ΔY ${fmt(Math.abs(A.rp.y-B.rp.y),2)} · ΔZ ${fmt(Math.abs(A.rp.z-B.rp.z),2)}`+(A.snap&&B.snap?" · köşeden köşeye":""),p1:A.rp,p2:B.rp}}
+  else R=rel(A,B);
+  const ln=line3(R.p1,R.p2);mg.add(ln);const objs=[...pendObj,ln];
+  if(mode==="d"&&pendObj.length===2){/* nokta modu */}
+  ms.push({objs,mid:R.p1.clone().add(R.p2).multiplyScalar(.5),txt:R.v,t:R.t,v:R.v,sub:R.sub});
+  pendObj=[];pend=[];pendLb=[];ml();$("mh").textContent=(mode==="f"?"Yeni ölçü için başka bir yüzeye dokunun.":"Yeni ölçü için tekrar dokunun.")}
+ else if(mode==="d")$("mh").textContent="İkinci noktaya dokunun.";
+ lbRebuild();render()}
+const lbs=()=>ms.map(m=>({mid:m.mid,txt:m.txt})).concat(pendLb);
+function lbRebuild(){lbc.innerHTML=lbs().map(m=>`<span>${m.txt}</span>`).join("")}
+function ml(){$("ml").innerHTML=ms.map((m,i)=>`<li><b>${m.t}: ${m.v}</b><small>${m.sub}</small><button data-del="${i}" aria-label="Sil">×</button></li>`).join("");lbRebuild()}
+function clearM(){ms.forEach(m=>m.objs.forEach(rm));ms=[];pend=[];clearPend();ml();render()}
+$("ml").addEventListener("click",e=>{const i=e.target.dataset.del;if(i===undefined)return;ms[i].objs.forEach(rm);ms.splice(i,1);ml();render()});
 function updLb(){const sp=lbc.children,w=vw.clientWidth,h=vw.clientHeight;
- ms.forEach((m,i)=>{const q=m.mid.clone().project(cam),s=sp[i];if(!s)return;
+ lbs().forEach((m,i)=>{const q=m.mid.clone().project(cam),s=sp[i];if(!s)return;
   if(q.z>1||q.z<-1){s.style.display="none";return}s.style.display="";s.style.left=(q.x+1)/2*w+"px";s.style.top=(1-q.y)/2*h+"px"})}
 
 size();place();render();
+/* motoru sayfa açılınca arka planda indir */
+(window.requestIdleCallback||setTimeout)(()=>{loadOcc().catch(()=>{})});
 })();
 </script>
 </body>
