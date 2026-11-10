@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sac Yerleşimi (DXF Nesting) | HAYRAT Ağırlık Hesaplama</title>
+<meta name="description" content="DXF parçalarını yükleyin, sac ebadını ve parça arası boşluğu girin; parçalar saca en az fireyle otomatik yerleştirilsin. Yerleşimi PDF olarak indirin.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0071e3">
+<link rel="canonical" href="https://hayratagirlik.com/sac-yerlesim.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='14' fill='%230071e3'/%3E%3Ctext x='28' y='33' text-anchor='middle' font-size='19' font-weight='800' fill='white' font-family='Arial'%3EHAH%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<style>
+.ns{--paper:#fff;--paperln:#b9b9c0}
+@media(prefers-color-scheme:dark){.ns{--paper:#2a2a2d;--paperln:#636368}}
+.hid{display:none!important}
+.sec{padding:20px}
+.sec h2{display:flex;align-items:center;gap:10px;font-size:18px;margin:0 0 16px}
+.sec h2 i{flex:none;width:26px;height:26px;border-radius:50%;background:var(--ac);color:var(--acx);display:grid;place-items:center;font:600 13px/1 inherit;font-style:normal}
+.ns label{display:block;font-size:13px;color:var(--mu);margin-bottom:5px}
+.ns input,.ns select{width:100%;font-size:16px;padding:11px 12px;border-radius:12px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);font-family:inherit}
+.ns input:focus-visible,.ns select:focus-visible{outline:2px solid var(--ac);outline-offset:1px;border-color:var(--ac)}
+.pre{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.pre:before{content:"Hazır ebat";width:100%;font-size:13px;color:var(--mu);margin-bottom:-2px}
+.pre button{font:inherit;font-size:14px;font-weight:600;padding:7px 14px;border-radius:99px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);cursor:pointer}
+.pre button.on{background:var(--ac);border-color:var(--ac);color:var(--acx)}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.u{position:relative}.u input{padding-right:44px}
+.u em{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-style:normal;color:var(--mu);font-size:13px;pointer-events:none}
+details.adv{margin-top:16px;border-top:1px solid var(--ln);padding-top:12px}
+details.adv summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--ac)}
+details.adv .fg{margin-top:12px}
+.dz{border:2px dashed var(--ln);border-radius:16px;padding:26px 16px;text-align:center;color:var(--mu);cursor:pointer;transition:border-color .15s,background .15s}
+.dz:hover,.dz.on,.dz:focus-visible{border-color:var(--ac);background:rgba(0,113,227,.06);outline:0}
+.dz svg{width:34px;height:34px;stroke:var(--ac);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dz b{display:block;color:var(--tx);font-size:16px;margin:8px 0 2px}
+.dz span{font-size:13px}
+#msg{margin:12px 2px 0;font-size:13px;color:var(--mu)}
+#msg.wn{color:var(--tx)}
+.wn{background:rgba(255,159,10,.15);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:12px}
+#qt{font-size:13px;color:var(--mu);margin:16px 2px 8px}
+.pl{display:grid;gap:10px}
+.pr{display:grid;grid-template-columns:56px minmax(0,1fr) auto auto;grid-template-areas:"t i q x";gap:12px;align-items:center;background:var(--bg);border-radius:14px;padding:10px 12px}
+.pt{grid-area:t;width:56px;height:56px;border-radius:10px;background:var(--card);padding:6px}
+.pt svg{width:100%;height:100%;display:block}
+.pi{grid-area:i;min-width:0}
+.pi b{display:block;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pi span{font-size:13px;color:var(--mu)}
+.qs{grid-area:q;display:flex;align-items:center;gap:4px}
+.qs button{width:36px;height:36px;padding:0;border-radius:10px;border:1px solid var(--ln);background:var(--card);color:var(--tx);font-size:19px;line-height:1;cursor:pointer}
+.qs input{width:68px;text-align:center;padding:8px 4px}
+.dx{grid-area:x;width:34px;height:34px;padding:0;border:0;background:transparent;color:var(--mu);font-size:22px;cursor:pointer;border-radius:10px}
+.dx:hover{color:#ff3b30}
+@media(max-width:520px){.pr{grid-template-columns:48px minmax(0,1fr) auto;grid-template-areas:"t i x" "q q q"}.pt{width:48px;height:48px}.qs{justify-content:flex-end}}
+.pri{display:block;width:100%;margin-top:16px;font:inherit;font-size:17px;font-weight:600;padding:14px 18px;border-radius:14px;border:0;background:var(--ac);color:var(--acx);cursor:pointer}
+.pri:disabled{opacity:.55;cursor:default}
+.pri.alt{background:var(--bg);color:var(--ac);border:1px solid var(--ln);margin-top:14px}
+.bar{height:8px;border-radius:99px;background:var(--bg);overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;background:var(--ac);transition:width .2s}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.stats div{background:var(--bg);border-radius:14px;padding:12px 14px}
+.stats b{display:block;font-size:26px;letter-spacing:-.5px;line-height:1.15}
+.stats span{font-size:12px;color:var(--mu)}
+.lh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px;margin-bottom:12px}
+.lh b{font-size:17px}
+.bd{margin-left:8px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--ac);color:var(--acx);vertical-align:middle}
+.sv{background:var(--bg);border-radius:12px;padding:8px}
+.sv svg{width:100%;height:auto;display:block}
+.cp{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:13px;color:var(--mu)}
+.cp span{display:inline-flex;align-items:center;gap:6px}
+.cp i{width:10px;height:10px;border-radius:3px;display:inline-block}
+</style>
+</head>
+<body>
+<main>
+<a class="hd" href="index.html"><svg width="40" height="40" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,Segoe UI,Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><b>HAYRAT AĞIRLIK HESAPLAMA</b></a>
+<nav class="nv" aria-label="Ana menü"><a href="index.html">Profil Hesaplama</a><a href="sac-yerlesim.html" aria-current="page">Sac Yerleşimi</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<h1>Sac yerleşimi (DXF nesting)</h1>
+<p class="lead">DXF parçalarını yükleyin, adetleri girin; parçalar saca en az fireyle yerleşsin. Sonucu PDF olarak indirebilirsiniz.</p>
+<div class="ns">
+<section class="card sec">
+  <h2><i>1</i>Sac ve ayarlar</h2>
+  <div class="pre" id="pre"></div>
+  <div class="fg">
+    <div><label for="sw">Sac eni</label><div class="u"><input id="sw" type="number" inputmode="decimal" value="3000" min="1"><em>mm</em></div></div>
+    <div><label for="sh">Sac boyu</label><div class="u"><input id="sh" type="number" inputmode="decimal" value="1500" min="1"><em>mm</em></div></div>
+    <div><label for="mg">Kenar boşluğu</label><div class="u"><input id="mg" type="number" inputmode="decimal" value="10" min="0" step="any"><em>mm</em></div></div>
+    <div><label for="gp">Parça arası boşluk</label><div class="u"><input id="gp" type="number" inputmode="decimal" value="5" min="0" step="any"><em>mm</em></div></div>
+  </div>
+  <details class="adv"><summary>Gelişmiş ayarlar</summary>
+    <div class="fg">
+      <div><label for="rs">Hassasiyet (mm)</label><select id="rs"><option>2</option><option>3</option><option selected>5</option><option>10</option></select></div>
+      <div><label for="ro">Döndürme</label><select id="ro"><option value="auto" selected>Otomatik (en iyi sonuç)</option><option value="360">Yok (0°)</option><option value="180">0° / 180°</option><option value="90">90° adımlar</option><option value="45">45° adımlar</option><option value="30">30° adımlar</option></select></div>
+    </div>
+    <div class="note" style="margin-top:8px">Hassasiyet küçüldükçe yerleşim daha doğru ama daha yavaş olur. "Otomatik" modda parçalar 90°, 45° ve 15° adımlarla ve kendi düz hizalama açılarıyla birkaç farklı sıralamada denenir; en az sac gerektiren yerleşim seçilir. Sabit adım seçerseniz yalnızca o adımlar denenir.</div>
+  </details>
+</section>
+<section class="card sec">
+  <h2><i>2</i>Parçalar</h2>
+  <input id="fl" type="file" multiple hidden>
+  <div class="dz" id="dz" tabindex="0" role="button" aria-label="DXF dosyası seç">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+    <b>DXF dosyalarını buraya bırakın</b>
+    <span>ya da dokunup seçin · birden fazla dosya yükleyebilirsiniz</span>
+  </div>
+  <button id="add" type="button" class="hid"></button>
+  <div id="msg">Birim mm olmalı. Kapalı çizgi, yay, daire ve polylineler okunur; parçanın dış kontürü ve içindeki delikler birlikte hesaba katılır.</div>
+  <div id="tt" class="hid"><div id="qt"></div><div class="pl" id="tb"></div></div>
+  <button id="go" type="button" class="pri hid">Yerleştir</button>
+</section>
+<div id="out" aria-live="polite"></div>
+</div>
+<div class="note">Yerleşim, parçaların mm hassasiyetli pikselleştirilmesiyle yapılır; gerçek boşluk girilen değere göre hassasiyet kadar sapabilir. Sonucu kesim öncesi CAM yazılımında doğrulayın. Dosyalar tarayıcınızda işlenir, sunucuya gönderilmez.</div>
+<footer><a href="gizlilik-politikasi.html">Gizlilik Politikası</a><a href="sorumluluk-reddi.html">Sorumluluk Reddi</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></footer>
+</main>
+<script>
+const $=i=>document.getElementById(i);let parts=[],hueN=0,res=null,pdfUrl=null;
+function parseDxf(txt){
+ const L=txt.split(/\r?\n/),ents=[];let sec="",cur=null,poly=null;
+ for(let k=0;k+1<L.length;k+=2){const c=parseInt(L[k]),v=L[k+1].trim();
+  if(c===0){if(v==="SECTION"){sec="?"}else if(v==="ENDSEC"){sec=""}cur=null;if(sec==="ENTITIES"){if(v==="VERTEX"&&poly){cur={t:v,d:[]};poly.v.push(cur)}else if(v==="SEQEND"){poly=null}else{cur={t:v,d:[],v:[]};ents.push(cur);poly=v==="POLYLINE"?cur:null}}}
+  else if(c===2&&sec==="?"){sec=v}
+  else if(cur)cur.d.push([c,v])}
+ const g=(e,c)=>{const f=e.d.find(x=>x[0]===c);return f?parseFloat(f[1]):0},all=(e,c)=>e.d.filter(x=>x[0]===c).map(x=>parseFloat(x[1]));
+ const arc=(cx,cy,r,a0,a1)=>{while(a1<=a0)a1+=2*Math.PI;const n=Math.max(6,Math.ceil((a1-a0)/(Math.PI/45))),o=[];for(let i=0;i<=n;i++){const a=a0+(a1-a0)*i/n;o.push([cx+r*Math.cos(a),cy+r*Math.sin(a)])}return o};
+ const bul=(p,q,b)=>{const th=4*Math.atan(b),dx=q[0]-p[0],dy=q[1]-p[1],l=Math.hypot(dx,dy);if(!l)return[];const h=(l/2)/Math.tan(th/2),cx=(p[0]+q[0])/2-dy/l*h,cy=(p[1]+q[1])/2+dx/l*h,a0=Math.atan2(p[1]-cy,p[0]-cx),n=Math.max(4,Math.ceil(Math.abs(th)/(Math.PI/45))),o=[];for(let i=1;i<n;i++){const a=a0+th*i/n,r=Math.hypot(p[0]-cx,p[1]-cy);o.push([cx+r*Math.cos(a),cy+r*Math.sin(a)])}return o};
+ const closed=[],open=[];
+ const addPoly=(pts,bl,cl)=>{const o=[];pts.forEach((p,i)=>{o.push(p);const q=pts[i+1]||(cl?pts[0]:null);if(q&&bl[i])o.push(...bul(p,q,bl[i]))});(cl?closed:open).push(o)};
+ ents.forEach(e=>{try{
+  if(e.t==="LINE")open.push([[g(e,10),g(e,20)],[g(e,11),g(e,21)]]);
+  else if(e.t==="CIRCLE")closed.push(arc(g(e,10),g(e,20),g(e,40),0,2*Math.PI).slice(0,-1));
+  else if(e.t==="ARC")open.push(arc(g(e,10),g(e,20),g(e,40),g(e,50)*Math.PI/180,g(e,51)*Math.PI/180));
+  else if(e.t==="LWPOLYLINE"){const pts=[],bl=[];e.d.forEach(([c,v])=>{if(c===10)pts.push([parseFloat(v),0]);else if(c===20&&pts.length)pts[pts.length-1][1]=parseFloat(v);else if(c===42)bl[pts.length-1]=parseFloat(v)});addPoly(pts,bl,g(e,70)&1)}
+  else if(e.t==="POLYLINE"){const pts=e.v.map(v=>[g(v,10),g(v,20)]),bl=e.v.map(v=>g(v,42));addPoly(pts,bl,g(e,70)&1)}
+  else if(e.t==="SPLINE"){const f=all(e,11).length?[11,21]:[10,20],xs=all(e,f[0]),ys=all(e,f[1]);addPoly(xs.map((x,i)=>[x,ys[i]]),[],g(e,70)&1)}
+ }catch(x){}});
+ const T=.1,eq=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1])<T;let rest=open.filter(p=>p.length>1),bad=0;
+ while(rest.length){let c=rest.pop(),ext=true;
+  while(ext){ext=false;for(let pass=0;pass<2&&!ext;pass++){for(let i=0;i<rest.length;i++){const p=rest[i];
+    if(eq(c[c.length-1],p[0])){c=c.concat(p.slice(1));rest.splice(i,1);ext=true;break}
+    if(eq(c[c.length-1],p[p.length-1])){c=c.concat(p.slice(0,-1).reverse());rest.splice(i,1);ext=true;break}}
+   if(!ext&&pass===0)c.reverse()}}
+  if(c.length>3&&eq(c[0],c[c.length-1]))closed.push(c.slice(0,-1));else bad++}
+ return{loops:closed.filter(l=>l.length>2),bad}}
+
+function mask(loops,deg,r,g){
+ const a=deg*Math.PI/180,c=Math.cos(a),s=Math.sin(a);let x0=1e18,y0=1e18,x1=-1e18,y1=-1e18;
+ const R=loops.map(l=>l.map(p=>[p[0]*c-p[1]*s,p[0]*s+p[1]*c]));
+ R.forEach(l=>l.forEach(p=>{x0=Math.min(x0,p[0]);y0=Math.min(y0,p[1]);x1=Math.max(x1,p[0]);y1=Math.max(y1,p[1])}));
+ R.forEach(l=>l.forEach(p=>{p[0]-=x0;p[1]-=y0}));
+ const w=Math.ceil((x1-x0)/r)+1,h=Math.ceil((y1-y0)/r)+1,W=w+2*g,H=h+2*g;let m=new Uint8Array(W*H),cnt=0;
+ for(let j=0;j<h;j++)for(const f of[.05,.5,.95]){const y=(j+f)*r,xs=[];
+  R.forEach(l=>{for(let k=0,n=l.length;k<n;k++){const p=l[k],q=l[(k+1)%n];if((p[1]<=y&&q[1]>y)||(q[1]<=y&&p[1]>y))xs.push(p[0]+(y-p[1])/(q[1]-p[1])*(q[0]-p[0]))}});
+  xs.sort((u,v)=>u-v);for(let k=0;k+1<xs.length;k+=2)for(let i=Math.max(0,Math.floor(xs[k]/r));i<Math.min(w,Math.ceil(xs[k+1]/r));i++)m[(j+g)*W+i+g]=1}
+ for(let i=0;i<m.length;i++)cnt+=m[i];
+ if(g){const t=new Uint8Array(W*H);for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(m[y*W+x])for(let k=Math.max(0,x-g);k<=Math.min(W-1,x+g);k++)t[y*W+k]=1;
+  m=new Uint8Array(W*H);for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(t[y*W+x])for(let k=Math.max(0,y-g);k<=Math.min(H-1,y+g);k++)m[k*W+x]=1}
+ const runs=[];for(let y=0;y<H;y++){let x=0;while(x<W){if(m[y*W+x]){let e=x;while(e<W&&m[y*W+e])e++;runs.push([y,x,e]);x=e}else x++}}
+ return{W,H,runs,cnt,x0,y0,a:deg,w,h}}
+const fits=(sh,SW,k,X,Y)=>{for(const[y,a,b]of k.runs){const o=(Y+y)*SW+X;for(let i=a;i<b;i++)if(sh[o+i])return false}return true};
+
+function bbox(loops){let x0=1e18,y0=1e18,x1=-1e18,y1=-1e18;loops.forEach(l=>l.forEach(p=>{x0=Math.min(x0,p[0]);y0=Math.min(y0,p[1]);x1=Math.max(x1,p[0]);y1=Math.max(y1,p[1])}));return[x1-x0,y1-y0,x0,y0]}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=(n,d=0)=>Number(n).toLocaleString("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const col=h=>`hsl(${h},65%,52%)`;
+const msg=(t,w)=>{const m=$("msg");m.textContent=t;m.classList.toggle("wn",!!w)};
+const dpath=ls=>ls.map(l=>"M"+l.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join("L")+"Z").join("");
+function thumb(p){const pd=Math.max(p.w,p.h)*.05||1;
+ return `<svg viewBox="${(p.x0-pd).toFixed(1)} ${(-(p.y0+p.h)-pd).toFixed(1)} ${(p.w+2*pd).toFixed(1)} ${(p.h+2*pd).toFixed(1)}" aria-hidden="true"><path transform="scale(1,-1)" d="${dpath(p.loops)}" fill-rule="evenodd" style="fill:${col(p.hue)};fill-opacity:.85;stroke:rgba(0,0,0,.55)" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>`}
+const sumQ=()=>{const t=parts.reduce((a,p)=>a+p.q,0);$("qt").textContent=parts.length?parts.length+" çeşit · toplam "+fmt(t)+" adet":""};
+function draw(){const n=parts.length;$("tt").classList.toggle("hid",!n);$("go").classList.toggle("hid",!n);
+ $("tb").innerHTML=parts.map((p,i)=>`<div class="pr"><div class="pt">${p.svg}</div><div class="pi"><b title="${esc(p.name)}">${esc(p.name)}</b><span>${fmt(p.w,1)} × ${fmt(p.h,1)} mm</span></div><div class="qs"><button type="button" data-m="${i}" data-s="-1" aria-label="Adedi azalt">−</button><input type="number" inputmode="numeric" min="0" step="1" value="${p.q}" data-i="${i}" aria-label="${esc(p.name)} adet"><button type="button" data-m="${i}" data-s="1" aria-label="Adedi artır">+</button></div><button type="button" class="dx" data-d="${i}" aria-label="Sil">×</button></div>`).join("");
+ sumQ()}
+
+/* ---- ebat hazırları ---- */
+const PRE=[[3000,1500],[2500,1250],[2000,1000],[6000,2000]];
+$("pre").innerHTML=PRE.map(([w,h])=>`<button type="button" data-w="${w}" data-h="${h}">${w} × ${h}</button>`).join("");
+const syncPre=()=>[...$("pre").children].forEach(b=>b.classList.toggle("on",+b.dataset.w===+$("sw").value&&+b.dataset.h===+$("sh").value));
+$("pre").onclick=e=>{const b=e.target.closest("button");if(b){$("sw").value=b.dataset.w;$("sh").value=b.dataset.h;syncPre()}};
+$("sw").oninput=$("sh").oninput=syncPre;syncPre();
+
+/* ---- dosya yükleme ---- */
+async function loadFiles(fs){let m="",ok=0;
+ for(const f of fs){try{const r=parseDxf(await f.text());if(!r.loops.length){m+=" "+f.name+": kapalı kontur bulunamadı.";continue}
+  const nm=f.name.replace(/\.dxf$/i,""),b=bbox(r.loops),old=parts.find(p=>p.name===nm);
+  parts=parts.filter(p=>p.name!==nm);
+  const p={name:nm,loops:r.loops,w:b[0],h:b[1],x0:b[2],y0:b[3],q:old?old.q:1,hue:old?old.hue:(hueN++*67+210)%360};p.svg=thumb(p);parts.push(p);ok++;
+  if(r.bad)m+=" "+f.name+": "+r.bad+" açık çizgi grubu atlandı."}catch(x){m+=" "+f.name+" okunamadı."}}
+ draw();
+ if(!parts.length)msg("Parça okunamadı."+m,true);
+ else msg(parts.length+" parça yüklü. Adetleri girip Yerleştir'e basın."+m,!!m)}
+$("add").onclick=()=>$("fl").click();
+const dz=$("dz");
+dz.onclick=()=>$("fl").click();
+dz.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("fl").click()}};
+dz.ondragover=e=>{e.preventDefault();dz.classList.add("on")};
+dz.ondragleave=()=>dz.classList.remove("on");
+dz.ondrop=e=>{e.preventDefault();dz.classList.remove("on");const fs=[...e.dataTransfer.files].filter(f=>/\.dxf$/i.test(f.name));if(fs.length)loadFiles(fs);else msg("Yalnızca .dxf dosyaları yüklenebilir.",true)};
+$("fl").onchange=e=>{const fs=[...e.target.files];e.target.value="";if(fs.length)loadFiles(fs)};
+$("tb").addEventListener("input",e=>{const i=e.target.dataset.i;if(i!==undefined){parts[i].q=Math.max(0,parseInt(e.target.value)||0);sumQ()}});
+$("tb").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.d!==undefined){parts.splice(+b.dataset.d,1);draw()}
+ else if(b.dataset.m!==undefined){const p=parts[+b.dataset.m];p.q=Math.max(0,p.q+ +b.dataset.s);b.parentNode.querySelector("input").value=p.q;sumQ()}});
+
+/* ---- yerleşim ---- */
+function placeLoops(R,q){const p=R.ps[q.i],k=q.k,a=k.a*Math.PI/180,c=Math.cos(a),s=Math.sin(a),ox=(q.X+R.g)*R.r,oy=(q.Y+R.g)*R.r;
+ return p.loops.map(l=>l.map(pt=>[pt[0]*c-pt[1]*s-k.x0+ox,pt[0]*s+pt[1]*c-k.y0+oy]))}
+
+/* parçanın sınır kutusunu en küçük yapan açı (düz hizalama) */
+function alignAngle(loops){let best=0,ba=1e30;for(let d=0;d<180;d++){const a=d*Math.PI/180,c=Math.cos(a),s=Math.sin(a);let x0=1e18,y0=1e18,x1=-1e18,y1=-1e18;
+ for(const l of loops)for(const p of l){const x=p[0]*c-p[1]*s,y=p[0]*s+p[1]*c;if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
+ const A=(x1-x0)*(y1-y0);if(A<ba-1e-6){ba=A;best=d}}return best}
+const stepAngs=st=>{const a=[];for(let x=0;x<360;x+=st)a.push(x);return a};
+
+$("go").onclick=async()=>{const SWm=+$("sw").value,SHm=+$("sh").value,mg=Math.max(0,+$("mg").value||0),gp=Math.max(0,+$("gp").value||0),r=+$("rs").value,auto=$("ro").value==="auto",st=auto?90:+$("ro").value,out=$("out"),btn=$("go");
+ if(!(SWm>0&&SHm>0)){out.innerHTML='<div class="card wn">Sac ebadını girin.</div>';return}
+ const total=parts.reduce((a,p)=>a+p.q,0);
+ if(!total){out.innerHTML='<div class="card wn">En az bir parçanın adedi 1 veya daha fazla olmalı.</div>';return}
+ btn.disabled=true;btn.textContent="Yerleştiriliyor…";res=null;
+ const prog=(t,f)=>{out.innerHTML=`<div class="card"><b>${t}</b><div class="bar"><i style="width:${Math.round(f*100)}%"></i></div></div>`};
+ prog("Hazırlanıyor…",0);await new Promise(z=>setTimeout(z,20));
+ const g=Math.ceil(gp/2/r),mc=Math.ceil(mg/r),SW=Math.ceil(SWm/r),SH=Math.ceil(SHm/r);
+ const mc2=new Map(),getM=(i,a)=>{const k=i+"_"+a;if(!mc2.has(k))mc2.set(k,mask(parts[i].loops,a,r,g));return mc2.get(k)};
+ const ps=parts.map(p=>({name:p.name,loops:p.loops,w:p.w,h:p.h,q:p.q,hue:p.hue}));
+ const al=auto?parts.map(p=>p.q>0?alignAngle(p.loops):0):null;
+ const angsFor=(base,useAl)=>parts.map((_,i)=>{if(st===360&&!auto)return[0];const s=new Set(base);if(useAl)[0,90,180,270].forEach(k=>s.add((al[i]+k)%360));return[...s].sort((x,y)=>x-y)});
+ const runs=auto?[{b:stepAngs(90),o:"area"},{b:stepAngs(90),o:"long"},{b:stepAngs(45),o:"area"},{b:stepAngs(15),o:"area"},{b:stepAngs(15),o:"long"}].map(x=>({A:angsFor(x.b,true),o:x.o})):[{A:angsFor(stepAngs(st),false),o:"area"}];
+ let ri=0,sheetTot=0,placedTot=0,curN=0,last=performance.now();
+ const tick=async()=>{if(performance.now()-last>60){prog((runs.length>1?"Deneme "+(ri+1)+"/"+runs.length+" · ":"")+"Yerleştiriliyor… "+(sheetTot+1)+". sac · "+(placedTot+curN)+" / "+total+" parça",(ri+(placedTot+curN)/total)/runs.length);await new Promise(z=>setTimeout(z));last=performance.now()}};
+ const runNest=async cfg=>{const A=cfg.A,rem=parts.map(p=>p.q),lostN=parts.map(()=>0);
+  const order=parts.map((_,i)=>i).filter(i=>rem[i]>0).sort((a,b)=>cfg.o==="long"?(Math.max(parts[b].w,parts[b].h)-Math.max(parts[a].w,parts[a].h))||(getM(b,0).cnt-getM(a,0).cnt):getM(b,0).cnt-getM(a,0).cnt);
+  const tryPlace=(S,i)=>{let best=null;
+   for(const a of A[i]){const k=getM(i,a),xmin=Math.max(0,mc-g),xmax=SW-mc+g-k.W,ymin=Math.max(0,mc-g),ymax=SH-mc+g-k.H;
+    if(xmax<xmin||ymax<ymin)continue;
+    const key=i+"_"+a;let Y=Math.max(ymin,S.hint.get(key)||0);
+    for(;Y<=ymax;Y++){if(best&&Y+k.H>best.top)break;let hit=false;
+     for(let X=xmin;X<=xmax;X++)if(fits(S.occ,SW,k,X,Y)){const top=Y+k.H;if(!best||top<best.top||(top===best.top&&X<best.X))best={k,X,Y,top};hit=true;break}
+     if(hit)break}
+    S.hint.set(key,Y)}
+   if(!best)return false;
+   for(const[y,a,b]of best.k.runs){const o=(best.Y+y)*SW+best.X;S.occ.fill(1,o+a,o+b)}
+   S.pl.push({i,k:best.k,X:best.X,Y:best.Y});S.cnt+=getM(i,0).cnt;return true};
+  const layouts=[];sheetTot=0;placedTot=0;
+  while(rem.some(x=>x>0)){
+   const S={occ:new Uint8Array(SW*SH),pl:[],cnt:0,hint:new Map()},c=parts.map(()=>0);curN=0;
+   for(const i of order){if(rem[i]<=0)continue;
+    while(c[i]<rem[i]){await tick();
+     if(tryPlace(S,i)){c[i]++;curN++}
+     else{if(!S.pl.length){lostN[i]+=rem[i];rem[i]=0}break}}}
+   if(!S.pl.length)continue;
+   /* aynı sac yerleşimi kaç kez tekrar edebilirse o kadar çarpıp geç */
+   let k=Infinity;parts.forEach((_,i)=>{if(c[i]>0)k=Math.min(k,Math.floor(rem[i]/c[i]))});
+   if(!isFinite(k)||k<1)k=1;
+   parts.forEach((_,i)=>{rem[i]-=k*c[i]});
+   S.occ=null;S.hint=null;curN=0;
+   layouts.push({S,k,c,from:sheetTot+1,to:sheetTot+k});sheetTot+=k;placedTot+=k*S.pl.length}
+  /* puan: önce yerleşen parça çok, sonra gereken sac az (son sacın doluluğu kesirli sayılır) */
+  const lastL=layouts[layouts.length-1],eff=lastL?sheetTot-1+lastL.S.cnt*r*r/(SWm*SHm):0;
+  return{layouts,sheetTot,placedTot,lostN,eff}};
+ let best=null;const t0=performance.now();
+ for(ri=0;ri<runs.length;ri++){if(ri>0&&performance.now()-t0>25000)break;
+  const R=await runNest(runs[ri]);
+  if(!best||R.placedTot>best.placedTot||(R.placedTot===best.placedTot&&R.eff<best.eff-1e-9))best=R}
+ const tried=Math.min(ri,runs.length);
+ res={SWm,SHm,mg,gp,r,g,ps,layouts:best.layouts,sheetTot:best.sheetTot,placedTot:best.placedTot,total,tried,auto,lost:ps.map((p,i)=>({name:p.name,n:best.lostN[i]})).filter(x=>x.n)};
+ render(res);btn.disabled=false;btn.textContent="Yerleştir";
+ out.scrollIntoView({behavior:"smooth",block:"start"})};
+
+function render(R){const {SWm,SHm,layouts,ps}=R,sa=SWm*SHm,m=Math.max(SWm,SHm)/100;
+ const useOf=L=>L.S.cnt*R.r*R.r/sa*100;
+ const area=layouts.reduce((a,L)=>a+L.S.cnt*L.k,0)*R.r*R.r,avg=R.sheetTot?area/(sa*R.sheetTot)*100:0;
+ let h=`<section class="card sec"><h2><i>3</i>Sonuç</h2>`;
+ if(R.sheetTot)h+=`<div class="stats"><div><b>${fmt(R.sheetTot)}</b><span>adet ${SWm}×${SHm} mm sac</span></div><div><b>${fmt(R.placedTot)} / ${fmt(R.total)}</b><span>parça yerleşti</span></div><div><b>%${fmt(avg,1)}</b><span>ortalama kullanım</span></div><div><b>%${fmt(100-avg,1)}</b><span>fire</span></div></div>`;
+ if(R.auto&&R.tried>1)h+=`<div class="note" style="margin-top:10px">Otomatik döndürme: ${R.tried} farklı yerleşim denendi, en az sac gerektiren sonuç gösteriliyor.</div>`;
+ if(R.lost.length)h+=`<div class="wn">Sığmayan parça: ${R.lost.map(x=>esc(x.name)+" ×"+x.n).join(", ")} (sac ebadından büyük olabilir)</div>`;
+ if(R.sheetTot)h+=`<button id="pdf" type="button" class="pri">PDF indir</button><div class="note" id="pdfmsg" style="margin-top:8px"></div>`;
+ h+=`</section>`;
+ layouts.forEach(L=>{const u=useOf(L);let p="";
+  L.S.pl.forEach(q=>{p+=`<path fill-rule="evenodd" d="${dpath(placeLoops(R,q))}" style="fill:${col(ps[q.i].hue)};fill-opacity:.85;stroke:rgba(0,0,0,.55)" stroke-width=".8" vector-effect="non-scaling-stroke"/>`});
+  const chips=ps.map((x,i)=>L.c[i]?`<span><i style="background:${col(x.hue)}"></i>${esc(x.name)} × ${L.c[i]}</span>`:"").join("");
+  h+=`<section class="card"><div class="lh"><div><b>${L.k>1?"Sac "+L.from+"–"+L.to:"Sac "+L.from}</b>${L.k>1?`<span class="bd">${L.k} adet · aynı yerleşim</span>`:""}</div><span class="note">${fmt(L.S.pl.length)} parça · kullanım %${fmt(u,1)} · fire %${fmt(100-u,1)}</span></div><div class="sv"><svg viewBox="${-m} ${-m} ${SWm+2*m} ${SHm+2*m}" role="img" aria-label="Sac ${L.from} yerleşimi"><g transform="translate(0,${SHm}) scale(1,-1)"><rect width="${SWm}" height="${SHm}" style="fill:var(--paper);stroke:var(--paperln)" stroke-width="1" vector-effect="non-scaling-stroke"/><rect x="${R.mg}" y="${R.mg}" width="${Math.max(0,SWm-2*R.mg)}" height="${Math.max(0,SHm-2*R.mg)}" fill="none" stroke="#ff3b30" stroke-opacity=".7" stroke-dasharray="5 4" stroke-width="1" vector-effect="non-scaling-stroke"/>${p}</g></svg></div><div class="cp">${chips}</div></section>`});
+ $("out").innerHTML=h}
+
+/* ---- PDF (vektör, A4 yatay) ---- */
+const WINC={"Ş":128,"ş":129,"Ğ":130,"ğ":131,"İ":132,"ı":133,"×":215,"·":183,"–":45,"—":45,"−":45,"’":39};
+const pstr=s=>{let o="";for(const ch of String(s)){let c=WINC[ch];if(c===undefined){c=ch.charCodeAt(0);if(c>255){const b=ch.normalize("NFD").charCodeAt(0);c=b<128?b:63}}
+ if(c===40||c===41||c===92)o+="\\"+String.fromCharCode(c);else if(c<32)o+=" ";else o+=String.fromCharCode(c)}return o};
+function hslRgb(h,s,l){s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l);return[0,8,4].map(n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1))))}
+const enc=s=>{const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i)&255;return u};
+async function deflate(u){try{if(typeof CompressionStream==="undefined")return null;return new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new CompressionStream("deflate"))).arrayBuffer())}catch(e){return null}}
+
+async function buildPdf(R){const {SWm,SHm,ps,layouts}=R,PW=842,PH=595,MG=28,pages=[],f=n=>String(Math.round(n*100)/100);
+ const T=(fo,sz,x,y,s)=>"BT /F"+fo+" "+sz+" Tf 1 0 0 1 "+f(x)+" "+f(y)+" Tm ("+pstr(s)+") Tj ET";
+ const TR=(fo,sz,x,y,s)=>"BT /F"+fo+" "+sz+" Tf 0 1 -1 0 "+f(x)+" "+f(y)+" Tm ("+pstr(s)+") Tj ET";
+ const tw=(s,sz,b)=>String(s).length*sz*(b?.56:.5);
+ const fit=(s,sz,w)=>{s=String(s);const n=Math.max(4,Math.floor(w/(sz*.5)));return s.length>n?s.slice(0,n-1)+"…":s};
+ const rgb=h=>hslRgb(h,65,52).map(v=>f(.8*v+.2)).join(" ");
+ const date=new Date().toLocaleDateString("tr-TR");
+ const area=layouts.reduce((a,L)=>a+L.S.cnt*L.k,0)*R.r*R.r,avg=R.sheetTot?area/(SWm*SHm*R.sheetTot)*100:0;
+ /* 1. sayfa: özet */
+ {let cur=[];pages.push(cur);let y=PH-MG-16;
+  cur.push("0.11 g",T(2,20,MG,y,"Sac yerleşim raporu"),"0.45 g",T(1,9,PW-MG-tw(date,9),y+4,date));y-=28;
+  [`Sac ebadı: ${SWm} × ${SHm} mm · Kenar boşluğu: ${R.mg} mm · Parça arası boşluk: ${R.gp} mm`,
+   `Gerekli sac: ${fmt(R.sheetTot)} adet · Yerleşen parça: ${fmt(R.placedTot)} / ${fmt(R.total)}`,
+   `Ortalama kullanım: %${fmt(avg,1)} · Fire: %${fmt(100-avg,1)}`,
+   ...(R.lost.length?["Sığmayan parça: "+R.lost.map(x=>x.name+" x"+x.n).join(", ")]:[])
+  ].forEach(s=>{cur.push("0.25 g",T(1,10.5,MG,y,s));y-=15});
+  y-=10;
+  const X2=MG+330,X3=PW-MG-120,X4=PW-MG;
+  const head=()=>{cur.push("0.45 g",T(2,8.5,MG+16,y,"PARÇA"),T(2,8.5,X2,y,"ÖLÇÜ (mm)"),T(2,8.5,X3-tw("İSTENEN",8.5,1)*1.2,y,"İSTENEN"),T(2,8.5,X4-tw("YERLEŞEN",8.5,1)*1.2,y,"YERLEŞEN"),"0.8 G 0.5 w "+MG+" "+f(y-5)+" m "+(PW-MG)+" "+f(y-5)+" l S");y-=20};
+  head();
+  ps.forEach((p,i)=>{if(y<MG+30){cur=[];pages.push(cur);y=PH-MG-16;head()}
+   const pl=layouts.reduce((a,L)=>a+L.k*L.c[i],0);
+   cur.push(rgb(p.hue)+" rg "+MG+" "+f(y-1)+" 9 9 re f","0.11 g",T(1,10,MG+16,y,fit(p.name,10,300)),T(1,10,X2,y,fmt(p.w,1)+" × "+fmt(p.h,1)),T(1,10,X3-tw(p.q,10),y,String(p.q)),(pl<p.q?"0.85 0.2 0.1 g ":"0.11 g ")+T(1,10,X4-tw(pl,10),y,String(pl)));y-=17})}
+ /* sac sayfaları */
+ layouts.forEach(L=>{const o=[];pages.push(o);const u=L.S.cnt*R.r*R.r/(SWm*SHm)*100;
+  const types=ps.map((_,i)=>i).filter(i=>L.c[i]>0),shown=types.slice(0,30),cols=3,colW=(PW-2*MG)/cols,legRows=Math.ceil(shown.length/cols),legH=legRows*13+6;
+  const title="Sac "+(L.k>1?L.from+"-"+L.to:L.from)+(L.k>1?"   ("+L.k+" adet, aynı yerleşim)":"");
+  o.push("0.11 g",T(2,15,MG,PH-MG-12,title),"0.45 g",T(1,9,MG,PH-MG-27,SWm+" × "+SHm+" mm sac · "+fmt(L.S.pl.length)+" parça · kullanım %"+fmt(u,1)+" · fire %"+fmt(100-u,1)));
+  const top=PH-MG-40,bottom=30+legH+8,LBL=16,aw=PW-2*MG-LBL,ah=top-14-bottom,s=Math.min(aw/SWm,ah/SHm),dw=SWm*s,dh=SHm*s,ox=MG+LBL+(aw-dw)/2,oy=top-14-dh;
+  o.push("0.45 g",T(1,8,PW-MG-tw("Ölçek ~1:"+Math.round(2.83465/s),8),PH-MG-27,"Ölçek ~1:"+Math.round(2.83465/s)));
+  o.push("0.45 g",T(1,8,ox+dw/2-tw(SWm+" mm",8)/2,oy+dh+4,SWm+" mm"),TR(1,8,ox-5,oy+dh/2-tw(SHm+" mm",8)/2,SHm+" mm"));
+  o.push("0.965 g 0.62 G 0.6 w "+f(ox)+" "+f(oy)+" "+f(dw)+" "+f(dh)+" re B");
+  o.push("1 0.23 0.19 RG 0.4 w [3 2] 0 d "+f(ox+R.mg*s)+" "+f(oy+R.mg*s)+" "+f(Math.max(0,dw-2*R.mg*s))+" "+f(Math.max(0,dh-2*R.mg*s))+" re S [] 0 d");
+  L.S.pl.forEach(q=>{const d=placeLoops(R,q).map(l=>l.map((p,j)=>f(ox+p[0]*s)+" "+f(oy+p[1]*s)+(j?" l":" m")).join(" ")+" h").join(" ");
+   o.push(rgb(ps[q.i].hue)+" rg 0.15 G 0.3 w "+d+" B*")});
+  shown.forEach((i,n)=>{const cx=MG+(n%cols)*colW,cy=30+legH-9-Math.floor(n/cols)*13;
+   o.push(rgb(ps[i].hue)+" rg "+f(cx)+" "+f(cy-1)+" 8 8 re f","0.2 g",T(1,8.5,cx+13,cy,fit(ps[i].name,8.5,colW-70)+" x "+L.c[i]))});
+  if(types.length>shown.length)o.push("0.45 g",T(1,8,PW-MG-80,30,"+"+(types.length-shown.length)+" parça türü daha"))});
+ const N=pages.length;
+ pages.forEach((o,i)=>{o.push("0.5 g",T(1,7,MG,14,"hayratagirlik.com · Sac yerleşimi"),T(1,7,PW-MG-tw("Sayfa "+(i+1)+"/"+N,7),14,"Sayfa "+(i+1)+"/"+N))});
+ /* PDF dosyası */
+ const chunks=[],off=[];let pos=0;const put=x=>{const u=typeof x==="string"?enc(x):x;chunks.push(u);pos+=u.length};
+ const obj=(n,fn)=>{off[n]=pos;put(n+" 0 obj\n");fn();put("\nendobj\n")};
+ put("%PDF-1.5\n");
+ obj(1,()=>put("<< /Type /Catalog /Pages 2 0 R >>"));
+ obj(2,()=>put("<< /Type /Pages /Count "+N+" /Kids ["+pages.map((_,i)=>(6+i*2)+" 0 R").join(" ")+"] >>"));
+ obj(3,()=>put("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding 5 0 R >>"));
+ obj(4,()=>put("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding 5 0 R >>"));
+ obj(5,()=>put("<< /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [128 /Scedilla /scedilla /Gbreve /gbreve /Idotaccent /dotlessi] >>"));
+ for(let i=0;i<N;i++){const p=6+i*2,raw=enc(pages[i].join("\n")),z=await deflate(raw),data=z||raw;
+  obj(p,()=>put("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+PW+" "+PH+"] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents "+(p+1)+" 0 R >>"));
+  obj(p+1,()=>{put("<< /Length "+data.length+(z?" /Filter /FlateDecode":"")+" >>\nstream\n");put(data);put("\nendstream")})}
+ const T2=5+N*2,xr=pos;
+ put("xref\n0 "+(T2+1)+"\n0000000000 65535 f \n");
+ for(let i=1;i<=T2;i++)put(String(off[i]).padStart(10,"0")+" 00000 n \n");
+ put("trailer\n<< /Size "+(T2+1)+" /Root 1 0 R >>\nstartxref\n"+xr+"\n%%EOF");
+ return new Blob(chunks,{type:"application/pdf"})}
+
+$("out").addEventListener("click",async e=>{const b=e.target.closest("#pdf");if(!b||!res)return;
+ const m=$("pdfmsg");b.disabled=true;m.textContent="PDF hazırlanıyor…";
+ try{const blob=await buildPdf(res);if(pdfUrl)URL.revokeObjectURL(pdfUrl);pdfUrl=URL.createObjectURL(blob);
+  const n="HAH-Sac-Yerlesim-"+new Date().toISOString().slice(0,10)+".pdf",a=document.createElement("a");
+  a.href=pdfUrl;a.download=n;document.body.appendChild(a);a.click();a.remove();
+  if(window.hahCount)hahCount("pdf");
+  m.innerHTML='PDF hazırlandı ('+fmt(blob.size/1024)+' KB). İndirme başlamadıysa <a href="'+pdfUrl+'" target="_blank" rel="noopener" download="'+n+'">buraya dokunun</a>.'}
+ catch(err){m.textContent="PDF oluşturulamadı: "+err.message}
+ b.disabled=false});
+</script>
+</body>
+</html>
