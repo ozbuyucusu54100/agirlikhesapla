@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Teknik Resim Oyunu | Görünüş ve 3B Model Eşleştirme</title>
+<meta name="description" content="Mühendislik öğrencileri için teknik resim oyunu: üç görünüşten doğru 3B modeli bulun, eksik görünüşü seçin, hatalı görünüşü yakalayın. 1. ve 3. açı projeksiyon. Ücretsiz.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0071e3">
+<link rel="canonical" href="https://hayratagirlik.com/teknik-resim-oyunu.html">
+<meta property="og:type" content="website"><meta property="og:locale" content="tr_TR"><meta property="og:site_name" content="HAYRAT AĞIRLIK HESAPLAMA">
+<meta property="og:title" content="Teknik Resim Oyunu | Görünüş ve 3B Model Eşleştirme"><meta property="og:description" content="Üç görünüşten doğru 3B modeli bulun, eksik görünüşü seçin, hatalı görünüşü yakalayın."><meta property="og:url" content="https://hayratagirlik.com/teknik-resim-oyunu.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='14' fill='%230071e3'/%3E%3Ctext x='28' y='33' text-anchor='middle' font-size='19' font-weight='800' fill='white' font-family='Arial'%3EHAH%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<style>
+.tg{--f1:#d6eaff;--f2:#9bc9fb;--f3:#62a4ea;--ok:#34c759;--no:#ff3b30}
+@media(prefers-color-scheme:dark){.tg{--f1:#5aa4f0;--f2:#3b82d4;--f3:#2a62a8}}
+.hid{display:none!important}
+.tg h2{font-size:18px;margin:0 0 14px}
+.tg fieldset{border:0;padding:0;margin:0 0 16px;min-width:0}
+.tg legend{font-size:13px;color:var(--mu);margin-bottom:6px;padding:0}
+.chs{display:flex;flex-wrap:wrap;gap:8px}
+.ch{position:relative}
+.ch input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.ch span{display:block;padding:9px 15px;border-radius:99px;border:1px solid var(--ln);background:var(--bg);font-size:15px;font-weight:600}
+.ch input:checked+span{background:var(--ac);border-color:var(--ac);color:var(--acx)}
+.ch input:focus-visible+span{outline:2px solid var(--ac);outline-offset:2px}
+.sm{font-size:13px;color:var(--mu);margin:6px 0 0}
+.pri{display:block;width:100%;margin-top:6px;font:inherit;font-size:17px;font-weight:600;padding:14px 18px;border-radius:14px;border:0;background:var(--ac);color:var(--acx);cursor:pointer}
+.pri.alt{background:var(--bg);color:var(--ac);border:1px solid var(--ln)}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.hud div{background:var(--bg);border-radius:12px;padding:6px 10px;font-size:12px;color:var(--mu)}
+.hud b{display:block;font-size:18px;color:var(--tx);line-height:1.25}
+.pbar{height:6px;border-radius:99px;background:var(--bg);overflow:hidden;margin-bottom:14px}
+.pbar i{display:block;height:100%;background:var(--ac);transition:width .3s}
+.qt{font-size:19px;font-weight:700;margin:0 0 2px;line-height:1.3}
+.qs{font-size:14px;color:var(--mu);margin:0 0 12px}
+.how{background:var(--bg);border-radius:12px;padding:10px 14px;margin:0 0 12px;font-size:14px}
+.how summary{cursor:pointer;font-weight:600;color:var(--ac)}
+.how ol{margin:8px 0 0;padding-left:20px}.how li{font-size:14px;margin:3px 0}
+.lg{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;font-size:13px;color:var(--mu);margin:-4px 0 14px}
+.lg span{display:inline-flex;align-items:center;gap:7px}
+.lg i{display:inline-block;width:30px;border-top:3px solid var(--tx)}
+.lg i.d{border-top:2px dashed var(--tx);opacity:.75}
+.intro{font-size:15px;margin:0 0 14px;padding-left:20px}.intro li{font-size:15px;margin:3px 0}
+.cap{position:absolute;left:0;right:0;bottom:6px;font-size:12px;color:var(--mu);font-weight:600}
+.op.cp{padding-bottom:26px}
+.scene{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;background:var(--bg);border-radius:14px;padding:14px;margin-bottom:14px}
+.scene svg{max-width:100%;height:auto}
+.isobox{display:flex;flex-direction:column;align-items:center;gap:6px}
+.isobox .big{width:230px}
+.isobox .key{width:84px}
+.isobox small{font-size:11px;color:var(--mu)}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.opts.o3{grid-template-columns:repeat(3,1fr)}
+.op{position:relative;font:inherit;background:var(--bg);color:var(--tx);border:2px solid transparent;border-radius:14px;padding:14px 8px 8px;cursor:pointer;display:flex;justify-content:center;align-items:center;min-height:110px;text-align:center;font-weight:600}
+.op:hover:not(:disabled){border-color:var(--ac)}
+.op:disabled{cursor:default}
+.op .bd{position:absolute;left:8px;top:8px;width:24px;height:24px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:13px;font-weight:700}
+.op svg{max-width:100%;height:auto;max-height:180px}
+.op.ok{border-color:var(--ok);background:rgba(52,199,89,.14)}
+.op.no{border-color:var(--no);background:rgba(255,59,48,.1);animation:shk .3s}
+@keyframes shk{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media(prefers-reduced-motion:reduce){.op.no{animation:none}.pbar i{transition:none}}
+.fb{margin-top:14px;border-radius:14px;padding:14px;font-size:15px}
+.fb.ok{background:rgba(52,199,89,.14)}
+.fb.no{background:rgba(255,59,48,.1)}
+.fb b.t{display:block;font-size:17px;margin-bottom:2px}
+.fb .tip{display:block;margin-top:6px;font-size:13px;color:var(--mu)}
+.cmp{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin:12px 0 4px}
+.cmp figure{margin:0;text-align:center;font-size:12px;color:var(--mu)}
+.cmp svg{max-width:100%;height:auto;display:block;margin:0 auto 4px}
+.vl{fill:none;stroke:var(--tx);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.hl{fill:none;stroke:var(--tx);stroke-width:1.3;stroke-dasharray:5 3.5;opacity:.75}
+.mr,.mg{fill:none;stroke-width:3.4;stroke-linecap:round}
+.mr{stroke:var(--no)}.mg{stroke:var(--ok)}
+.gd{fill:none;stroke:var(--mu);stroke-width:.8;stroke-dasharray:1.5 3;opacity:.7}
+.vt{fill:var(--tx);font:700 13px -apple-system,Segoe UI,Arial,sans-serif}.vf{fill:var(--mu);font:600 11px -apple-system,Segoe UI,Arial,sans-serif;text-anchor:middle}
+.qm{fill:none;stroke:var(--mu);stroke-width:1.6;stroke-dasharray:5 4}
+.qq{fill:var(--ac);font:700 34px -apple-system,Segoe UI,Arial,sans-serif;text-anchor:middle;dominant-baseline:central}
+.hit{fill:transparent}
+.clk g[data-v]{cursor:pointer}
+.clk g[data-v]:hover .hit{fill:rgba(0,113,227,.08)}
+.ft{fill:var(--f1);stroke:var(--f1)}.ff{fill:var(--f2);stroke:var(--f2)}.fr{fill:var(--f3);stroke:var(--f3)}
+.ft,.ff,.fr{stroke-width:1px;vector-effect:non-scaling-stroke}
+.ie{fill:none;stroke:var(--tx);stroke-width:1.5px;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+.kt{fill:var(--tx);font:700 .3px -apple-system,Segoe UI,Arial,sans-serif;text-anchor:middle;dominant-baseline:central}
+.res .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0}
+.res .stats div{background:var(--bg);border-radius:14px;padding:12px 14px}
+.res .stats b{display:block;font-size:26px;letter-spacing:-.5px;line-height:1.15}
+.res .stats span{font-size:12px;color:var(--mu)}
+.res .rank{font-size:22px;font-weight:700;margin:4px 0}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+details.gd2 summary{cursor:pointer;font-weight:600;font-size:16px}
+details.gd2 .tw{margin-top:12px}
+@media(max-width:520px){.hud{grid-template-columns:repeat(2,1fr)}.isobox .big{width:190px}.btns{grid-template-columns:1fr}.opts.o3 .op{font-size:14px}}
+</style>
+</head>
+<body>
+<main>
+<a class="hd" href="index.html"><svg width="40" height="40" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,Segoe UI,Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><b>HAYRAT AĞIRLIK HESAPLAMA</b></a>
+<nav class="nv" aria-label="Ana menü"><a href="index.html">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html">STEP Görüntüleyici</a><a href="cad-pdf.html">CAD → PDF</a><a href="teknik-resim-oyunu.html" aria-current="page">Teknik Resim Oyunu</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<h1>Teknik resim oyunu</h1>
+<p class="lead">Görünüşleri okuma becerinizi oyunla geliştirin: üç görünüşten doğru 3B modeli bulun, eksik görünüşü seçin, hatalı çizimi yakalayın.</p>
+
+<div class="tg">
+<noscript><div class="card">Oyunun çalışması için tarayıcınızda JavaScript açık olmalıdır.</div></noscript>
+
+<section class="card" id="setup">
+  <h2>Oyunu kur</h2>
+  <ol class="intro"><li>Soruyu ve çizimleri okuyun.</li><li>Çizimleri modelle karşılaştırın.</li><li>Doğru seçeneğe dokunun. Puan ve seri kazanın.</li></ol>
+  <fieldset><legend>Oyun türü</legend><div class="chs" id="gm">
+    <label class="ch"><input type="radio" name="mode" value="mix" checked><span>Karışık</span></label>
+    <label class="ch"><input type="radio" name="mode" value="a"><span>3B modeli seç</span></label>
+    <label class="ch"><input type="radio" name="mode" value="b"><span>Eksik görünüşü seç</span></label>
+    <label class="ch"><input type="radio" name="mode" value="c"><span>Hatalı görünüşü bul</span></label>
+  </div><p class="sm" id="gmd"></p></fieldset>
+  <fieldset><legend>Zorluk</legend><div class="chs">
+    <label class="ch"><input type="radio" name="dif" value="e" checked><span>Kolay</span></label>
+    <label class="ch"><input type="radio" name="dif" value="m"><span>Orta</span></label>
+    <label class="ch"><input type="radio" name="dif" value="h"><span>Zor</span></label>
+  </div></fieldset>
+  <fieldset><legend>Projeksiyon yöntemi</legend><div class="chs">
+    <label class="ch"><input type="radio" name="prj" value="1" checked><span>1. açı (TS / ISO-E)</span></label>
+    <label class="ch"><input type="radio" name="prj" value="3"><span>3. açı (ANSI)</span></label>
+  </div></fieldset>
+  <fieldset><legend>Soru sayısı</legend><div class="chs">
+    <label class="ch"><input type="radio" name="cnt" value="5"><span>5</span></label>
+    <label class="ch"><input type="radio" name="cnt" value="10" checked><span>10</span></label>
+    <label class="ch"><input type="radio" name="cnt" value="15"><span>15</span></label>
+  </div></fieldset>
+  <fieldset><legend>Yardım</legend><div class="chs"><label class="ch"><input type="checkbox" id="gdl" checked><span>Hizalama çizgilerini göster</span></label></div></fieldset>
+  <button type="button" class="pri" id="go">Başla</button>
+  <p class="sm" id="bestl"></p>
+</section>
+
+<section class="card hid" id="game" aria-live="polite">
+  <div class="hud"><div>Soru<b id="hq">1 / 10</b></div><div>Puan<b id="hs">0</b></div><div>Seri<b id="hk">0</b></div><div>Süre<b id="ht">0 sn</b></div></div>
+  <div class="pbar"><i id="pb" style="width:0"></i></div>
+  <h2 class="qt" id="qt"></h2><p class="qs" id="qs"></p>
+  <details class="how" id="how"><summary>Nasıl çözülür?</summary><ol id="hw"></ol></details>
+  <div class="scene" id="scene"></div>
+  <div class="lg"><span><i></i>Görünen kenar</span><span><i class="d"></i>Gizli kenar (kesik çizgi)</span></div>
+  <div class="opts" id="opts"></div>
+  <div id="fb"></div>
+  <button type="button" class="pri hid" id="nx">Sonraki soru</button>
+</section>
+
+<section class="card res hid" id="result">
+  <h2>Tur bitti</h2>
+  <div class="rank" id="rk"></div>
+  <div class="stats" id="rs"></div>
+  <p class="sm" id="rb"></p>
+  <div class="btns"><button type="button" class="pri" id="again">Tekrar oyna</button><button type="button" class="pri alt" id="back">Ayarlara dön</button></div>
+</section>
+
+<details class="card gd2" id="rules">
+  <summary>Kurallar ve ipuçları</summary>
+  <div class="tw">
+  <p><b>Çizgi türleri.</b> Görünen kenarlar sürekli kalın çizgiyle, görünmeyen (başka bir yüzeyin arkasında kalan) kenarlar kesik çizgiyle gösterilir.</p>
+  <p><b>1. açı projeksiyon (TS, ISO-E).</b> Nesne, bakan kişi ile çizim düzlemi arasındadır. Üstten görünüş önden görünüşün <b>altına</b>, soldan görünüş önden görünüşün <b>sağına</b> çizilir.</p>
+  <p><b>3. açı projeksiyon (ANSI).</b> Çizim düzlemi, bakan kişi ile nesne arasındadır. Üstten görünüş önden görünüşün <b>üstüne</b>, sağdan görünüş önden görünüşün <b>sağına</b> çizilir.</p>
+  <p><b>Ölçü eşleştirme.</b> Genişlik önden ve üstten görünüşte, yükseklik önden ve yan görünüşte, derinlik üstten ve yan görünüşte aynıdır. Hizalama çizgileri bu eşleşmeyi izlemenize yardım eder.</p>
+  <p><b>Model yönü.</b> Eşlik eden küçük küpte hangi yüzün <i>Ön</i>, <i>Sağ</i> ve <i>Üst</i> olduğu yazar. Üstten görünüşte modelin önü her zaman çizimin alt kenarındadır.</p>
+  <p class="note">Modeller birim küplerden oluşur. Tüm küpler izometrik görünümde en az bir yüzüyle görünür; yani her soru çizimlerden ve modelden çözülebilir.</p>
+  </div>
+</details>
+</div>
+
+<h2>Teknik resim görünüşleri neden önemlidir?</h2>
+<p>Üretim resimleri, bir parçayı üç boyutlu olarak değil, birbirine bağlı birkaç görünüşle anlatır. Atölyede ya da bir sac kesim, kaynaklı imalat veya talaşlı imalat işinde parçayı doğru anlamak için bu görünüşleri okuyabilmek gerekir. Oyundaki sorular tam olarak bu beceriyi çalıştırır: görünüşlerden modeli kurmak, modelden görünüşü çıkarmak ve tutarsızlığı fark etmek.</p>
+<p>Oyun, ders sınavlarına hazırlanan mühendislik, makine ve teknik lise öğrencileri ile görünüş okumayı tazelemek isteyen teknikerler için hazırlandı. Zorluk arttıkça model büyür, farklar küçülür ve kesik çizgiler daha sık karşınıza çıkar.</p>
+
+<footer>
+<a href="gizlilik-politikasi.html">Gizlilik Politikası</a><a href="sorumluluk-reddi.html">Sorumluluk Reddi</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a>
+<p>© 2026 HAYRAT AĞIRLIK HESAPLAMA. Oyun eğitim amaçlıdır; resmî çizim kuralları için ilgili TS EN ISO standartlarına bakınız.</p>
+</footer>
+</main>
+<script>
+const $=i=>document.getElementById(i);
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const D6=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
+const VN={f:"Önden",t:"Üstten",l:"Soldan",r:"Sağdan"};
+
+/* ===== Model: birim küplerden oluşan katı ===== */
+const K=(x,y,z)=>x+16*y+256*z,dec=k=>[k&15,(k>>4)&15,k>>8];
+function mk(set){let x0=99,y0=99,z0=99,x1=-1,y1=-1,z1=-1;const a=[...set].map(dec);
+ a.forEach(([x,y,z])=>{x0=Math.min(x0,x);y0=Math.min(y0,y);z0=Math.min(z0,z);x1=Math.max(x1,x);y1=Math.max(y1,y);z1=Math.max(z1,z)});
+ return{s:new Set(a.map(([x,y,z])=>K(x-x0,y-y0,z-z0))),nx:x1-x0+1,ny:y1-y0+1,nz:z1-z0+1}}
+const has=(m,x,y,z)=>x>=0&&y>=0&&z>=0&&x<m.nx&&y<m.ny&&z<m.nz&&m.s.has(K(x,y,z));
+const keyOf=m=>[...m.s].sort((a,b)=>a-b).join(",");
+function conn(set){const a=[...set];if(!a.length)return false;const seen=new Set([a[0]]),st=[a[0]];
+ while(st.length){const[x,y,z]=dec(st.pop());for(const d of D6){const X=x+d[0],Y=y+d[1],Z=z+d[2];if(X<0||Y<0||Z<0||X>15||Y>15||Z>15)continue;const q=K(X,Y,Z);if(set.has(q)&&!seen.has(q)){seen.add(q);st.push(q)}}}
+ return seen.size===set.size}
+
+/* ===== İzometrik görünüm (ön-sağ-üst) ===== */
+const ip=(x,y,z)=>[(x+y)*.866025,-((-x+y+2*z)*.5)];
+const FACES=[
+ {c:"ft",t:"T",n:[0,0,1],q:(x,y,z)=>[[x,y,z+1],[x+1,y,z+1],[x+1,y+1,z+1],[x,y+1,z+1]]},
+ {c:"ff",t:"F",n:[0,-1,0],q:(x,y,z)=>[[x,y,z],[x+1,y,z],[x+1,y,z+1],[x,y,z+1]]},
+ {c:"fr",t:"R",n:[1,0,0],q:(x,y,z)=>[[x+1,y,z],[x+1,y+1,z],[x+1,y+1,z+1],[x+1,y,z+1]]}];
+const cells=m=>[...m.s].map(dec).sort((a,b)=>(a[0]-a[1]+a[2])-(b[0]-b[1]+b[2]));
+/* görünür yüzlerin üçgen haritası: tüm küpler görünüyor mu + izometrik imza */
+function isoInfo(m){const tri=new Map(),dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+ for(const c of m.s){const[x,y,z]=dec(c);
+  for(const f of FACES){if(has(m,x+f.n[0],y+f.n[1],z+f.n[2]))continue;
+   const pts=f.q(x,y,z).map(p=>ip(p[0],p[1],p[2])),dp=(x+.5+f.n[0]*.5)-(y+.5+f.n[1]*.5)+(z+.5+f.n[2]*.5),
+    ts=dist(pts[0],pts[2])<=dist(pts[1],pts[3])?[[0,1,2],[0,2,3]]:[[0,1,3],[1,2,3]];
+   for(const t of ts){const k=t.map(i=>Math.round(pts[i][0]*100)+","+Math.round(pts[i][1]*100)).sort().join("|"),cur=tri.get(k);
+    if(!cur||dp>cur.d)tri.set(k,{d:dp,t:f.t,v:c})}}}
+ const vis=new Set();tri.forEach(o=>vis.add(o.v));
+ return{all:vis.size===m.s.size,sig:[...tri].map(([k,o])=>k+o.t).sort().join(";")}}
+function isoSvg(m,o={}){let body="",x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+ const P=(x,y,z)=>{const p=ip(x,y,z);x0=Math.min(x0,p[0]);y0=Math.min(y0,p[1]);x1=Math.max(x1,p[0]);y1=Math.max(y1,p[1]);return p};
+ const pt=p=>p[0].toFixed(3)+" "+p[1].toFixed(3);
+ for(const[x,y,z]of cells(m)){let ln="";
+  for(const f of FACES){if(has(m,x+f.n[0],y+f.n[1],z+f.n[2]))continue;
+   const cs=f.q(x,y,z),q=cs.map(p=>P(p[0],p[1],p[2])),ctr=[x+.5+f.n[0]*.5,y+.5+f.n[1]*.5,z+.5+f.n[2]*.5];
+   body+=`<polygon class="${f.c}" points="${q.map(p=>p[0].toFixed(3)+","+p[1].toFixed(3)).join(" ")}"/>`;
+   for(let i=0;i<4;i++){const a=cs[i],b=cs[(i+1)%4],u=[0,0,0];
+    for(let t=0;t<3;t++){const d=(a[t]+b[t])/2-ctr[t];if(Math.abs(d)>.25)u[t]=Math.sign(d)}
+    if(has(m,x+u[0],y+u[1],z+u[2])&&!has(m,x+u[0]+f.n[0],y+u[1]+f.n[1],z+u[2]+f.n[2]))continue;
+    ln+=`M${pt(q[i])}L${pt(q[(i+1)%4])}`}}
+  if(ln)body+=`<path class="ie" d="${ln}"/>`}
+ if(o.key){[["Üst",.5,.5,1],["Ön",.5,0,.5],["Sağ",1,.5,.5]].forEach(([t,x,y,z])=>{const p=ip(x,y,z);body+=`<text class="kt" x="${p[0].toFixed(3)}" y="${p[1].toFixed(3)}">${t}</text>`})}
+ const pd=.25;
+ return`<svg viewBox="${(x0-pd).toFixed(2)} ${(y0-pd).toFixed(2)} ${(x1-x0+2*pd).toFixed(2)} ${(y1-y0+2*pd).toFixed(2)}" ${o.cls?`class="${o.cls}"`:""} role="img" aria-label="${o.al||"Üç boyutlu model"}">${body}</svg>`}
+
+/* ===== Ortografik görünüşler (görünen + gizli kenarlar) ===== */
+function proj(m,k,x,y,z){switch(k){case"f":return[x,z,y];case"t":return[x,y,-z];case"l":return[m.ny-y,z,x];default:return[y,z,-x]}}
+const vdim=(m,k)=>k==="f"?[m.nx,m.nz]:k==="t"?[m.nx,m.ny]:[m.ny,m.nz];
+function view(m,k){const[W,H]=vdim(m,k),front=new Map(),segs=new Map();
+ for(const c of m.s){const[x,y,z]=dec(c),a=proj(m,k,x,y,z),b=proj(m,k,x+1,y+1,z+1),
+   key=Math.min(a[0],b[0])+","+Math.min(a[1],b[1]),dm=Math.min(a[2],b[2]);
+  if(!front.has(key)||front.get(key)>dm)front.set(key,dm)}
+ const lim=[m.nx,m.ny,m.nz],PQ=[[1,2],[0,2],[0,1]];
+ for(let a=0;a<3;a++){const[p,q]=PQ[a];
+  for(let i=0;i<lim[a];i++)for(let j=0;j<=lim[p];j++)for(let l=0;l<=lim[q];l++){
+   const P=[0,0,0];P[a]=i;P[p]=j;P[q]=l;
+   const f=(dj,dl)=>{const c=[P[0],P[1],P[2]];c[p]+=dj;c[q]+=dl;return has(m,c[0],c[1],c[2])?1:0};
+   const b00=f(-1,-1),b10=f(0,-1),b01=f(-1,0),b11=f(0,0),n=b00+b10+b01+b11;
+   if(!(n===1||n===3||(n===2&&b00===b11)))continue;
+   const A=proj(m,k,P[0],P[1],P[2]),Q=[P[0],P[1],P[2]];Q[a]+=1;const B=proj(m,k,Q[0],Q[1],Q[2]);
+   if(A[0]===B[0]&&A[1]===B[1])continue;
+   const e=A[2],occ=c=>front.has(c)&&front.get(c)+1<=e;let key,vis;
+   if(A[1]===B[1]){const u=Math.min(A[0],B[0]),v=A[1];key="h|"+u+"|"+v;vis=!occ(u+","+(v-1))||!occ(u+","+v)}
+   else{const u=A[0],v=Math.min(A[1],B[1]);key="v|"+u+"|"+v;vis=!occ((u-1)+","+v)||!occ(u+","+v)}
+   segs.set(key,(segs.get(key)||false)||vis)}}
+ return{W,H,segs,sig:[...segs].map(([k,v])=>k+(v?"+":"-")).sort().join(";")}}
+const views=m=>({f:view(m,"f"),t:view(m,"t"),l:view(m,"l"),r:view(m,"r")});
+function lines(segs){const Hh={},Vv={},out=[];
+ for(const[k,vis]of segs){const[t,a,b]=k.split("|");const M=t==="h"?Hh:Vv,kk=(t==="h"?b:a)+"_"+vis;(M[kk]||(M[kk]=[])).push(+(t==="h"?a:b))}
+ const run=(M,h)=>{for(const kk in M){const[c,vs]=kk.split("_"),vis=vs==="true",arr=M[kk].sort((p,q)=>p-q);let st=arr[0],pr=arr[0];
+  const push=(a,b)=>out.push(h?[a,+c,b+1,+c,vis]:[+c,a,+c,b+1,vis]);
+  for(let i=1;i<arr.length;i++){if(arr[i]===pr+1)pr=arr[i];else{push(st,pr);st=pr=arr[i]}}push(st,pr)}};
+ run(Hh,true);run(Vv,false);return out}
+function diff(a,b){const A=new Map(),B=new Map();
+ a.segs.forEach((v,k)=>{if(b.segs.get(k)!==v)A.set(k,v)});b.segs.forEach((v,k)=>{if(a.segs.get(k)!==v)B.set(k,v)});
+ return{A,B,n:A.size+B.size}}
+function viewPaths(v,s,mark,cls){const H=v.H;let hid="",vis="",mk_="";
+ const seg=l=>`M${l[0]*s} ${(H-l[1])*s}L${l[2]*s} ${(H-l[3])*s}`;
+ lines(v.segs).forEach(l=>{if(l[4])vis+=seg(l);else hid+=seg(l)});
+ if(mark)lines(mark).forEach(l=>{mk_+=seg(l)});
+ return`<path class="hl" d="${hid}"/><path class="vl" d="${vis}"/>${mk_?`<path class="${cls}" d="${mk_}"/>`:""}`}
+function viewSvg(v,s,o={}){const w=v.W*s,h=v.H*s,pd=6;
+ return`<svg width="${w+2*pd}" height="${h+2*pd}" viewBox="${-pd} ${-pd} ${w+2*pd} ${h+2*pd}" role="img" aria-label="${o.al||"Görünüş"}">${viewPaths(v,s,o.mark,o.cls)}</svg>`}
+
+/* ===== Üç görünüşlü sahne (1. ya da 3. açı yerleşimi) ===== */
+const lk=p=>["f","t",p===1?"l":"r"];
+function sceneSvg(m,p,o={}){const s=o.s||30,g=1.5,V=o.views||views(m),pos={};let W,H;
+ if(p===1){pos.f=[0,0];pos[lk(p)[2]]=[m.nx+g,0];pos.t=[0,m.nz+g];W=m.nx+g+m.ny;H=m.nz+g+m.ny}
+ else{pos.t=[0,0];pos.f=[0,m.ny+g];pos[lk(p)[2]]=[m.nx+g,m.ny+g];W=m.nx+g+m.ny;H=m.ny+g+m.nz}
+ const padT=26,pad=10,padB=20;let body="",gd="";
+ if(o.guides){
+  if(p===1){for(let u=0;u<=m.nx;u++)gd+=`M${u*s} ${m.nz*s}V${(m.nz+g)*s}`;for(let v=0;v<=m.nz;v++)gd+=`M${m.nx*s} ${(m.nz-v)*s}H${(m.nx+g)*s}`}
+  else{for(let u=0;u<=m.nx;u++)gd+=`M${u*s} ${m.ny*s}V${(m.ny+g)*s}`;for(let v=0;v<=m.nz;v++)gd+=`M${m.nx*s} ${(m.ny+g+m.nz-v)*s}H${(m.nx+g)*s}`}
+  body+=`<path class="gd" d="${gd}"/>`}
+ for(const k of lk(p)){const[x,y]=pos[k],v=V[k],w=v.W*s,h=v.H*s;
+  body+=`<g transform="translate(${x*s} ${y*s})" data-v="${k}"><rect class="hit" x="-4" y="-4" width="${w+8}" height="${h+8}"/><text class="vt" x="0" y="-9">${VN[k]} görünüş</text>`;
+  if(o.hide===k)body+=`<rect class="qm" x="0" y="0" width="${w}" height="${h}" rx="6"/><text class="qq" x="${w/2}" y="${h/2}">?</text>`;
+  else body+=viewPaths(v,s);
+  if(k==="t")body+=`<text class="vf" x="${w/2}" y="${h+14}">▲ modelin önü</text>`;
+  body+=`</g>`}
+ return`<svg width="${W*s+2*pad}" height="${H*s+padT+padB}" viewBox="${-pad} ${-padT} ${W*s+2*pad} ${H*s+padT+padB}" role="img" aria-label="Üç görünüş">${body}</svg>`}
+
+/* ===== Soru üretimi ===== */
+const DF={
+ e:{box:()=>[rnd(2,3),2,rnd(2,3)],cuts:[1,2],grow:[5,7],min:4,base:100,pref:"big"},
+ m:{box:()=>[rnd(3,4),3,rnd(2,3)],cuts:[2,3],grow:[8,10],min:6,base:150,pref:"mix"},
+ h:{box:()=>[4,rnd(3,4),rnd(3,4)],cuts:[3,5],grow:[11,14],min:8,base:200,pref:"small"}};
+function carve(nx,ny,nz,cuts){let s=new Set();for(let x=0;x<nx;x++)for(let y=0;y<ny;y++)for(let z=0;z<nz;z++)s.add(K(x,y,z));
+ for(let c=0;c<cuts*4&&cuts>0;c++){
+  const w=rnd(1,Math.max(1,nx-1)),d=rnd(1,Math.max(1,ny-1)),h=rnd(1,Math.max(1,nz-1));
+  let x0=rnd(0,nx-w),y0=rnd(0,ny-d),z0=rnd(0,nz-h);
+  const fl=rnd(0,2);if(fl===0)x0=nx-w;else if(fl===1)y0=0;else z0=nz-h; /* görünen bir yüzle (sağ, ön, üst) kesişsin */
+  const t=new Set(s);for(let x=x0;x<x0+w;x++)for(let y=y0;y<y0+d;y++)for(let z=z0;z<z0+h;z++)t.delete(K(x,y,z));
+  if(t.size>=4&&conn(t)){const m=mk(t);if(m.nx===nx&&m.ny===ny&&m.nz===nz){s=t;cuts--}}}
+ return mk(s)}
+function grow(nx,ny,nz,n){const s=new Set([K(rnd(0,nx-1),rnd(0,ny-1),rnd(0,nz-1))]);
+ for(let g=0;s.size<n&&g<300;g++){const[x,y,z]=dec(pick([...s])),d=pick(D6),X=x+d[0],Y=y+d[1],Z=z+d[2];
+  if(X<0||Y<0||Z<0||X>=nx||Y>=ny||Z>=nz)continue;s.add(K(X,Y,Z))}
+ return mk(s)}
+function gen(df){for(let t=0;t<600;t++){const[nx,ny,nz]=df.box();
+  const m=Math.random()<.7?carve(nx,ny,nz,rnd(df.cuts[0],df.cuts[1])):grow(nx,ny,nz,rnd(df.grow[0],df.grow[1]));
+  if(m.nx!==nx||m.ny!==ny||m.nz!==nz||m.s.size<df.min||!isoInfo(m).all)continue;
+  const V=views(m);if(["f","t","l"].filter(k=>lines(V[k].segs).length>4).length<2)continue;
+  return m}
+ return mk(new Set([K(0,0,0),K(1,0,0),K(2,0,0),K(0,0,1),K(0,1,0)]))}
+function mutate(m){const s=new Set(m.s),op=rnd(0,2);
+ if(op!==1){const c=[];for(let x=0;x<m.nx;x++)for(let y=0;y<m.ny;y++)for(let z=0;z<m.nz;z++)
+   if(!s.has(K(x,y,z))&&D6.some(d=>has(m,x+d[0],y+d[1],z+d[2])))c.push(K(x,y,z));
+  if(!c.length)return null;s.add(pick(c))}
+ if(op!==0)s.delete(pick([...s]));
+ const n=mk(s);if(n.nx!==m.nx||n.ny!==m.ny||n.nz!==m.nz||!conn(n.s))return null;return n}
+function cands(base,tries){const seen=new Set([keyOf(base)]),out=[];
+ for(let i=0;i<tries;i++){let m=mutate(base);if(m&&Math.random()<.3)m=mutate(m)||m;if(!m)continue;
+  const k=keyOf(m);if(seen.has(k))continue;seen.add(k);const ii=isoInfo(m);if(!ii.all)continue;out.push({m,ii})}
+ return out}
+function choose(L,pref,n,sigf){
+ if(pref==="big")L.sort((a,b)=>b.d-a.d||b.nv-a.nv);else if(pref==="small")L.sort((a,b)=>a.nv-b.nv||a.d-b.d);else shuffle(L);
+ const out=[],used=new Set();for(const c of L){const s=sigf(c);if(used.has(s))continue;used.add(s);out.push(c);if(out.length===n)break}return out}
+function buildQ(type,dk,p){const df=DF[dk],ks=lk(p);
+ for(let t=0;t<80;t++){const m=gen(df),V=views(m),ii=isoInfo(m),pool=cands(m,140);let L;
+  if(type==="a"){
+   L=pool.map(c=>{const cv=views(c.m);let nv=0,d=0;ks.forEach(k=>{const x=diff(V[k],cv[k]).n;if(x)nv++;d+=x});return{...c,nv,d}}).filter(c=>c.nv>0&&c.ii.sig!==ii.sig);
+   const sel=choose(L,df.pref,3,c=>c.ii.sig);if(sel.length<3)continue;
+   const opts=shuffle([{m,ok:true},...sel.map(c=>({m:c.m,ok:false}))]);
+   return{type,dk,p,m,V,opts,ans:opts.findIndex(o=>o.ok)}}
+  const k=pick(ks);
+  L=pool.map(c=>{const cv=views(c.m)[k];return{...c,v:cv,nv:1,d:diff(V[k],cv).n}}).filter(c=>c.d>0);
+  const sel=choose(L,df.pref,type==="b"?3:1,c=>c.v.sig);if(sel.length<(type==="b"?3:1))continue;
+  if(type==="b"){const opts=shuffle([{v:V[k],ok:true},...sel.map(c=>({v:c.v,ok:false}))]);return{type,dk,p,m,V,k,opts,ans:opts.findIndex(o=>o.ok)}}
+  return{type,dk,p,m,V,k,wrong:sel[0].v,ans:k}}
+ return buildQ(type,dk,p)}
+
+/* ===== Oyun akışı ===== */
+const G={};
+const MODES={mix:"Her soruda üç oyun türünden biri gelir.",a:"Verilen üç görünüşe uyan 3B modeli dört seçenekten bulun.",b:"Modele ve diğer iki görünüşe bakıp soru işaretli görünüşü seçin.",c:"Üç görünüşten hangisi 3B modelle uyuşmuyor? Bulun."};
+const TIPS={
+ a:["Önce önden görünüşten yüksekliği ve genişliği, sonra üstten görünüşten derinliği kontrol edin.","Kesik çizgi, o kenarın bir yüzeyin arkasında kaldığını gösterir. Modelde o kenarı arkada arayın.","Her seçeneği üç görünüşle tek tek eşleştirin; bir görünüş bile uyuşmuyorsa model elenir."],
+ b:["Üstten görünüşte modelin önü çizimin alt kenarındadır.","Sürekli çizgi görünen, kesik çizgi gizli kenardır. Seçenekleri bu açıdan karşılaştırın.","Genişlik önden ve üstten görünüşte aynıdır; bu ölçüyü seçeneklerde kontrol edin."],
+ c:["Üç görünüşte ortak ölçüleri karşılaştırın: genişlik önden-üstten, yükseklik önden-yandan, derinlik üstten-yandan aynıdır.","Hizalama çizgilerini açarsanız görünüşler arasındaki ölçü uyumsuzluğu daha kolay fark edilir.","Her görünüşü modelde gözünüzle çevirerek yeniden çizmeyi deneyin."]};
+const LET="ABCD";
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const val=n=>document.querySelector(`input[name=${n}]:checked`).value;
+const show=(id,on)=>$(id).classList.toggle("hid",!on);
+function bestLine(){const d=val("dif"),b=lsGet("hahTR_best_"+d);$("bestl").textContent=b?"Bu zorluktaki en iyi puanınız: "+b:""}
+function setHud(){$("hq").textContent=Math.min(G.i+1,G.n)+" / "+G.n;$("hs").textContent=G.score;$("hk").textContent=G.streak;$("pb").style.width=(G.i/G.n*100)+"%"}
+function start(){G.mode=val("mode");G.dif=val("dif");G.p=+val("prj");G.n=+val("cnt");G.guides=$("gdl").checked;
+ G.i=0;G.score=0;G.streak=0;G.ok=0;G.best=0;show("setup",false);show("result",false);show("game",true);next(true)}
+function next(first){if(!first)G.i++;if(G.i>=G.n)return finish();
+ const type=G.mode==="mix"?pick(["a","b","c"]):G.mode;G.q=buildQ(type,G.dif,G.p);G.done=false;G.t0=Date.now();
+ setHud();$("ht").textContent="0 sn";clearInterval(G.tm);G.tm=setInterval(()=>{if(!G.done)$("ht").textContent=Math.round((Date.now()-G.t0)/1000)+" sn"},500);
+ $("fb").innerHTML="";show("nx",false);renderQ(G.q);$("game").scrollIntoView({block:"nearest"})}
+function how(arr,open){$("hw").innerHTML=arr.map(x=>`<li>${x}</li>`).join("");$("how").open=open}
+const HINT={f:"Önden görünüş: modele tam karşıdan bakın. Genişlik ve yükseklik görünür.",t:"Üstten görünüş: modele tam yukarıdan bakın. Genişlik ve derinlik görünür; modelin önü çizimin alt kenarındadır.",l:"Soldan görünüş: modele soldan bakın. Derinlik ve yükseklik görünür; modelin önü çizimin sağ tarafındadır.",r:"Sağdan görünüş: modele sağdan bakın. Derinlik ve yükseklik görünür; modelin önü çizimin sol tarafındadır."};
+function renderQ(q){const p=q.p,ks=lk(p),sd=ks[2],sc=$("scene"),op=$("opts"),op1=G.i<2;
+ const iso=`<div class="isobox"><div class="big">${isoSvg(q.m,{al:"Üç boyutlu model"})}</div><div class="key">${isoSvg(mk(new Set([K(0,0,0)])),{key:1,al:"Yön göstergesi"})}</div><small>Model ön, sağ ve üst yüzleri görünecek şekilde çizildi</small></div>`;
+ sc.classList.remove("clk");op.className="opts";
+ const prjTxt=p===1?"Çizim düzeni 1. açı: üstten görünüş altta, soldan görünüş sağdadır.":"Çizim düzeni 3. açı: üstten görünüş üstte, sağdan görünüş sağdadır.";
+ const sn=VN[sd].toLowerCase();
+ if(q.type==="a"){$("qt").textContent="Bu çizimleri hangi 3B model verir?";
+  $("qs").textContent="Yukarıdaki üç çizim aynı parçanın önden, üstten ve "+sn+" görünüşüdür. Bu çizimlere uyan modeli seçin. "+prjTxt;
+  how(["Önden görünüşe bakın: modelin ön yüzü böyle görünmeli.","Üstten görünüşle derinliği kontrol edin: hangi kısımlar önde, hangileri arkada?","Üç çizimden herhangi biriyle uyuşmayan modelleri eleyin."],op1);
+  sc.innerHTML=sceneSvg(q.m,p,{views:q.V,guides:G.guides})+`<div class="isobox"><div class="key">${isoSvg(mk(new Set([K(0,0,0)])),{key:1,al:"Yön göstergesi"})}</div><small>Seçeneklerdeki modeller<br>bu yönden çizildi</small></div>`;
+  op.innerHTML=q.opts.map((o,i)=>`<button type="button" class="op" data-i="${i}" aria-label="Seçenek ${LET[i]}"><span class="bd">${LET[i]}</span>${isoSvg(o.m,{al:"Seçenek "+LET[i]})}</button>`).join("")}
+ else if(q.type==="b"){$("qt").textContent="Boş bırakılan yere hangi çizim gelir?";
+  $("qs").textContent="Soldaki model ve yanındaki çizimler aynı parçaya ait. Soru işaretli yer, parçanın "+VN[q.k].toLowerCase()+" görünüşü. Aşağıdan doğru çizimi seçin. "+prjTxt;
+  how(["Yön küpüne bakarak modelin hangi yüzünün Ön, Sağ, Üst olduğunu bulun.",HINT[q.k],"Başka bir yüzeyin arkasında kalan kenarlar kesik çizgiyle gösterilir."],op1);
+  sc.innerHTML=iso+sceneSvg(q.m,p,{views:q.V,hide:q.k,guides:G.guides});
+  op.innerHTML=q.opts.map((o,i)=>`<button type="button" class="op cp" data-i="${i}" aria-label="Seçenek ${LET[i]}"><span class="bd">${LET[i]}</span>${viewSvg(o.v,26,{al:"Seçenek "+LET[i]})}<span class="cap">${VN[q.k]} görünüş</span></button>`).join("")}
+ else{const V={...q.V};V[q.k]=q.wrong;$("qt").textContent="Hangi çizim modele uymuyor?";
+  $("qs").textContent="Soldaki model ile çizilen üç görünüşten biri uyuşmuyor. Hatalı görünüşe dokunun ya da aşağıdan seçin. "+prjTxt;
+  how(["Üç çizimde ortak ölçüleri karşılaştırın: genişlik önden ve üstten, yükseklik önden ve yandan, derinlik üstten ve yandan aynıdır.","Her görünüş için modele o yönden bakıp çizimi gözünüzde yeniden çizin.","Fazla ya da eksik bir çizgi hatalı görünüşü ele verir."],op1);
+  sc.classList.add("clk");sc.innerHTML=iso+sceneSvg(q.m,p,{views:V,guides:G.guides});
+  op.className="opts o3";op.innerHTML=ks.map((k,i)=>`<button type="button" class="op" data-k="${k}">${VN[k]} görünüş</button>`).join("")}}
+function answer(choice){if(G.done)return;G.done=true;clearInterval(G.tm);const q=G.q,sec=(Date.now()-G.t0)/1000;
+ const ok=q.type==="c"?choice===q.k:choice===q.ans;
+ let pts=0;if(ok){pts=DF[G.dif].base+Math.min(G.streak,5)*10+Math.max(0,Math.min(50,Math.round((35-sec)*2.5)));G.score+=pts;G.streak++;G.ok++}else G.streak=0;
+ setHud();
+ const bs=[...$("opts").children];
+ if(q.type==="c"){bs.forEach(b=>{b.disabled=true;if(b.dataset.k===q.k)b.classList.add("ok");else if(b.dataset.k===choice)b.classList.add("no")})}
+ else bs.forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add("ok");else if(i===choice)b.classList.add("no")});
+ $("scene").classList.remove("clk");
+ const tip=pick(TIPS[q.type]);let t="",extra="";
+ if(q.type==="a"){if(ok)t="Üç görünüş de bu modelle uyuşuyor.";
+  else{const cv=views(q.opts[choice].m),bad=lk(q.p).filter(k=>diff(q.V[k],cv[k]).n).map(k=>VN[k].toLowerCase());
+   t=`Doğru model ${LET[q.ans]}. Seçtiğiniz modelin ${bad.join(" ve ")} görünüşü verilenle uyuşmuyor.`}}
+ else if(q.type==="b"){t=ok?`${VN[q.k]} görünüş bu çizim.`:`Doğru çizim ${LET[q.ans]}. Seçtiğiniz çizim modelin ${VN[q.k].toLowerCase()} görünüşünden farklı.`;
+  if(!ok){const d=diff(q.V[q.k],q.opts[choice].v);extra=`<div class="cmp"><figure>${viewSvg(q.opts[choice].v,22,{mark:d.B,cls:"mr",al:"Seçtiğiniz"})}Seçtiğiniz (farklar kırmızı)</figure><figure>${viewSvg(q.V[q.k],22,{mark:d.A,cls:"mg",al:"Doğrusu"})}Doğrusu (eksikler yeşil)</figure></div>`}}
+ else{const d=diff(q.V[q.k],q.wrong);t=ok?`Doğru! ${VN[q.k]} görünüş modelle uyuşmuyordu.`:`Hatalı görünüş ${VN[q.k].toLowerCase()} görünüştü.`;
+  extra=`<div class="cmp"><figure>${viewSvg(q.wrong,22,{mark:d.B,cls:"mr",al:"Verilen"})}Verilen (farklar kırmızı)</figure><figure>${viewSvg(q.V[q.k],22,{mark:d.A,cls:"mg",al:"Doğrusu"})}Doğrusu (farklar yeşil)</figure></div>`}
+ $("fb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b class="t">${ok?"Doğru! +"+pts+" puan":"Yanlış"}</b>${t}${extra}<span class="tip">İpucu: ${tip}</span></div>`;
+ const nx=$("nx");nx.textContent=G.i+1>=G.n?"Sonuçları gör":"Sonraki soru";show("nx",true);nx.focus({preventScroll:true});nx.scrollIntoView({block:"nearest"})}
+function finish(){clearInterval(G.tm);show("game",false);show("result",true);
+ const acc=Math.round(G.ok/G.n*100),rk=acc>=90?"Usta teknik ressam":acc>=70?"Kalfa":acc>=50?"Çırak":"Stajyer: biraz daha pratik",bk="hahTR_best_"+G.dif,old=+lsGet(bk)||0,nw=G.score>old;
+ if(nw)lsSet(bk,String(G.score));
+ $("rk").textContent=rk;$("rs").innerHTML=`<div><b>${G.score}</b><span>puan</span></div><div><b>${G.ok} / ${G.n}</b><span>doğru</span></div><div><b>%${acc}</b><span>başarı</span></div>`;
+ $("rb").textContent=nw?"Yeni en iyi puan! Önceki: "+old:"Bu zorluktaki en iyi puanınız: "+old;$("result").scrollIntoView({block:"nearest"})}
+
+$("go").onclick=start;
+$("nx").onclick=()=>next();
+$("again").onclick=()=>{show("result",false);start()};
+$("back").onclick=()=>{show("result",false);show("setup",true);bestLine()};
+$("opts").addEventListener("click",e=>{const b=e.target.closest(".op");if(!b||b.disabled)return;answer(b.dataset.k!==undefined?b.dataset.k:+b.dataset.i)});
+$("scene").addEventListener("click",e=>{const g=e.target.closest("g[data-v]");if(g&&G.q&&G.q.type==="c"&&!G.done)answer(g.dataset.v)});
+document.querySelectorAll("input[name=mode]").forEach(r=>r.onchange=()=>$("gmd").textContent=MODES[val("mode")]);
+document.querySelectorAll("input[name=dif]").forEach(r=>r.onchange=bestLine);
+document.addEventListener("keydown",e=>{if($("game").classList.contains("hid")||e.ctrlKey||e.metaKey||e.altKey)return;
+ if(G.done){if(e.key==="Enter"&&document.activeElement!==$("nx")){e.preventDefault();$("nx").click()}return}
+ const i="1234".indexOf(e.key),j="abcd".indexOf(e.key.toLowerCase());const n=i>=0?i:j;
+ const bs=[...$("opts").children];if(n>=0&&n<bs.length)bs[n].click()});
+$("gmd").textContent=MODES.mix;bestLine();
+</script>
+</body>
+</html>
