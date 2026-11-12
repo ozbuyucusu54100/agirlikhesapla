@@ -4,11 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>STEP Görüntüleyici (3D) | HAYRAT Ağırlık Hesaplama</title>
-<meta name="description" content="STEP (.step/.stp) dosyalarını tarayıcıda 3D olarak görüntüleyin. Döndürün, yakınlaştırın, parçaları gizleyin ve ölçü kutusunu görün. Dosya sunucuya yüklenmez.">
+<meta name="description" content="STEP (.step/.stp) dosyalarını tarayıcıda 3D açın; döndürün, yakınlaştırın, düzlem ve deliklere dokunup mesafe, çap ve açı ölçün. Dosya sunucuya yüklenmez.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#0071e3">
 <link rel="canonical" href="https://hayratagirlik.com/step-goruntuleyici.html">
+<meta property="og:type" content="website"><meta property="og:locale" content="tr_TR"><meta property="og:site_name" content="HAYRAT AĞIRLIK HESAPLAMA">
+<meta property="og:title" content="STEP Görüntüleyici (3D) | HAYRAT Ağırlık Hesaplama"><meta property="og:description" content="STEP (.step/.stp) dosyalarını tarayıcıda 3D açın; döndürün, yakınlaştırın, düzlem ve deliklere dokunup mesafe, çap ve açı ölçün. Dosya sunucuya yüklenmez."><meta property="og:url" content="https://hayratagirlik.com/step-goruntuleyici.html">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="STEP Görüntüleyici (3D) | HAYRAT Ağırlık Hesaplama"><meta name="twitter:description" content="STEP (.step/.stp) dosyalarını tarayıcıda 3D açın; döndürün, yakınlaştırın, düzlem ve deliklere dokunup mesafe, çap ve açı ölçün. Dosya sunucuya yüklenmez.">
+<meta property="og:image" content="https://hayratagirlik.com/og.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="HAYRAT AĞIRLIK HESAPLAMA - çelik profil ağırlık hesaplama araçları">
+<meta name="twitter:image" content="https://hayratagirlik.com/og.png"><meta name="twitter:image:alt" content="HAYRAT AĞIRLIK HESAPLAMA - çelik profil ağırlık hesaplama araçları">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='14' fill='%230071e3'/%3E%3Ctext x='28' y='33' text-anchor='middle' font-size='19' font-weight='800' fill='white' font-family='Arial'%3EHAH%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 <style>
@@ -48,11 +53,14 @@ button.g[aria-pressed=true]{background:var(--ac);color:var(--acx);border-color:v
 .pl em{margin-left:auto;color:var(--mu);font-style:normal;font-size:12px;white-space:nowrap}
 .pl label{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://hayratagirlik.com/"},{"@type":"ListItem","position":2,"name":"STEP Görüntüleyici","item":"https://hayratagirlik.com/step-goruntuleyici.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"STEP görüntüleyici (3D)","url":"https://hayratagirlik.com/step-goruntuleyici.html","description":"STEP (.step/.stp) dosyalarını tarayıcıda 3D açın; döndürün, yakınlaştırın, düzlem ve deliklere dokunup mesafe, çap ve açı ölçün. Dosya sunucuya yüklenmez.","applicationCategory":"BusinessApplication","operatingSystem":"Web","inLanguage":"tr","isAccessibleForFree":true,"featureList":["STEP dosyalarını 3D görüntüleme","Yüzey tanıyarak mesafe, çap ve açı ölçümü","Parça gizleme ve ölçü kutusu"],"offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"isPartOf":{"@type":"WebSite","name":"HAYRAT AĞIRLIK HESAPLAMA","url":"https://hayratagirlik.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"STEP dosyası nasıl açılır?","acceptedAnswer":{"@type":"Answer","text":"“STEP dosyası seçin” alanından .step veya .stp dosyanızı seçin; model tarayıcıda 3D olarak açılır. Sürükleyerek döndürebilir, tekerlek veya sıkıştırma hareketiyle yakınlaştırabilirsiniz."}},{"@type":"Question","name":"STEP dosyasında ölçü alabilir miyim?","acceptedAnswer":{"@type":"Answer","text":"Evet. “Yüzey ölç” aracıyla bir yüzeye dokunduğunuzda düzlemin alanı veya deliğin çapı görünür; ikinci bir yüzeye dokunursanız aralarındaki dik mesafe, açı veya delik eksenleri arası mesafe hesaplanır. Ölçü kutusu modelin X, Y, Z boyutlarını milimetre olarak gösterir."}},{"@type":"Question","name":"STEP dosyam sunucuya yükleniyor mu?","acceptedAnswer":{"@type":"Answer","text":"Hayır. Dosya tarayıcınızda, cihazınızda işlenir ve hiçbir yere gönderilmez."}}]}</script>
 </head>
 <body>
 <main>
 <a class="hd" href="index.html"><svg width="40" height="40" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,Segoe UI,Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><b>HAYRAT AĞIRLIK HESAPLAMA</b></a>
-<nav class="nv" aria-label="Ana menü"><a href="index.html">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html" aria-current="page">STEP Görüntüleyici</a><a href="cad-pdf.html">CAD → PDF</a><a href="teknik-resim-oyunu.html">Teknik Resim Oyunu</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<nav class="nv" aria-label="Ana menü"><a href="index.html">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html" aria-current="page">STEP Görüntüleyici</a><a href="dxf-goruntuleyici.html">DXF Görüntüleyici</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
 <h1>STEP görüntüleyici (3D)</h1>
 <p class="lead">STEP (.step / .stp) dosyanızı seçin; model tarayıcıda 3D olarak açılsın. Dosya sunucuya yüklenmez, cihazınızda işlenir.</p>
 <noscript><p>Bu aracın çalışması için tarayıcınızda JavaScript açık olmalıdır.</p></noscript>
@@ -77,8 +85,10 @@ button.g[aria-pressed=true]{background:var(--ac);color:var(--acx);border-color:v
 </div>
 
 <div class="card seo">
-  <h2 style="margin-top:0">Nasıl kullanılır?</h2>
-  <p class="note" style="font-size:14px">CAD programınızda parçayı katı model olarak STEP (AP203 / AP214 / AP242) biçiminde kaydedin ve yukarıdan seçin. Ölçü kutusu, modelin X-Y-Z yönündeki en büyük ölçülerini milimetre olarak gösterir. “Yüzey ölç” yüzeyleri tanır: tek yüzeye dokunursanız alan veya delik/boru çapını, iki yüzeye dokunursanız aralarındaki dik mesafeyi, açıyı veya delik eksenleri arası mesafeyi verir. Profil boyu ve kesim açılarını otomatik okutmak için <a href="index.html">Profil Hesaplama</a> sayfasındaki STEP aracını kullanabilirsiniz.</p>
+  <h2 style="margin-top:0;font-size:18px">Online STEP görüntüleyici</h2>
+  <p class="note" style="font-size:14px">STEP (.step / .stp) dosyalarını kurulum gerektirmeden tarayıcıda 3D olarak görüntüleyin. Parçaları gizleyip gösterin, modelin ölçü kutusunu görün ve yüzeyleri tanıyan ölçü aracıyla delik çapı, yüzey mesafesi ve açı ölçün.</p>
+  <details><summary>STEP dosyası nasıl açılır?</summary><p>“STEP dosyası seçin” alanından .step veya .stp dosyanızı seçin; model tarayıcıda 3D olarak açılır. Sürükleyerek döndürebilir, tekerlek veya sıkıştırma hareketiyle yakınlaştırabilirsiniz.</p></details><details><summary>STEP dosyasında ölçü alabilir miyim?</summary><p>Evet. “Yüzey ölç” aracıyla bir yüzeye dokunduğunuzda düzlemin alanı veya deliğin çapı görünür; ikinci bir yüzeye dokunursanız aralarındaki dik mesafe, açı veya delik eksenleri arası mesafe hesaplanır. Ölçü kutusu modelin X, Y, Z boyutlarını milimetre olarak gösterir.</p></details><details><summary>STEP dosyam sunucuya yükleniyor mu?</summary><p>Hayır. Dosya tarayıcınızda, cihazınızda işlenir ve hiçbir yere gönderilmez.</p></details>
+  <p><b>Diğer araçlar:</b> <a href="index.html">Profil ağırlık hesaplama</a> · <a href="sac-yerlesim.html">Sac yerleşimi (DXF nesting)</a> · <a href="step-goruntuleyici.html">STEP görüntüleyici</a> · <a href="dxf-goruntuleyici.html">DXF görüntüleyici ve PDF çevirici</a></p>
 </div>
 
 <footer>

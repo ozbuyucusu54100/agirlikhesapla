@@ -9,6 +9,11 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#0071e3">
 <link rel="canonical" href="https://hayratagirlik.com/sac-yerlesim.html">
+<meta property="og:type" content="website"><meta property="og:locale" content="tr_TR"><meta property="og:site_name" content="HAYRAT AĞIRLIK HESAPLAMA">
+<meta property="og:title" content="Sac Yerleşimi (DXF Nesting) | HAYRAT Ağırlık Hesaplama"><meta property="og:description" content="DXF parçalarını yükleyin, sac ebadını ve parça arası boşluğu girin; parçalar saca en az fireyle otomatik yerleştirilsin. Yerleşimi PDF olarak indirin."><meta property="og:url" content="https://hayratagirlik.com/sac-yerlesim.html">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Sac Yerleşimi (DXF Nesting) | HAYRAT Ağırlık Hesaplama"><meta name="twitter:description" content="DXF parçalarını yükleyin, sac ebadını ve parça arası boşluğu girin; parçalar saca en az fireyle otomatik yerleştirilsin. Yerleşimi PDF olarak indirin.">
+<meta property="og:image" content="https://hayratagirlik.com/og.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="HAYRAT AĞIRLIK HESAPLAMA - çelik profil ağırlık hesaplama araçları">
+<meta name="twitter:image" content="https://hayratagirlik.com/og.png"><meta name="twitter:image:alt" content="HAYRAT AĞIRLIK HESAPLAMA - çelik profil ağırlık hesaplama araçları">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='14' fill='%230071e3'/%3E%3Ctext x='28' y='33' text-anchor='middle' font-size='19' font-weight='800' fill='white' font-family='Arial'%3EHAH%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 <style>
@@ -71,11 +76,13 @@ details.adv .fg{margin-top:12px}
 .cp span{display:inline-flex;align-items:center;gap:6px}
 .cp i{width:10px;height:10px;border-radius:3px;display:inline-block}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://hayratagirlik.com/"},{"@type":"ListItem","position":2,"name":"Sac Yerleşimi","item":"https://hayratagirlik.com/sac-yerlesim.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Sac yerleşimi (DXF nesting)","url":"https://hayratagirlik.com/sac-yerlesim.html","description":"DXF parçalarını yükleyin, sac ebadını ve parça arası boşluğu girin; parçalar saca en az fireyle otomatik yerleştirilsin. Yerleşimi PDF olarak indirin.","applicationCategory":"BusinessApplication","operatingSystem":"Web","inLanguage":"tr","isAccessibleForFree":true,"featureList":["DXF parçalarını saca otomatik yerleştirme","Parça arası boşluk ve sac ebadı ayarı","Fire oranı hesabı","Yerleşimi PDF olarak indirme"],"offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"isPartOf":{"@type":"WebSite","name":"HAYRAT AĞIRLIK HESAPLAMA","url":"https://hayratagirlik.com/"}}</script>
 </head>
 <body>
 <main>
 <a class="hd" href="index.html"><svg width="40" height="40" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,Segoe UI,Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><b>HAYRAT AĞIRLIK HESAPLAMA</b></a>
-<nav class="nv" aria-label="Ana menü"><a href="index.html">Profil Hesaplama</a><a href="sac-yerlesim.html" aria-current="page">Sac Yerleşimi</a><a href="step-goruntuleyici.html">STEP Görüntüleyici</a><a href="cad-pdf.html">CAD → PDF</a><a href="teknik-resim-oyunu.html">Teknik Resim Oyunu</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<nav class="nv" aria-label="Ana menü"><a href="index.html">Profil Hesaplama</a><a href="sac-yerlesim.html" aria-current="page">Sac Yerleşimi</a><a href="step-goruntuleyici.html">STEP Görüntüleyici</a><a href="dxf-goruntuleyici.html">DXF Görüntüleyici</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
 <h1>Sac yerleşimi (DXF nesting)</h1>
 <p class="lead">DXF parçalarını yükleyin, adetleri girin; parçalar saca en az fireyle yerleşsin. Sonucu PDF olarak indirebilirsiniz.</p>
 <div class="ns">
@@ -88,14 +95,13 @@ details.adv .fg{margin-top:12px}
     <div><label for="th">Sac kalınlığı</label><div class="u"><input id="th" type="number" inputmode="decimal" value="5" min="0" step="any"><em>mm</em></div></div>
     <div><label for="mg">Kenar boşluğu</label><div class="u"><input id="mg" type="number" inputmode="decimal" value="10" min="0" step="any"><em>mm</em></div></div>
     <div><label for="gp">Parça arası boşluk</label><div class="u"><input id="gp" type="number" inputmode="decimal" value="5" min="0" step="any"><em>mm</em></div></div>
-    <div><label for="dr">Yerleşime başlama</label><select id="dr"><option value="s" selected>Kısa kenardan</option><option value="auto">Otomatik (ikisini dene)</option><option value="l">Uzun kenardan</option></select></div>
   </div>
   <details class="adv"><summary>Gelişmiş ayarlar</summary>
     <div class="fg">
       <div><label for="rs">Hassasiyet (mm)</label><select id="rs"><option>2</option><option>3</option><option selected>5</option><option>10</option></select></div>
       <div><label for="ro">Döndürme</label><select id="ro"><option value="auto" selected>Otomatik (en iyi sonuç)</option><option value="360">Yok (0°)</option><option value="180">0° / 180°</option><option value="90">90° adımlar</option><option value="45">45° adımlar</option><option value="30">30° adımlar</option></select></div>
     </div>
-    <div class="note" style="margin-top:8px">Hassasiyet küçüldükçe yerleşim daha doğru ama daha yavaş olur. "Otomatik" modda parçalar 90°, 45° ve 15° adımlarla ve kendi düz hizalama açılarıyla birkaç farklı sıralamada denenir; en az sac gerektiren yerleşim seçilir. Sabit adım seçerseniz yalnızca o adımlar denenir. "Yerleşime başlama": Kısa kenardan seçilirse parçalar sacın kısa kenarına dayanarak sıralanır ve uzun kenar boyunca ilerler; "Otomatik" seçilirse iki yön de denenir ve en az sac gerektiren seçilir.</div>
+    <div class="note" style="margin-top:8px">Hassasiyet küçüldükçe yerleşim daha doğru ama daha yavaş olur. "Otomatik" modda parçalar 90°, 45° ve 15° adımlarla ve kendi düz hizalama açılarıyla birkaç farklı sıralamada denenir; en az sac gerektiren yerleşim seçilir. Sabit adım seçerseniz yalnızca o adımlar denenir.</div>
   </details>
 </section>
 <section class="card sec">
@@ -212,8 +218,7 @@ $("tb").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)re
 
 /* ---- yerleşim ---- */
 function placeLoops(R,q){const p=R.ps[q.i],k=q.k,a=k.a*Math.PI/180,c=Math.cos(a),s=Math.sin(a),ox=(q.X+R.g)*R.r,oy=(q.Y+R.g)*R.r;
- const T=R.rot?(x,y)=>[y,R.nw-x]:(x,y)=>[x,y];
- return p.loops.map(l=>l.map(pt=>T(pt[0]*c-pt[1]*s-k.x0+ox,pt[0]*s+pt[1]*c-k.y0+oy)))}
+ return p.loops.map(l=>l.map(pt=>[pt[0]*c-pt[1]*s-k.x0+ox,pt[0]*s+pt[1]*c-k.y0+oy]))}
 
 /* parçanın sınır kutusunu en küçük yapan açı (düz hizalama) */
 function alignAngle(loops){let best=0,ba=1e30;for(let d=0;d<180;d++){const a=d*Math.PI/180,c=Math.cos(a),s=Math.sin(a);let x0=1e18,y0=1e18,x1=-1e18,y1=-1e18;
@@ -228,17 +233,15 @@ $("go").onclick=async()=>{const SWm=+$("sw").value,SHm=+$("sh").value,mg=Math.ma
  btn.disabled=true;btn.textContent="Yerleştiriliyor…";res=null;
  const prog=(t,f)=>{out.innerHTML=`<div class="card"><b>${t}</b><div class="bar"><i style="width:${Math.round(f*100)}%"></i></div></div>`};
  prog("Hazırlanıyor…",0);await new Promise(z=>setTimeout(z,20));
- const g=Math.ceil(gp/2/r),mc=Math.ceil(mg/r),SWc=Math.ceil(SWm/r),SHc=Math.ceil(SHm/r);
+ const g=Math.ceil(gp/2/r),mc=Math.ceil(mg/r),SW=Math.ceil(SWm/r),SH=Math.ceil(SHm/r);
  const mc2=new Map(),getM=(i,a)=>{const k=i+"_"+a;if(!mc2.has(k))mc2.set(k,mask(parts[i].loops,a,r,g));return mc2.get(k)};
  const th=TH(),ps=parts.map(p=>({name:p.name,loops:p.loops,w:p.w,h:p.h,q:p.q,hue:p.hue,area:p.area}));
  const al=auto?parts.map(p=>p.q>0?alignAngle(p.loops):0):null;
  const angsFor=(base,useAl)=>parts.map((_,i)=>{if(st===360&&!auto)return[0];const s=new Set(base);if(useAl)[0,90,180,270].forEach(k=>s.add((al[i]+k)%360));return[...s].sort((x,y)=>x-y)});
- const base0=auto?[{b:stepAngs(90),o:"area"},{b:stepAngs(90),o:"long"},{b:stepAngs(45),o:"area"},{b:stepAngs(15),o:"area"},{b:stepAngs(15),o:"long"}].map(x=>({A:angsFor(x.b,true),o:x.o})):[{A:angsFor(stepAngs(st),false),o:"area"}];
- const dm=$("dr").value,dirs=SWm===SHm?["l"]:dm==="auto"?["s","l"]:[dm],
-  runs=base0.flatMap(x=>dirs.map(d=>({...x,d,rot:d==="s"?SWm>SHm:SWm<SHm})));
+ const runs=auto?[{b:stepAngs(90),o:"area"},{b:stepAngs(90),o:"long"},{b:stepAngs(45),o:"area"},{b:stepAngs(15),o:"area"},{b:stepAngs(15),o:"long"}].map(x=>({A:angsFor(x.b,true),o:x.o})):[{A:angsFor(stepAngs(st),false),o:"area"}];
  let ri=0,sheetTot=0,placedTot=0,curN=0,last=performance.now();
  const tick=async()=>{if(performance.now()-last>60){prog((runs.length>1?"Deneme "+(ri+1)+"/"+runs.length+" · ":"")+"Yerleştiriliyor… "+(sheetTot+1)+". sac · "+(placedTot+curN)+" / "+total+" parça",(ri+(placedTot+curN)/total)/runs.length);await new Promise(z=>setTimeout(z));last=performance.now()}};
- const runNest=async cfg=>{const SW=cfg.rot?SHc:SWc,SH=cfg.rot?SWc:SHc,A=cfg.A,rem=parts.map(p=>p.q),lostN=parts.map(()=>0);
+ const runNest=async cfg=>{const A=cfg.A,rem=parts.map(p=>p.q),lostN=parts.map(()=>0);
   const order=parts.map((_,i)=>i).filter(i=>rem[i]>0).sort((a,b)=>cfg.o==="long"?(Math.max(parts[b].w,parts[b].h)-Math.max(parts[a].w,parts[a].h))||(getM(b,0).cnt-getM(a,0).cnt):getM(b,0).cnt-getM(a,0).cnt);
   const tryPlace=(S,i)=>{let best=null;
    for(const a of A[i]){const k=getM(i,a),xmin=Math.max(0,mc-g),xmax=SW-mc+g-k.W,ymin=Math.max(0,mc-g),ymax=SH-mc+g-k.H;
@@ -267,13 +270,13 @@ $("go").onclick=async()=>{const SWm=+$("sw").value,SHm=+$("sh").value,mg=Math.ma
    layouts.push({S,k,c,from:sheetTot+1,to:sheetTot+k});sheetTot+=k;placedTot+=k*S.pl.length}
   /* puan: önce yerleşen parça çok, sonra gereken sac az (son sacın doluluğu kesirli sayılır) */
   const lastL=layouts[layouts.length-1],eff=lastL?sheetTot-1+lastL.S.cnt*r*r/(SWm*SHm):0;
-  return{layouts,sheetTot,placedTot,lostN,eff,rot:cfg.rot,d:cfg.d,nw:cfg.rot?SHm:SWm}};
+  return{layouts,sheetTot,placedTot,lostN,eff}};
  let best=null;const t0=performance.now();
- for(ri=0;ri<runs.length;ri++){if(ri>0&&performance.now()-t0>30000)break;
+ for(ri=0;ri<runs.length;ri++){if(ri>0&&performance.now()-t0>25000)break;
   const R=await runNest(runs[ri]);
   if(!best||R.placedTot>best.placedTot||(R.placedTot===best.placedTot&&R.eff<best.eff-1e-9))best=R}
  const tried=Math.min(ri,runs.length);
- res={SWm,SHm,th,mg,gp,r,g,ps,layouts:best.layouts,sheetTot:best.sheetTot,placedTot:best.placedTot,total,tried,auto,dm,rot:best.rot,nw:best.nw,d:best.d,lost:ps.map((p,i)=>({name:p.name,n:best.lostN[i]})).filter(x=>x.n)};
+ res={SWm,SHm,th,mg,gp,r,g,ps,layouts:best.layouts,sheetTot:best.sheetTot,placedTot:best.placedTot,total,tried,auto,lost:ps.map((p,i)=>({name:p.name,n:best.lostN[i]})).filter(x=>x.n)};
  render(res);btn.disabled=false;btn.textContent="Yerleştir";
  out.scrollIntoView({behavior:"smooth",block:"start"})};
 
@@ -283,7 +286,7 @@ function render(R){const {SWm,SHm,layouts,ps}=R,sa=SWm*SHm,m=Math.max(SWm,SHm)/1
  const shKg=kgOf(sa,R.th),prKg=ps.reduce((a,p,i)=>a+layouts.reduce((b,L)=>b+L.k*L.c[i],0)*kgOf(p.area,R.th),0);
  let h=`<section class="card sec"><h2><i>3</i>Sonuç</h2>`;
  if(R.sheetTot)h+=`<div class="stats"><div><b>${fmt(R.sheetTot)}</b><span>adet ${SWm}×${SHm} mm sac</span></div><div><b>${fmt(R.placedTot)} / ${fmt(R.total)}</b><span>parça yerleşti</span></div><div><b>%${fmt(avg,1)}</b><span>ortalama kullanım</span></div><div><b>%${fmt(100-avg,1)}</b><span>fire</span></div>${R.th>0?`<div><b>${fmt(shKg*R.sheetTot,1)} kg</b><span>toplam sac ağırlığı</span></div><div><b>${fmt(prKg,1)} kg</b><span>parça ağırlığı</span></div>`:""}</div>${R.th>0?`<div class="note" style="margin-top:10px">Sac kalınlığı ${fmt(R.th,2)} mm · sac başına ${fmt(shKg,1)} kg · fire ağırlığı ${fmt(shKg*R.sheetTot-prKg,1)} kg · çelik yoğunluğu 7,85 g/cm³</div>`:""}`;
- {const ed=SWm===SHm?"":R.d==="s"?"Yerleşim kısa kenardan başlatıldı. ":"Yerleşim uzun kenardan başlatıldı. ",tr=R.tried>1?R.tried+" farklı yerleşim denendi (döndürme açıları"+(R.dm==="auto"?" ve başlangıç kenarı":"")+"), en az sac gerektiren sonuç gösteriliyor.":"";if(ed||tr)h+=`<div class="note" style="margin-top:10px">${ed}${tr}</div>`}
+ if(R.auto&&R.tried>1)h+=`<div class="note" style="margin-top:10px">Otomatik döndürme: ${R.tried} farklı yerleşim denendi, en az sac gerektiren sonuç gösteriliyor.</div>`;
  if(R.lost.length)h+=`<div class="wn">Sığmayan parça: ${R.lost.map(x=>esc(x.name)+" ×"+x.n).join(", ")} (sac ebadından büyük olabilir)</div>`;
  if(R.sheetTot)h+=`<button id="pdf" type="button" class="pri">PDF indir</button><div class="note" id="pdfmsg" style="margin-top:8px"></div>`;
  h+=`</section>`;
