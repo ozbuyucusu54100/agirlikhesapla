@@ -1,0 +1,18 @@
+/* Erişilebilirlik ve yazdırma düzenlemeleri */
+.skip{position:absolute;left:12px;top:-60px;z-index:100;padding:10px 16px;border-radius:99px;background:var(--ac,#0071e3);color:var(--acx,#fff);font-weight:600;text-decoration:none;transition:top .15s}
+.skip:focus{top:calc(env(safe-area-inset-top,0px) + 8px)}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media print{
+ :root{color-scheme:light}
+ body{background:#fff!important;color:#000!important}
+ .nv,.skip,footer,button,.btn,.dz,.grid,details>summary{display:none!important}
+ main{max-width:none!important;padding:0!important;margin:0!important}
+ a{color:#000!important;text-decoration:none!important}
+ .card,.fig,.tw{box-shadow:none!important;border-color:#bbb!important;background:#fff!important}
+ .tw{overflow:visible!important}
+ table{border-collapse:collapse;width:100%}
+ th,td{border:1px solid #999;padding:3px 6px;color:#000!important;background:#fff!important}
+ thead{display:table-header-group}tr{break-inside:avoid}
+ h1,h2,h3{break-after:avoid}
+ main::after{content:"hayratagirlik.com";display:block;margin-top:14px;font-size:11px;color:#555}
+}

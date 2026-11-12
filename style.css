@@ -14,6 +14,7 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
 .nv a{flex:none;white-space:nowrap;padding:7px 12px;border-radius:99px;color:var(--mu);text-decoration:none;font-weight:500}
 .nv a:hover{color:var(--ac)}
 .nv a[aria-current]{background:var(--card);color:var(--ac)}
+@media(min-width:640px){.nv{flex-wrap:wrap;height:auto;min-height:48px;padding:6px 12px;gap:0;overflow:visible}.nv a{padding:7px 7px;font-size:13.5px}}
 h1{font-size:28px;line-height:1.2;margin:8px 0 12px;letter-spacing:-.4px}
 h2{font-size:20px;margin:26px 0 8px}
 p,li{font-size:16px}

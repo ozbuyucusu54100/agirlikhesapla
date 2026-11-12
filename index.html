@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://hayratagirlik.com/og.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="HAYRAT AĞIRLIK HESAPLAMA - çelik profil ağırlık hesaplama araçları">
 <meta name="twitter:image" content="https://hayratagirlik.com/og.png"><meta name="twitter:image:alt" content="HAYRAT AĞIRLIK HESAPLAMA - çelik profil ağırlık hesaplama araçları">
 <!-- ADSENSE: AdSense'in verdiği kod parçasını buraya yapıştırın -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='14' fill='%230071e3'/%3E%3Ctext x='28' y='33' text-anchor='middle' font-size='19' font-weight='800' fill='white' font-family='Arial'%3EHAH%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="favicon.ico" sizes="48x48"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="manifest" href="site.webmanifest">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"HAYRAT AĞIRLIK HESAPLAMA","alternateName":"HAH","description":"Çelik profil ağırlık hesaplama aracı: IPE, HEA, HEB, UPN, köşebent, kutu profil, boru, lama ve dolu profiller için boya göre kg hesabı, testere kesim payı, fire, açılı kesim yerleşimi, sac yerleşimi, STEP/DXF görüntüleme ve PDF çıktısı.","url":"https://hayratagirlik.com/","applicationCategory":"BusinessApplication","operatingSystem":"Web","inLanguage":"tr","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Çelik profilin ağırlığı nasıl hesaplanır?","acceptedAnswer":{"@type":"Answer","text":"Ağırlık = birim ağırlık (kg/m) × boy (m) × adet. IPE, HEA, HEB, UPN ve köşebentte birim ağırlık standart tablodan alınır; boru, kutu profil, lama ve dolu profillerde kesit alanı × 7,85 g/cm³ çelik yoğunluğu ile bulunur."}},{"@type":"Question","name":"Testere kesim payı ve fire nasıl hesaplanır?","acceptedAnswer":{"@type":"Answer","text":"Her kesim için testere kalınlığı kadar boy kaybı eklenir, stok boydan kaç parça çıkacağı bulunur. Kalan uçlar ve kesim kayıpları fire olarak kg ve yüzde ile gösterilir."}},{"@type":"Question","name":"Açılı (gönyeli) kesimde parçalar nasıl yerleştirilir?","acceptedAnswer":{"@type":"Answer","text":"Açılı uçlu parçalar bir düz, bir ters (180° çevrilmiş) yerleştirilerek açılar birbirine oturtulur. Böylece boydan daha fazla parça çıkar ve fire azalır."}}]}</script>
 <style>
@@ -35,6 +35,7 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
 .nv a{flex:none;white-space:nowrap;padding:7px 12px;border-radius:99px;color:var(--mu);text-decoration:none;font-weight:500}
 .nv a:hover{color:var(--ac)}
 .nv a[aria-current]{background:var(--card);color:var(--ac)}
+@media(min-width:640px){.nv{flex-wrap:wrap;height:auto;min-height:48px;padding:6px 12px;gap:0;overflow:visible}.nv a{padding:7px 7px;font-size:13.5px}}
 .hd h1{margin:0;font-size:18px;line-height:1.2;letter-spacing:-.2px;font-weight:700}
 h1{font-size:26px;margin:8px 0 18px;letter-spacing:-.3px}
 .card{background:var(--card);border-radius:18px;padding:18px;margin-bottom:16px}
@@ -73,12 +74,14 @@ footer a{color:var(--mu);margin:0 8px}
 button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"HAYRAT AĞIRLIK HESAPLAMA","alternateName":"HAH","url":"https://hayratagirlik.com/","inLanguage":"tr"}</script>
+<link rel="stylesheet" href="ek.css">
 </head>
 <body>
-<main>
+<a class="skip" href="#main">İçeriğe geç</a>
+<main id="main">
 <noscript>Bu hesaplama aracının çalışması için tarayıcınızda JavaScript açık olmalıdır.</noscript>
 <header class="hd"><svg width="40" height="40" viewBox="0 0 56 56" role="img" aria-label="HAH logo"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><h1>HAYRAT AĞIRLIK HESAPLAMA</h1></header>
-<nav class="nv" aria-label="Ana menü"><a href="index.html" aria-current="page">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html" title="STEP Görüntüleyici">STEP 3B</a><a href="teknik-resim-oyunu.html">Teknik Resim</a><a href="dxf-goruntuleyici.html" title="DXF Görüntüleyici">DXF / PDF</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<nav class="nv" aria-label="Ana menü"><a href="/" aria-current="page">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html" title="STEP Görüntüleyici">STEP 3B</a><a href="teknik-resim-oyunu.html">Teknik Resim</a><a href="dxf-goruntuleyici.html" title="DXF Görüntüleyici">DXF / PDF</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
 <script src="menu.js"></script>
 <div class="card">
   <div class="grid">
@@ -132,7 +135,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <p><b>Diğer araçlar:</b> <a href="sac-yerlesim.html">Sac yerleşimi (DXF nesting)</a> · <a href="step-goruntuleyici.html">STEP görüntüleyici (3D)</a> · <a href="dxf-goruntuleyici.html">DXF görüntüleyici ve PDF'e çevirme</a></p>
   <p><b>Rehberler:</b> <a href="celik-profil-agirligi-nasil-hesaplanir.html">Çelik profil ağırlığı nasıl hesaplanır?</a> · <a href="kesim-fire-hesabi.html">Kesim fire'si nasıl hesaplanır ve azaltılır?</a> · <a href="teknik-resim-oyunu.html">Teknik resim oyunu ve eğitim notları</a></p>
 </section>
-<footer><a href="gizlilik-politikasi.html">Gizlilik Politikası</a><a href="sorumluluk-reddi.html">Sorumluluk Reddi</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a><br>Hesaplamalar bilgilendirme amaçlıdır. Sipariş ve imalat öncesi üretici / standart tablosuyla doğrulayınız.<br><small style="opacity:.55;font-size:11px">v1.01 · Ziyaretçi: <span id="c-ziyaretci">–</span> · İndirilen PDF: <span id="c-pdf">–</span></small></footer>
+<footer><a href="gizlilik-politikasi.html">Gizlilik Politikası</a><a href="sorumluluk-reddi.html">Sorumluluk Reddi</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a><br>Hesaplamalar bilgilendirme amaçlıdır. Sipariş ve imalat öncesi üretici / standart tablosuyla doğrulayınız.<br><small style="opacity:.55;font-size:11px">v1.01</small></footer>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -412,7 +415,7 @@ $("pdf").onclick=()=>{const m=$("pdfmsg");
   if(pdfUrl)URL.revokeObjectURL(pdfUrl);pdfUrl=URL.createObjectURL(blob);
   const n="HAH-Kesim-Listesi-"+new Date().toISOString().slice(0,10)+".pdf",a=document.createElement("a");
   a.href=pdfUrl;a.download=n;document.body.appendChild(a);a.click();a.remove();
-  if(window.hahCount)hahCount("pdf");m.innerHTML='PDF hazırlandı. İndirme başlamadıysa <a href="'+pdfUrl+'" target="_blank" rel="noopener" download="'+n+'">buraya dokunun</a>.'
+  m.innerHTML='PDF hazırlandı. İndirme başlamadıysa <a href="'+pdfUrl+'" target="_blank" rel="noopener" download="'+n+'">buraya dokunun</a>.'
  }catch(e){m.textContent="PDF oluşturulamadı: "+e.message}};
 setType();vis();calc();render();
 </script>
@@ -528,6 +531,5 @@ $("stp").onchange=async e=>{const m=$("stm");let bad=0;const fs=[...e.target.fil
 })();
 
 </script>
-<script src="sayac.js" defer></script>
 </body>
 </html>
