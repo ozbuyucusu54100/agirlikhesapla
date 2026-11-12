@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Teknik Resim Oyunu | Görünüş ve 3B Model Eşleştirme</title>
-<meta name="description" content="Mühendislik öğrencileri için teknik resim oyunu: üç görünüşten doğru 3B modeli bulun, eksik görünüşü seçin, hatalı görünüşü yakalayın. 1. ve 3. açı projeksiyon. Ücretsiz.">
+<title>Teknik Resim Oyunu ve Eğitim Notları | Görünüş, Ölçülendirme, Kesit</title>
+<meta name="description" content="Teknik resim oyunuyla görünüş okumayı pratik edin; çizgi türleri, ölçülendirme, kesit, kaynak sembolü ve ISO 2768 toleranslar için eğitim notları.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#0071e3">
 <link rel="canonical" href="https://hayratagirlik.com/teknik-resim-oyunu.html">
 <meta property="og:type" content="website"><meta property="og:locale" content="tr_TR"><meta property="og:site_name" content="HAYRAT AĞIRLIK HESAPLAMA">
-<meta property="og:title" content="Teknik Resim Oyunu | Görünüş ve 3B Model Eşleştirme"><meta property="og:description" content="Üç görünüşten doğru 3B modeli bulun, eksik görünüşü seçin, hatalı görünüşü yakalayın."><meta property="og:url" content="https://hayratagirlik.com/teknik-resim-oyunu.html">
+<meta property="og:title" content="Teknik Resim Oyunu ve Eğitim Notları | Görünüş, Ölçülendirme, Kesit"><meta property="og:description" content="Teknik resim oyunuyla görünüş okumayı pratik edin; çizgi türleri, ölçülendirme, kesit, kaynak sembolü ve ISO 2768 toleranslar için eğitim notları."><meta property="og:url" content="https://hayratagirlik.com/teknik-resim-oyunu.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='14' fill='%230071e3'/%3E%3Ctext x='28' y='33' text-anchor='middle' font-size='19' font-weight='800' fill='white' font-family='Arial'%3EHAH%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 <style>
@@ -58,7 +58,8 @@
 .op:hover:not(:disabled){border-color:var(--ac)}
 .op:disabled{cursor:default}
 .op .bd{position:absolute;left:8px;top:8px;width:24px;height:24px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:13px;font-weight:700}
-.op svg{max-width:100%;height:auto;max-height:180px}
+.op svg{max-width:100%;height:auto;max-height:180px;flex:0 1 auto;min-width:0}
+.isobox svg{width:100%;height:auto}
 .op.ok{border-color:var(--ok);background:rgba(52,199,89,.14)}
 .op.no{border-color:var(--no);background:rgba(255,59,48,.1);animation:shk .3s}
 @keyframes shk{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
@@ -95,16 +96,33 @@
 details.gd2 summary{cursor:pointer;font-weight:600;font-size:16px}
 details.gd2 .tw{margin-top:12px}
 @media(max-width:520px){.hud{grid-template-columns:repeat(2,1fr)}.isobox .big{width:190px}.btns{grid-template-columns:1fr}.opts.o3 .op{font-size:14px}}
+
+.eg h3{font-size:18px;margin:26px 0 8px}
+.eg .fig{background:var(--card);border-radius:14px;padding:10px;margin:12px 0;text-align:center}
+.eg .fig svg{max-width:100%;height:auto}
+.eg .fig p{margin:4px 0 0;font-size:13px;color:var(--mu)}
+.eg svg .k{stroke:var(--tx);fill:none;stroke-width:2}
+.eg svg .i{stroke:var(--tx);fill:none;stroke-width:.8}
+.eg svg .g{stroke:var(--tx);fill:none;stroke-width:1;stroke-dasharray:5 3}
+.eg svg .e{stroke:var(--ac);fill:none;stroke-width:.8;stroke-dasharray:12 3 2 3}
+.eg svg text{fill:var(--tx);font:12px -apple-system,Segoe UI,Arial,sans-serif}
+.eg svg .a{fill:var(--ac)}
+.eg details{background:var(--card);border-radius:12px;padding:10px 14px;margin:8px 0}
+.eg summary{cursor:pointer;font-weight:600}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.jump a{padding:8px 16px;border-radius:99px;border:1px solid var(--ln);background:var(--card);text-decoration:none;font-weight:600;font-size:15px}
+.op,.ch span,.pri{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 </style>
 </head>
 <body>
 <main>
 <a class="hd" href="index.html"><svg width="40" height="40" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,Segoe UI,Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><b>HAYRAT AĞIRLIK HESAPLAMA</b></a>
-<nav class="nv" aria-label="Ana menü"><a href="index.html">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html">STEP Görüntüleyici</a><a href="cad-pdf.html">CAD → PDF</a><a href="teknik-resim-oyunu.html" aria-current="page">Teknik Resim Oyunu</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
-<h1>Teknik resim oyunu</h1>
+<nav class="nv" aria-label="Ana menü"><a href="index.html" aria-current="page">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html">STEP Görüntüleyici</a><a href="dxf-goruntuleyici.html">DXF Görüntüleyici</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="teknik-resim-oyunu.html" aria-current="page">Teknik Resim</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<h1>Teknik resim oyunu ve eğitim notları</h1>
 <p class="lead">Görünüşleri okuma becerinizi oyunla geliştirin: üç görünüşten doğru 3B modeli bulun, eksik görünüşü seçin, hatalı çizimi yakalayın.</p>
 
-<div class="tg">
+<p class="jump"><a href="#oyun">Oyunu oyna</a><a href="#egitim">Eğitim notları</a></p>
+<div class="tg" id="oyun">
 <noscript><div class="card">Oyunun çalışması için tarayıcınızda JavaScript açık olmalıdır.</div></noscript>
 
 <section class="card" id="setup">
@@ -135,7 +153,7 @@ details.gd2 .tw{margin-top:12px}
   <p class="sm" id="bestl"></p>
 </section>
 
-<section class="card hid" id="game" aria-live="polite">
+<section class="card hid" id="game">
   <div class="hud"><div>Soru<b id="hq">1 / 10</b></div><div>Puan<b id="hs">0</b></div><div>Seri<b id="hk">0</b></div><div>Süre<b id="ht">0 sn</b></div></div>
   <div class="pbar"><i id="pb" style="width:0"></i></div>
   <h2 class="qt" id="qt"></h2><p class="qs" id="qs"></p>
@@ -143,7 +161,7 @@ details.gd2 .tw{margin-top:12px}
   <div class="scene" id="scene"></div>
   <div class="lg"><span><i></i>Görünen kenar</span><span><i class="d"></i>Gizli kenar (kesik çizgi)</span></div>
   <div class="opts" id="opts"></div>
-  <div id="fb"></div>
+  <div id="fb" aria-live="polite"></div>
   <button type="button" class="pri hid" id="nx">Sonraki soru</button>
 </section>
 
@@ -168,14 +186,88 @@ details.gd2 .tw{margin-top:12px}
 </details>
 </div>
 
-<h2>Teknik resim görünüşleri neden önemlidir?</h2>
+<section class="eg" id="egitim">
+<h2>Teknik resim eğitim notları</h2>
+<p class="lead">Atölyede ve ofiste en çok işe yarayan temel kurallar, kısa notlar ve şekillerle. Yazdırabilir ya da telefondan sahada açıp bakabilirsiniz.</p>
+<h3>Görünüş okumak neden önemlidir?</h3>
 <p>Üretim resimleri, bir parçayı üç boyutlu olarak değil, birbirine bağlı birkaç görünüşle anlatır. Atölyede ya da bir sac kesim, kaynaklı imalat veya talaşlı imalat işinde parçayı doğru anlamak için bu görünüşleri okuyabilmek gerekir. Oyundaki sorular tam olarak bu beceriyi çalıştırır: görünüşlerden modeli kurmak, modelden görünüşü çıkarmak ve tutarsızlığı fark etmek.</p>
 <p>Oyun, ders sınavlarına hazırlanan mühendislik, makine ve teknik lise öğrencileri ile görünüş okumayı tazelemek isteyen teknikerler için hazırlandı. Zorluk arttıkça model büyür, farklar küçülür ve kesik çizgiler daha sık karşınıza çıkar.</p>
+<h3>1. Çizgi türleri</h3>
+<div class="fig"><svg width="360" height="170" viewBox="0 0 360 170" role="img" aria-label="Çizgi türleri">
+<line class="k" x1="10" y1="20" x2="150" y2="20"/><text x="165" y="24">Kalın sürekli: görünen kenar</text>
+<line class="i" x1="10" y1="50" x2="150" y2="50"/><text x="165" y="54">İnce sürekli: ölçü, tarama</text>
+<line class="g" x1="10" y1="80" x2="150" y2="80"/><text x="165" y="84">Kesikli: gizli kenar</text>
+<line class="e" x1="10" y1="110" x2="150" y2="110"/><text x="165" y="114">Nokta-çizgi: eksen</text>
+<path class="k" d="M10 140h20M50 140h20M90 140h20M130 140h20" /><text x="165" y="144">Kalın uçlu: kesit düzlemi</text></svg></div>
+
+<h3>2. Görünüşler (1. açı projeksiyon)</h3>
+<p>Türkiye ve Avrupa’da <b>1. açı</b> kullanılır: önden görünüşün <b>altına üstten</b>, <b>sağına soldan</b> görünüş çizilir. Gizli delikler kesikli, delik eksenleri nokta-çizgi ile gösterilir. Parçayı tam anlatan en az sayıda görünüş çizin.</p>
+<div class="fig"><svg width="300" height="190" viewBox="0 0 300 190" role="img" aria-label="Üç görünüş">
+<rect class="k" x="20" y="20" width="140" height="80"/><circle class="k" cx="90" cy="60" r="16"/><line class="e" x1="60" y1="60" x2="120" y2="60"/><line class="e" x1="90" y1="30" x2="90" y2="90"/>
+<rect class="k" x="20" y="116" width="140" height="30"/><line class="g" x1="74" y1="116" x2="74" y2="146"/><line class="g" x1="106" y1="116" x2="106" y2="146"/><line class="e" x1="90" y1="110" x2="90" y2="152"/>
+<rect class="k" x="176" y="20" width="30" height="80"/><line class="g" x1="176" y1="44" x2="206" y2="44"/><line class="g" x1="176" y1="76" x2="206" y2="76"/><line class="e" x1="170" y1="60" x2="212" y2="60"/>
+<text x="20" y="14">Önden</text><text x="20" y="168">Üstten</text><text x="176" y="14">Soldan</text></svg><p>Delikli levha: delik, önden görünüşte dairedir; diğer görünüşlerde kesikli çizilir.</p></div>
+
+<h3>3. Ölçülendirme</h3>
+<div class="fig"><svg width="260" height="170" viewBox="0 0 260 170" role="img" aria-label="Ölçülendirme">
+<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" class="a"/></marker></defs>
+<rect class="k" x="30" y="20" width="150" height="80"/><circle class="k" cx="105" cy="60" r="16"/>
+<line class="i" x1="30" y1="104" x2="30" y2="134"/><line class="i" x1="180" y1="104" x2="180" y2="134"/><line class="i" x1="30" y1="128" x2="180" y2="128" marker-start="url(#ar)" marker-end="url(#ar)"/><text x="95" y="122">150</text>
+<line class="i" x1="184" y1="20" x2="214" y2="20"/><line class="i" x1="184" y1="100" x2="214" y2="100"/><line class="i" x1="208" y1="20" x2="208" y2="100" marker-start="url(#ar)" marker-end="url(#ar)"/><text x="214" y="64">80</text>
+<line class="i" x1="116" y1="49" x2="150" y2="30"/><line class="i" x1="150" y1="30" x2="170" y2="30"/><text x="153" y="26">Ø32</text></svg></div>
+<ul><li>Her ölçü <b>bir kez</b> yazılır; ölçü çizgisi görünen kenardan en az 10 mm dışarıda durur.</li><li>Ölçüler milimetredir, birim yazılmaz. Çap <b>Ø</b>, yarıçap <b>R</b>, kare <b>□</b> ile belirtilir.</li><li>Kısa ölçüler içte, uzun ölçüler dışta yer alır; ölçü çizgileri birbirini kesmemeli.</li><li>Eksen ve kenar çizgileri ölçü çizgisi olarak kullanılmaz.</li></ul>
+
+<h3>4. Kesit ve tarama</h3>
+<div class="fig"><svg width="260" height="130" viewBox="0 0 260 130" role="img" aria-label="Kutu profil kesiti">
+<defs><pattern id="h" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" class="i"/></pattern></defs>
+<path d="M50 15H170V105H50ZM62 27V93H158V27Z" fill="url(#h)" fill-rule="evenodd" class="k"/><text x="50" y="125">Kesit A–A (kutu profil)</text><path class="k" d="M200 30h14M200 100h14"/><path class="k" d="M207 30v70" /><text x="220" y="70">A</text></svg><p>Kesilen yüzey 45° ince çizgilerle taranır; aynı parçanın taraması tek yönde ve eşit aralıktadır.</p></div>
+
+<h3>5. Kaynak sembolü (ISO 2553)</h3>
+<div class="fig"><svg width="300" height="130" viewBox="0 0 300 130" role="img" aria-label="Köşe kaynağı sembolü">
+<line class="k" x1="110" y1="40" x2="270" y2="40"/><line class="i" x1="110" y1="40" x2="60" y2="85"/><path class="a" d="M60 85l12-4-8-6z"/>
+<path class="k" d="M150 40v14h14z"/><text x="120" y="35">a4</text><text x="180" y="35">L=100</text>
+<rect class="k" x="30" y="95" width="70" height="8"/><rect class="k" x="58" y="85" width="8" height="10"/></svg><p>Ok tarafındaki köşe kaynağı: boğaz kalınlığı <b>a=4 mm</b>, kaynak boyu <b>100 mm</b>. Sembol referans çizgisinin altındaysa kaynak ok tarafındadır, üstündeyse karşı taraftadır.</p></div>
+
+<h3>6. Genel toleranslar (ISO 2768-1)</h3>
+<p>Ölçüde tolerans yazılmamışsa antette belirtilen sınıf geçerlidir. Örnek not: <b>“Genel toleranslar ISO 2768-m”</b>. Boyut aralığına göre sapmalar (mm):</p>
+<div class="tw"><table class="t"><thead><tr><th>Ölçü aralığı (mm)</th><th>f (ince)</th><th>m (orta)</th><th>c (kaba)</th><th>v (çok kaba)</th></tr></thead><tbody>
+<tr><td>0,5 – 3</td><td>±0,05</td><td>±0,1</td><td>±0,2</td><td>–</td></tr>
+<tr><td>3 – 6</td><td>±0,05</td><td>±0,1</td><td>±0,3</td><td>±0,5</td></tr>
+<tr><td>6 – 30</td><td>±0,1</td><td>±0,2</td><td>±0,5</td><td>±1</td></tr>
+<tr><td>30 – 120</td><td>±0,15</td><td>±0,3</td><td>±0,8</td><td>±1,5</td></tr>
+<tr><td>120 – 400</td><td>±0,2</td><td>±0,5</td><td>±1,2</td><td>±2,5</td></tr>
+<tr><td>400 – 1000</td><td>±0,3</td><td>±0,8</td><td>±2</td><td>±4</td></tr>
+<tr><td>1000 – 2000</td><td>–</td><td>±1,2</td><td>±3</td><td>±6</td></tr>
+<tr><td>2000 – 4000</td><td>–</td><td>±2</td><td>±4</td><td>±8</td></tr></tbody></table></div>
+<p class="note">Kaynaklı yapılarda genel tolerans için ISO 13920 (sınıf B/C) kullanılır. Çizimde hangi standardın geçerli olduğunu antete yazın.</p>
+
+<h3>7. Kâğıt, ölçek ve antet</h3>
+<div class="tw"><table class="t"><thead><tr><th>Kâğıt</th><th>Boyut (mm)</th></tr></thead><tbody><tr><td>A4</td><td>210 × 297</td></tr><tr><td>A3</td><td>297 × 420</td></tr><tr><td>A2</td><td>420 × 594</td></tr><tr><td>A1</td><td>594 × 841</td></tr><tr><td>A0</td><td>841 × 1189</td></tr></tbody></table></div>
+<ul><li><b>Standart ölçekler:</b> 1:1, 1:2, 1:5, 1:10, 1:20, 1:50; büyütme için 2:1, 5:1. Ölçek ne olursa olsun yazılan ölçü <b>gerçek ölçüdür</b>.</li><li><b>Antet (başlık bloğu):</b> parça adı, resim no, ölçek, malzeme, tarih, çizen/kontrol, revizyon, genel tolerans notu ve projeksiyon sembolü bulunmalıdır.</li></ul>
+
+<h3>8. Çelik profillerin yazılışı</h3>
+<div class="tw"><table class="t"><thead><tr><th>Profil</th><th>Yazılış örneği</th></tr></thead><tbody>
+<tr><td>IPE / HEA / HEB / UPN</td><td>IPE 200 – 6000 (boy mm)</td></tr>
+<tr><td>Köşebent</td><td>L 50×50×5 – 1200</td></tr>
+<tr><td>Boru</td><td>Ø60,3×3,2 – 1500</td></tr>
+<tr><td>Kutu profil</td><td>□ 40×40×3 – 800</td></tr>
+<tr><td>Lama</td><td>FL 100×10 – 450</td></tr></tbody></table></div>
+<p>Parça listesinde profil, ölçü, boy ve adedi yazın; ağırlığı ve firesini <a href="index.html">profil hesaplama aracından</a>, STEP dosyalarını <a href="step-goruntuleyici.html">STEP görüntüleyiciden</a>, DXF çizimlerini <a href="dxf-goruntuleyici.html">DXF görüntüleyiciden</a> inceleyebilirsiniz.</p>
+
+<h3>Kendinizi sınayın</h3>
+<p>Daha fazla pratik için <a href="#oyun"><b>yukarıdaki oyunu</b></a> oynayın.</p>
+<details><summary>1. Gizli kenar hangi çizgiyle çizilir?</summary><p>Kesikli ince çizgiyle.</p></details>
+<details><summary>2. 1. açı projeksiyonda üstten görünüş nereye çizilir?</summary><p>Önden görünüşün altına.</p></details>
+<details><summary>3. Kesit taraması kaç derecedir?</summary><p>45°, ince sürekli çizgi.</p></details>
+<details><summary>4. 80 mm’lik ölçüde ISO 2768-m ile izin verilen sapma nedir?</summary><p>30–120 mm aralığında ±0,3 mm.</p></details>
+<details><summary>5. “a4” kaynak notu neyi anlatır?</summary><p>4 mm boğaz kalınlığında köşe kaynağı.</p></details>
+<p class="note">Bu sayfa eğitim amaçlı özet bilgidir; üretim öncesi ilgili standardın güncel sürümünü ve müşteri şartnamesini esas alın.</p>
+</section>
 
 <footer>
 <a href="gizlilik-politikasi.html">Gizlilik Politikası</a><a href="sorumluluk-reddi.html">Sorumluluk Reddi</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a>
-<p>© 2026 HAYRAT AĞIRLIK HESAPLAMA. Oyun eğitim amaçlıdır; resmî çizim kuralları için ilgili TS EN ISO standartlarına bakınız.</p>
-</footer>
+<p>© 2026 HAYRAT AĞIRLIK HESAPLAMA. Oyun ve notlar eğitim amaçlıdır; resmî çizim kuralları için ilgili TS EN ISO standartlarına bakınız.</p>
+<br><small style="opacity:.55;font-size:11px">Ziyaretçi: <span id="c-ziyaretci">–</span> · İndirilen PDF: <span id="c-pdf">–</span></small></footer>
 </main>
 <script>
 const $=i=>document.getElementById(i);
@@ -226,7 +318,8 @@ function isoSvg(m,o={}){let body="",x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
   if(ln)body+=`<path class="ie" d="${ln}"/>`}
  if(o.key){[["Üst",.5,.5,1],["Ön",.5,0,.5],["Sağ",1,.5,.5]].forEach(([t,x,y,z])=>{const p=ip(x,y,z);body+=`<text class="kt" x="${p[0].toFixed(3)}" y="${p[1].toFixed(3)}">${t}</text>`})}
  const pd=.25;
- return`<svg viewBox="${(x0-pd).toFixed(2)} ${(y0-pd).toFixed(2)} ${(x1-x0+2*pd).toFixed(2)} ${(y1-y0+2*pd).toFixed(2)}" ${o.cls?`class="${o.cls}"`:""} role="img" aria-label="${o.al||"Üç boyutlu model"}">${body}</svg>`}
+ const vw=x1-x0+2*pd,vh=y1-y0+2*pd,sz=o.px?` width="${(vw*o.px).toFixed(1)}" height="${(vh*o.px).toFixed(1)}"`:"";
+ return`<svg viewBox="${(x0-pd).toFixed(2)} ${(y0-pd).toFixed(2)} ${vw.toFixed(2)} ${vh.toFixed(2)}"${sz} ${o.cls?`class="${o.cls}"`:""} role="img" aria-label="${o.al||"Üç boyutlu model"}">${body}</svg>`}
 
 /* ===== Ortografik görünüşler (görünen + gizli kenarlar) ===== */
 function proj(m,k,x,y,z){switch(k){case"f":return[x,z,y];case"t":return[x,y,-z];case"l":return[m.ny-y,z,x];default:return[y,z,-x]}}
@@ -365,7 +458,7 @@ function renderQ(q){const p=q.p,ks=lk(p),sd=ks[2],sc=$("scene"),op=$("opts"),op1
   $("qs").textContent="Yukarıdaki üç çizim aynı parçanın önden, üstten ve "+sn+" görünüşüdür. Bu çizimlere uyan modeli seçin. "+prjTxt;
   how(["Önden görünüşe bakın: modelin ön yüzü böyle görünmeli.","Üstten görünüşle derinliği kontrol edin: hangi kısımlar önde, hangileri arkada?","Üç çizimden herhangi biriyle uyuşmayan modelleri eleyin."],op1);
   sc.innerHTML=sceneSvg(q.m,p,{views:q.V,guides:G.guides})+`<div class="isobox"><div class="key">${isoSvg(mk(new Set([K(0,0,0)])),{key:1,al:"Yön göstergesi"})}</div><small>Seçeneklerdeki modeller<br>bu yönden çizildi</small></div>`;
-  op.innerHTML=q.opts.map((o,i)=>`<button type="button" class="op" data-i="${i}" aria-label="Seçenek ${LET[i]}"><span class="bd">${LET[i]}</span>${isoSvg(o.m,{al:"Seçenek "+LET[i]})}</button>`).join("")}
+  op.innerHTML=q.opts.map((o,i)=>`<button type="button" class="op" data-i="${i}" aria-label="Seçenek ${LET[i]}"><span class="bd">${LET[i]}</span>${isoSvg(o.m,{al:"Seçenek "+LET[i],px:30})}</button>`).join("")}
  else if(q.type==="b"){$("qt").textContent="Boş bırakılan yere hangi çizim gelir?";
   $("qs").textContent="Soldaki model ve yanındaki çizimler aynı parçaya ait. Soru işaretli yer, parçanın "+VN[q.k].toLowerCase()+" görünüşü. Aşağıdan doğru çizimi seçin. "+prjTxt;
   how(["Yön küpüne bakarak modelin hangi yüzünün Ön, Sağ, Üst olduğunu bulun.",HINT[q.k],"Başka bir yüzeyin arkasında kalan kenarlar kesik çizgiyle gösterilir."],op1);
@@ -414,5 +507,6 @@ document.addEventListener("keydown",e=>{if($("game").classList.contains("hid")||
  const bs=[...$("opts").children];if(n>=0&&n<bs.length)bs[n].click()});
 $("gmd").textContent=MODES.mix;bestLine();
 </script>
+<script src="sayac.js" defer></script>
 </body>
 </html>
