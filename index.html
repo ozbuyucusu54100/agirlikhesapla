@@ -70,7 +70,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 <body>
 <main>
 <noscript>Bu hesaplama aracının çalışması için tarayıcınızda JavaScript açık olmalıdır.</noscript>
-<nav class="nv" aria-label="Ana menü"><a href="index.html" aria-current="page">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html">STEP Görüntüleyici</a><a href="dxf-goruntuleyici.html">DXF Görüntüleyici</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<nav class="nv" aria-label="Ana menü"><a href="index.html" aria-current="page">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html">STEP Görüntüleyici</a><a href="dxf-goruntuleyici.html">DXF Görüntüleyici</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="teknik-resim-egitimi.html">Teknik Resim</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
 <header class="hd"><svg width="52" height="52" viewBox="0 0 56 56" role="img" aria-label="HAH logo"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><h1>HAYRAT AĞIRLIK HESAPLAMA</h1></header>
 <div class="card">
   <div class="grid">
@@ -122,7 +122,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <details><summary>Açılı (gönyeli) kesimde parçalar nasıl yerleştirilir?</summary><p>Açılı uçlu parçalar bir düz, bir ters (180° çevrilmiş) yerleştirilerek açılar birbirine oturtulur. Böylece boydan daha fazla parça çıkar ve fire azalır.</p></details>
   <p><b>Ağırlık tabloları:</b> <a href="ipe-agirlik-tablosu.html">IPE</a> · <a href="hea-agirlik-tablosu.html">HEA</a> · <a href="heb-agirlik-tablosu.html">HEB</a> · <a href="upn-agirlik-tablosu.html">UPN</a> · <a href="kutu-profil-agirlik-tablosu.html">Kutu profil</a> · <a href="boru-agirlik-tablosu.html">Boru</a> · <a href="kosebent-agirlik-tablosu.html">Köşebent</a></p>
   <p><b>Diğer araçlar:</b> <a href="sac-yerlesim.html">Sac yerleşimi (DXF nesting)</a> · <a href="step-goruntuleyici.html">STEP görüntüleyici (3D)</a> · <a href="dxf-goruntuleyici.html">DXF görüntüleyici ve PDF'e çevirme</a></p>
-  <p><b>Rehberler:</b> <a href="celik-profil-agirligi-nasil-hesaplanir.html">Çelik profil ağırlığı nasıl hesaplanır?</a> · <a href="kesim-fire-hesabi.html">Kesim fire'si nasıl hesaplanır ve azaltılır?</a></p>
+  <p><b>Rehberler:</b> <a href="celik-profil-agirligi-nasil-hesaplanir.html">Çelik profil ağırlığı nasıl hesaplanır?</a> · <a href="kesim-fire-hesabi.html">Kesim fire'si nasıl hesaplanır ve azaltılır?</a> · <a href="teknik-resim-egitimi.html">Teknik resim eğitimi</a></p>
 </section>
 <footer><a href="gizlilik-politikasi.html">Gizlilik Politikası</a><a href="sorumluluk-reddi.html">Sorumluluk Reddi</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a><br>Hesaplamalar bilgilendirme amaçlıdır. Sipariş ve imalat öncesi üretici / standart tablosuyla doğrulayınız.<br><small style="opacity:.55;font-size:11px">v1.01 · Ziyaretçi: <span id="c-ziyaretci">–</span> · İndirilen PDF: <span id="c-pdf">–</span></small></footer>
 </main>
@@ -216,7 +216,8 @@ let V=null;
 function v3init(){if(V)return V;if(typeof THREE==='undefined')return null;
  const host=$('v3'),w=host.clientWidth||600,h=300,r=new THREE.WebGLRenderer({antialias:true,alpha:true});
  r.setPixelRatio(Math.min(2,window.devicePixelRatio||1));r.setSize(w,h);const cv=r.domElement;cv.style.cssText='display:block;touch-action:none;cursor:grab';host.appendChild(cv);
- const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,w/h,1,200000);
+ cv.addEventListener('webglcontextlost',e=>{e.preventDefault()});cv.addEventListener('webglcontextrestored',()=>{try{calc()}catch(x){}});
+ const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,w/h,10,10000);
  sc.add(new THREE.AmbientLight(0xffffff,.7));
  const l1=new THREE.DirectionalLight(0xffffff,.85);l1.position.set(1,2,1.5);sc.add(l1);
  const l2=new THREE.DirectionalLight(0xffffff,.4);l2.position.set(-1.5,-1,-1);sc.add(l2);
@@ -237,7 +238,7 @@ function v3init(){if(V)return V;if(typeof THREE==='undefined')return null;
  return V}
 function v3(c){const m=$('v3m'),Vw=v3init();
  if(!Vw){m.textContent='3B görünüm yüklenemedi (three.js erişilemedi).';return}
- if(Vw.grp){Vw.sc.remove(Vw.grp);Vw.grp.traverse(q=>{if(q.geometry)q.geometry.dispose()});Vw.grp=null}
+ if(Vw.grp){Vw.sc.remove(Vw.grp);Vw.grp.traverse(q=>{if(q.geometry)q.geometry.dispose();const ms=[].concat(q.material||[]);ms.forEach(m=>{if(m.map)m.map.dispose();m.dispose()})});Vw.grp=null}
  const ty=c.ty,t=c.t,b=c.b,h=c.h,base=c.base,SL=c.SL,SR=c.SR,pl=c.plv;
  if(!(c.L>0)||c.bad||!b||!h){m.textContent='Parça boyu ve açı geçerli olunca 3B görünüm çizilir.';return}
  const dd=SR-SL,cap=6*Math.max(b,h)+3*Math.abs(dd);
@@ -254,6 +255,7 @@ function v3(c){const m=$('v3m'),Vw=v3init();
  if(c.base[0])lab('Sol ∠'+c.th+'°',zl);if(c.base[1])lab('Sağ ∠'+c.th2+'°',-zl);
  Vw.sc.add(grp);Vw.grp=grp;
  const fit=g.boundingSphere.radius*3.2;if(Vw.fit!==fit){Vw.fit=fit;Vw.rad=fit;Vw.pan.set(0,0,0)}
+ Vw.cam.near=fit*.03;Vw.cam.far=fit*30;Vw.cam.updateProjectionMatrix();
  m.textContent='Tek parmak: döndür · İki parmak: yakınlaştır/uzaklaştır ve kaydır · Çift dokunuş: ortala. Turuncu yüzler kesim yüzeyleridir, etiketler uç açılarını gösterir. Kesit şekli yaklaşıktır.'+(clip?' Görünüm için boy kısaltıldı (gerçek boy '+f(c.L,0)+' mm).':'')}
 const K=.00785;
 function kgm(ty,sz,t){const d=T[ty];
@@ -518,16 +520,6 @@ $("stp").onchange=async e=>{const m=$("stm");let bad=0;const fs=[...e.target.fil
 })();
 
 </script>
-<script>
-/* Sayaçlar: abacus.jasoncameron.dev (ücretsiz, hesap gerektirmez). Ulaşılamazsa sayfa normal çalışır, sayaç "–" kalır. */
-(()=>{const B="https://abacus.jasoncameron.dev",NS="hayrat-agirlik-hesaplama",
- call=(op,k)=>fetch(B+"/"+op+"/"+NS+"/"+k).then(r=>r.ok?r.json():(r.status===404&&op==="get"?{value:0}:Promise.reject())).then(j=>typeof j.value==="number"?j.value:Promise.reject()),
- show=(k,v)=>{const e=document.getElementById("c-"+k);if(e)e.textContent=v.toLocaleString("tr-TR")};
- window.hahCount=k=>call("hit",k).then(v=>show(k,v)).catch(()=>{});
- let seen=false;try{seen=localStorage.getItem("hah_seen")==="1"}catch(e){}
- call(seen?"get":"hit","ziyaretci").then(v=>{if(!seen)try{localStorage.setItem("hah_seen","1")}catch(e){}show("ziyaretci",v)}).catch(()=>{});
- call("get","pdf").then(v=>show("pdf",v)).catch(()=>{});
-})();
-</script>
+<script src="sayac.js" defer></script>
 </body>
 </html>
