@@ -25,7 +25,17 @@
 :root[data-theme="dark"]{--bg:#000;--card:#1c1c1e;--tx:#f5f5f7;--mu:#98989d;--ln:#38383a;--ac:#2997ff;--acx:#000;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-main{max-width:720px;margin:0 auto;padding:20px 16px 40px}
+main{max-width:860px;margin:0 auto;padding:16px 16px 40px}
+html{overflow-y:scroll;scrollbar-gutter:stable}
+.hd{display:flex;align-items:center;gap:12px;height:56px;margin:0;text-decoration:none;color:var(--tx)}
+.hd b,.hd h1{margin:0;font-size:18px;line-height:1.2;letter-spacing:-.2px;font-weight:700}
+.hd svg{flex:none}
+.nv{display:flex;flex-wrap:nowrap;gap:2px;height:48px;align-items:center;margin:0 -16px 18px;padding:0 12px;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--ln);font-size:14px}
+.nv::-webkit-scrollbar{display:none}
+.nv a{flex:none;white-space:nowrap;padding:7px 12px;border-radius:99px;color:var(--mu);text-decoration:none;font-weight:500}
+.nv a:hover{color:var(--ac)}
+.nv a[aria-current]{background:var(--card);color:var(--ac)}
+.hd h1{margin:0;font-size:18px;line-height:1.2;letter-spacing:-.2px;font-weight:700}
 h1{font-size:26px;margin:8px 0 18px;letter-spacing:-.3px}
 .card{background:var(--card);border-radius:18px;padding:18px;margin-bottom:16px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -55,14 +65,11 @@ tfoot td{font-weight:700;border-bottom:0}
 .seo details{border-top:1px solid var(--ln);padding:10px 0}
 .seo summary{cursor:pointer;font-weight:600}
 .seo details p{margin:8px 0 0;color:var(--mu)}
-.hd{display:flex;align-items:center;gap:12px;margin:8px 0 18px}
-.hd h1{margin:0;font-size:20px;line-height:1.15}
 .lg{font-size:12px;color:var(--mu);margin-top:6px}
 .note a{color:var(--ac)}
 footer{font-size:12px;color:var(--mu);text-align:center;margin-top:8px;line-height:1.5}
 noscript{display:block;padding:14px;margin:12px 0;border-radius:12px;background:var(--card);color:var(--tx);font-size:14px}
 footer a{color:var(--mu);margin:0 8px}
-.nv{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 6px;font-size:14px}.nv a{color:var(--mu);text-decoration:none;padding:4px 0}.nv a:hover,.nv a[aria-current]{color:var(--ac)}
 button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"HAYRAT AĞIRLIK HESAPLAMA","alternateName":"HAH","url":"https://hayratagirlik.com/","inLanguage":"tr"}</script>
@@ -70,8 +77,9 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 <body>
 <main>
 <noscript>Bu hesaplama aracının çalışması için tarayıcınızda JavaScript açık olmalıdır.</noscript>
-<nav class="nv" aria-label="Ana menü"><a href="index.html" aria-current="page">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html">STEP Görüntüleyici</a><a href="dxf-goruntuleyici.html">DXF Görüntüleyici</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="teknik-resim-oyunu.html">Teknik Resim</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
-<header class="hd"><svg width="52" height="52" viewBox="0 0 56 56" role="img" aria-label="HAH logo"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><h1>HAYRAT AĞIRLIK HESAPLAMA</h1></header>
+<header class="hd"><svg width="40" height="40" viewBox="0 0 56 56" role="img" aria-label="HAH logo"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><h1>HAYRAT AĞIRLIK HESAPLAMA</h1></header>
+<nav class="nv" aria-label="Ana menü"><a href="index.html" aria-current="page">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html" title="STEP Görüntüleyici">STEP 3B</a><a href="dxf-goruntuleyici.html" title="DXF Görüntüleyici">DXF / PDF</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="teknik-resim-oyunu.html">Teknik Resim</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<script src="menu.js"></script>
 <div class="card">
   <div class="grid">
     <div><label for="type">Profil cinsi</label><select id="type"></select></div>

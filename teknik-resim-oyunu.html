@@ -117,7 +117,8 @@ details.gd2 .tw{margin-top:12px}
 <body>
 <main>
 <a class="hd" href="index.html"><svg width="40" height="40" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="14" style="fill:var(--ac)"/><text x="28" y="29" text-anchor="middle" font-size="19" font-weight="800" letter-spacing="1" style="fill:var(--acx);font-family:-apple-system,Segoe UI,Arial,sans-serif">HAH</text><path d="M13 39h30M13 47h30M28 39v8" style="stroke:var(--acx);stroke-width:2.5;stroke-linecap:round;fill:none"/></svg><b>HAYRAT AĞIRLIK HESAPLAMA</b></a>
-<nav class="nv" aria-label="Ana menü"><a href="index.html" aria-current="page">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html">STEP Görüntüleyici</a><a href="dxf-goruntuleyici.html">DXF Görüntüleyici</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="teknik-resim-oyunu.html" aria-current="page">Teknik Resim</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<nav class="nv" aria-label="Ana menü"><a href="index.html">Profil Hesaplama</a><a href="sac-yerlesim.html">Sac Yerleşimi</a><a href="step-goruntuleyici.html" title="STEP Görüntüleyici">STEP 3B</a><a href="dxf-goruntuleyici.html" title="DXF Görüntüleyici">DXF / PDF</a><a href="agirlik-tablolari.html">Ağırlık Tabloları</a><a href="celik-profil-agirligi-nasil-hesaplanir.html">Rehber</a><a href="teknik-resim-oyunu.html" aria-current="page">Teknik Resim</a><a href="hakkimizda.html">Hakkımızda</a><a href="iletisim.html">İletişim</a></nav>
+<script src="menu.js"></script>
 <h1>Teknik resim oyunu ve eğitim notları</h1>
 <p class="lead">Görünüşleri okuma becerinizi oyunla geliştirin: üç görünüşten doğru 3B modeli bulun, eksik görünüşü seçin, hatalı çizimi yakalayın.</p>
 
@@ -376,8 +377,17 @@ function sceneSvg(m,p,o={}){const s=o.s||30,g=1.5,V=o.views||views(m),pos={};let
   else body+=viewPaths(v,s);
   if(k==="t")body+=`<text class="vf" x="${w/2}" y="${h+14}">▲ modelin önü</text>`;
   body+=`</g>`}
- return`<svg width="${W*s+2*pad}" height="${H*s+padT+padB}" viewBox="${-pad} ${-padT} ${W*s+2*pad} ${H*s+padT+padB}" role="img" aria-label="Üç görünüş">${body}</svg>`}
+ let need=0;for(const k of lk(p))need=Math.max(need,pos[k][0]*s+Math.max(V[k].W*s,(VN[k].length+8)*7.6));
+ const WW=Math.max(W*s,need)+2*pad;
+ return`<svg width="${WW}" height="${H*s+padT+padB}" viewBox="${-pad} ${-padT} ${WW} ${H*s+padT+padB}" role="img" aria-label="Üç görünüş">${body}</svg>`}
 
+/* ===== Döndürme eşdeğerliği: aynı katının döndürülmüş hâli yanlış şık olamaz ===== */
+const ROTS=(()=>{const r=[],P=[[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]],par=p=>{let c=0;for(let i=0;i<3;i++)for(let j=i+1;j<3;j++)if(p[i]>p[j])c++;return c%2?-1:1};
+ for(const p of P)for(let s=0;s<8;s++){const sg=[s&1?-1:1,s&2?-1:1,s&4?-1:1];if(par(p)*sg[0]*sg[1]*sg[2]===1)r.push([p,sg])}return r})();
+function canon(m){let best=null;const cs=[...m.s].map(dec);
+ for(const[p,sg]of ROTS){const a=cs.map(c=>[sg[0]*c[p[0]],sg[1]*c[p[1]],sg[2]*c[p[2]]]);let x0=99,y0=99,z0=99;a.forEach(c=>{x0=Math.min(x0,c[0]);y0=Math.min(y0,c[1]);z0=Math.min(z0,c[2])});
+  const k=a.map(c=>(c[0]-x0)+16*(c[1]-y0)+256*(c[2]-z0)).sort((u,v)=>u-v).join(",");if(best===null||k<best)best=k}
+ return best}
 /* ===== Soru üretimi ===== */
 const DF={
  e:{box:()=>[rnd(2,3),2,rnd(2,3)],cuts:[1,2],grow:[5,7],min:4,base:100,pref:"big"},
@@ -417,8 +427,8 @@ function choose(L,pref,n,sigf){
 function buildQ(type,dk,p){const df=DF[dk],ks=lk(p);
  for(let t=0;t<80;t++){const m=gen(df),V=views(m),ii=isoInfo(m),pool=cands(m,140);let L;
   if(type==="a"){
-   L=pool.map(c=>{const cv=views(c.m);let nv=0,d=0;ks.forEach(k=>{const x=diff(V[k],cv[k]).n;if(x)nv++;d+=x});return{...c,nv,d}}).filter(c=>c.nv>0&&c.ii.sig!==ii.sig);
-   const sel=choose(L,df.pref,3,c=>c.ii.sig);if(sel.length<3)continue;
+   const cm=canon(m);L=pool.map(c=>{const cv=views(c.m);let nv=0,d=0;ks.forEach(k=>{const x=diff(V[k],cv[k]).n;if(x)nv++;d+=x});return{...c,nv,d,cn:canon(c.m)}}).filter(c=>c.nv>0&&c.ii.sig!==ii.sig&&c.cn!==cm);
+   const sel=choose(L,df.pref,3,c=>c.cn);if(sel.length<3)continue;
    const opts=shuffle([{m,ok:true},...sel.map(c=>({m:c.m,ok:false}))]);
    return{type,dk,p,m,V,opts,ans:opts.findIndex(o=>o.ok)}}
   const k=pick(ks);
