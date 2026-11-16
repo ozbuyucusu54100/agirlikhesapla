@@ -220,8 +220,9 @@ const num=(id,d)=>{const v=parseFloat($(id).value);return isNaN(v)?d:v};
 /* kontur için [çevre, keskin köşe sayısı] (>~26° dönüş köşe sayılır) */
 const loopStat=l=>{const n=l.length;let P=0,c=0;for(let i=0;i<n;i++){const a=l[(i+n-1)%n],b=l[i],d=l[(i+1)%n],x1=b[0]-a[0],y1=b[1]-a[1],x2=d[0]-b[0],y2=d[1]-b[1],m1=Math.hypot(x1,y1),m2=Math.hypot(x2,y2);P+=m2;if(m1>1e-6&&m2>1e-6&&(x1*x2+y1*y2)/(m1*m2)<.9)c++}return[P,c]};
 /* el ile toplama süresi (sn/adet): taban 2 sn + parça boyu (100 mm başına 0,4 sn) + ağırlık
-   ağırlık: 10 kg'a kadar kg başına 0,8 sn · 10-25 kg arası kg başına 1,5 sn (iki el, daha yavaş) · 25 kg üzeri vinç/ikinci kişi: +30 sn ve kg başına 2 sn */
-const handT=(kg,L)=>2+.4*L/100+.8*Math.min(kg,10)+1.5*Math.max(0,Math.min(kg,25)-10)+(kg>25?30+2*(kg-25):0);
+   ağırlık kademeleri (kg başına sn): 0-1 kg 0,5 · 1-3 kg 0,8 · 3-10 kg 1,0 · 10-25 kg 1,5 (iki el, yavaş) · 25 kg üzeri vinç/ikinci kişi: +30 sn ve kg başına 2 sn */
+const HW=[[0,1,.5],[1,3,.8],[3,10,1],[10,25,1.5]];
+const handT=(kg,L)=>2+.4*L/100+HW.reduce((a,[lo,hi,k])=>a+k*Math.max(0,Math.min(kg,hi)-lo),0)+(kg>25?30+2*(kg-25):0);
 const loopLen=l=>{let s=0;for(let i=0,n=l.length;i<n;i++){const p=l[i],q=l[(i+1)%n];s+=Math.hypot(q[0]-p[0],q[1]-p[1])}return s};
 const fmtT=sec=>{if(sec<10)return String(Math.round(sec*10)/10).replace(".",",")+" sn";sec=Math.round(sec);if(sec<60)return sec+" sn";const m=Math.round(sec/60);if(sec<3600)return Math.floor(sec/60)+" dk "+(sec%60)+" sn";const h=Math.floor(sec/3600),mm=Math.round((sec-h*3600)/60);return h+" sa "+mm+" dk"};
 /* yerleşimden tahmini lazer süresi: kontur boyu / hız + her kontur için delme + konumlanma (0,8 sn) */
